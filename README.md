@@ -3,7 +3,7 @@
 A multi-tasking whatsapp  bot made just for Developers
 
 
-**Installation : **
+*** Installation ***
 
 ###### clone the repository
 ```
