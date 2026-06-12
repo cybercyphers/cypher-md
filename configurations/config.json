@@ -1,0 +1,16 @@
+{ 
+   "owner" : "cyber", 
+    "__comment" : "Replace with you number, my lovely user",
+       
+   "global_owner" : "cyber_cyphers",
+       "__comment" : "do not touch this part. I beg of you.🫣",
+           
+   "user_phone" : 233539738956,
+       "__comment" : "enter you number without the + symbol",
+   
+    "private" : false,
+    "__comment" : "Toggle false to allow the bot to be accessible by every one."      
+}
+
+
+
