@@ -1,16 +1,12 @@
-{ 
-   "owner" : "cyber", 
-    "__comment" : "Replace with you number, my lovely user",
-       
-   "global_owner" : "cyber_cyphers",
-       "__comment" : "do not touch this part. I beg of you.🫣",
-           
-   "user_phone" : 233539738956,
-       "__comment" : "enter you number without the + symbol",
-   
-    "private" : false,
-    "__comment" : "Toggle false to allow the bot to be accessible by every one."      
+{
+   "owner": "matrix",
+   "__comment1": "Replace with you number, my lovely user",
+   "global_owner": "cyber_cyphers",
+   "__comment2": "do not touch this part. I beg of you.🫣",
+   "user_phone": 233242007192,
+   "__comment3": "enter you number without the + symbol to pair",
+   "prefix": "$",
+   "__comment4": "The prefix you bot will be listening to for command",
+   "private": true,
+   "__comment5": "Toggle false to allow the bot to be accessible by every one."
 }
-
-
-
