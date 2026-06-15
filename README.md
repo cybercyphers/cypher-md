@@ -6,7 +6,11 @@ A multi-tasking whatsapp  bot made just for Developers
 version 1.0.0 Beta
 ```
 
-<img src="https://i.postimg.cc/K3Zdy33y/menu.jpg"alt="Cyber"width="500">
+<p align="center">
+  <a href="https://postimg.cc/K3Zdy33y" target="_blank">
+    <img src="https://i.postimg.cc/K3Zdy33y/menu.jpg" alt="menu" width="300">
+  </a>
+</p>
 
 
 **Installation:**
