@@ -1,22 +1,26 @@
 {
     "name": "Cypher-MD",
     "version": "1.0.0",
-    "description": "A multi tasking bot for developers. ",
+    "description": "A multi tasking bot for developers and for the fem boys. since it was made by a fem boy 😂",
+    "main": "index.js",
     "scripts": {
-        "start": "node index.js",
-        "stop": "pkill node"
+        "start": "pm2 start. --attach --name cyphers",
+        "stop": "pm2 stop cyphers"
     },
     "type": "module",
     "dependencies": {
-      "baileys": "git+https://lyfe00011-admin@bitbucket.org/lyfe00011/baileys.git",
+        "@adiwajshing/keyed-db": "^0.2.4",
+        "@hapi/boom": "^10.0.1",
+        "baileys": "git+https://lyfe00011-admin@bitbucket.org/lyfe00011/baileys.git",
         "chalk": "^4.1.2",
         "figlet": "^1.11.0",
         "pino": "^10.3.1",
+        "pm2": "^7.0.1",
         "readline": "^1.3.0"
     },
     "allowScripts": {
-        "sharp@0.32.6": true,                  "protobufjs@7.6.4": true
-        
+        "sharp@0.32.6": true,
+        "protobufjs@7.6.4": true
     },
     "Author": "Cyber_Cypher$",
     "engines": {
