@@ -115,7 +115,7 @@ console.log("\x1b[1;3;36mThank you for using a supported node, i really apprecia
      generateHighQualityLinkPreview: true
  });
       
-await new Promise(resolve => setTimeout(resolve,500));
+await new Promise(resolve => setTimeout(resolve,1200));
     
     
 console.log("\x1b[32mℹ️ Checking for Auth Logins...\x1b[0m")
