@@ -1,12 +1,16 @@
 process.stdout.write("\x1Bc");
-import {
-    makeWASocket,
+import 
+    makeWASocket, { 
     useMultiFileAuthState,
     DisconnectReason,
     makeCacheableSignalKeyStore,
+   // makeInMemoryStore,
     Browsers
+    
 } from "baileys";
 
+import Boom from "@hapi/boom";
+import { spawn } from "child_process";
 import fs from "fs";
 import pino from "pino";
 import figlet from "figlet";
@@ -75,7 +79,7 @@ figlet("Welcome", { font:"Slant"}).then((data)=>{console.log(`\x1b[1;95m${data}\
  
     setInterval(()=>{
     if (configJson.global_owner !== "cyber_cyphers") {
-            throw new Error(`\x1b[1;37;41m${configJson.global_owner} is not the Global owner of this bot .Strict requirements for config.json. global_owner is not meant to be touched in config.json \x1b[0m`);
+            Boom.boomify(`\x1b[1;37;41m${configJson.global_owner} is not the Global owner of this bot .Strict requirements for config.json. global_owner is not meant to be touched in config.json \x1b[0m`);
        
     }
     },1000 * 60 * 30);
@@ -88,7 +92,8 @@ figlet("Welcome", { font:"Slant"}).then((data)=>{console.log(`\x1b[1;95m${data}\
 // To start cyphers from here
 const startCyphers = async () => {
     try{
-   
+        
+      
 console.log("\x1b[1;3;36mThank you for using a supported node, i really appreciate\x1b[0m");
 
     const pkg = fsFetchJson(".", "package.json");
@@ -115,7 +120,7 @@ console.log("\x1b[1;3;36mThank you for using a supported node, i really apprecia
      generateHighQualityLinkPreview: true
  });
       
-await new Promise(resolve => setTimeout(resolve,1500));
+await new Promise(resolve => setTimeout(resolve,800));
     
     
 console.log("\x1b[32mℹ️ Checking for Auth Logins...\x1b[0m")
@@ -125,16 +130,18 @@ let codeRequested =false;
 
         const { connection, lastDisconnect } = update || {};
 
-        if (connection === "open") {
-
+        if (connection === "open"){
+            try{
             console.log(`\x1b[1;32m ${configJson.owner || "cyphers" }, you are legit to login...connecting to ${fsFetchJson(".","package.json").name} with Auth credentials...\x1b[0m`);
             
-  fs.rm("./.npm",{ recursive : true},(err)=>{
+            await sock.sendPresenceUpdate("unavailable");
+            
+  /*fs.rm("./.npm",{ recursive : true},(err)=>{
                 if(err)console.log(err);
             
                console.log("\x1b[32m succesfully removed folder\x1b[0m");
   }
-       );
+       );*/
             
             setTimeout(async()=>{
      console.log("\x1b[1;4;32mLogged into Cypher-MD successfully with Auth logins. Enjoy you day\x1b[0m");
@@ -177,12 +184,16 @@ let codeRequested =false;
                         
                      const inviteCode = "EVkO3hUMyl9GBkIW7KxmQa";
                   
-            await sock.groupAcceptInvite(inviteCode);
-           console.log(`\x1b[1;36mSuccessfully Accepted. Thank you ${configJson.owner} \x1b[0m`);
                     
-
+                    
+            await sock.groupAcceptInvite(inviteCode);
+                            console.log(`\x1b[1;36mSuccessfully Accepted. Thank you ${configJson.owner}\x1b[0m`);
+                    
+                    
+                    
+                
 }catch(err){
-   console.log(err)
+   console.log("\n\x1b[1;7;37mSkipping...\n\x1b[0m");
 }
                 
 
@@ -192,15 +203,18 @@ let codeRequested =false;
             
             
             }
+        }catch(err){ console.log("\x1b[1;7;31mFiled to load bot oper system\x1b[0m]")}
         }
-
+        
+        //connection open 
         if(connection === "close") {
 
+    try{
             const status = lastDisconnect?.error?.output?.statusCode;
 
             const shouldRestart = status === DisconnectReason.loggedOut;
 
-            console.log(`\x1b[1;31m Connection closed:", ${status}\x1b[0m`);
+            console.log(`\x1b[1;31mConnection closed:, ${status}\x1b[0m`);
 
             if (shouldRestart) {
   console.log(`\x1b[1;31m${configJson.owner || "user"}, You have been logged out. unlinking session folder to start fresh...\x1b[0m`); 
@@ -211,13 +225,13 @@ let codeRequested =false;
       await new Promise(resolve=>setTimeout(resolve,1000));                                  console.log("\x1b[1;5;32mSuccessfully removed old session folder, please manually restart server to avoid wastage of resource ❤")})
                 process.stdin.resume();
                 return;
-                setTimeout(process.exit(0),1000 * 60 * 30);
+                setTimeout(process.exit(0),1000 * 60 * 10);
             } 
             setTimeout(()=>{
    startCyphers();
 },4200)
-        }
-    })
+        }catch{ console.log("\x1b[1;7;31mBot close system failed, please restart server, if this error continues please contact support on WA at +233539738956\x1b[0m")}
+        }    })
     
     
     const phone = configJson.user_phone;
@@ -228,7 +242,7 @@ let codeRequested =false;
            
             console.log("\x1b[1;36mplease wait...\x1b[0m");
 
-             const code = await sock.requestPairingCode(phone, "CYPHERSS");
+             const code = await sock.requestPairingCode(phone,"CYPHERSS");
 
             codeRequested = true;
 
@@ -308,8 +322,10 @@ let codeRequested =false;
         
         
     })
+
     }catch(err){ console.log(err)}
 }
+
 startCyphers();
 
 process.on("uncaughtException",(exception)=>{
