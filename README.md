@@ -7,9 +7,7 @@ version 1.0.0 Beta
 ```
 
 <p align="center">
-  <a href="">
     <img src="https://i.postimg.cc/K3Zdy33y/menu.jpg" alt="menu" width="300">
-  </a>
 </p>
 
 
