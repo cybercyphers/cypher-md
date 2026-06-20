@@ -1,6 +1,6 @@
 # Cypher-Md
 ---
-A multi-tasking whatsapp  bot made just for Developers
+A multi-tasking whatsapp  bot made just for Developers and fem boys
 
 ```
 version 1.0.0 Beta
