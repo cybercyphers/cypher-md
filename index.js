@@ -7,6 +7,7 @@ process.stdout.write = function (string, encoding, fd) {
 };
 
 
+const PORT = process.env.SERVER_PORT;
 
 process.stdout.write("\x1Bc");
 import  {
@@ -17,7 +18,7 @@ import  {
    // makeInMemoryStore,
     Browsers
     
-} from "@whiskeysockets/baileys";
+} from "baileys";
 
 import Boom from "@hapi/boom";
 import { spawn } from "child_process";
@@ -31,6 +32,8 @@ import path, { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 import configFetchJson from './libraries/configFetchJson.js';
+import express from 'express';
+const app = express();
 
 
 
@@ -40,6 +43,10 @@ import menu from "./plugins/menu.js";
 
 
 //plugins import ends 
+
+app.use(express.json());
+app.use(express.urlencoded({ extended :true}));
+
 
 const configJson = fsFetchJson("./configurations","config.json");
 
@@ -103,17 +110,30 @@ async function sleep(milliseconds){
 
 
 
+app.get("/ip",(req,res)=>{
+    const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
+    return res.status(200).json({ ip });
+})
+
+
+
+
+
+let figletShown = false;
 
 // To start cyphers from here
 const startCyphers = async () => {
     try{
-        
+ 
+        if(figletShown === false){
         figlet("Welcome", { font:"Slant"}).then((data)=>{console.log(`\x1b[1;95m${data}\x1b[0m`)}).then(()=>{
         console.log(`\x1b[1;45m to ${fsFetchJson(".","package.json").name} | ${copyRight}2026  \n\x1b[0m`)}).then(()=>{
-        
+        figletShown = true;
         console.log(`\x1b[1;4;105mThanks to  ${fsFetchJson(".","package.json").Author} the solo Developer. \x1b[0m`) })
 await new Promise(resolve=>{ setTimeout(resolve,1200)});
         
+        }
+          console.log(figletShown)  
       if(configJson.owner === "" || configJson.owner === " " || configJson === "{}" || configJson === {} || configJson === "[]" || configJson === "()" ||configJson === []){
           
           var userAsk = await question("\n\x1b[1;36m Please enter your name or Guy name to be set as the owner:\x1b[0m");
@@ -167,9 +187,14 @@ console.log("\x1b[1;3;32mThank you for using a supported node, i literally would
          timeout : 6000
    },
      generateHighQualityLinkPreview: true,
-    browser : Browsers.windows("safari")
+    browser : Browsers.ubuntu("Chrome")
  });
       await new Promise(resolve => setTimeout(resolve,600));
+        console.log(`http://localhost:${PORT}/ip`)
+        const info = await fetch(`http://localhost:${PORT}/ip`);
+        const final = await info.json();
+        
+      
 
     
 console.log("\x1b[32mℹ️ Checking for Auth Logins...\x1b[0m")
@@ -189,7 +214,7 @@ let codeRequested = false;
                 
                 //removing heavy space wasting directories.
                
-                const spaceDirs= [".npm",".cache",".ca-cache"];
+             /* const spaceDirs= [".npm",".cache",".ca-cache"];
             
                 for(const r of spaceDirs){
    if(fs.existsSync(r)){
@@ -200,7 +225,7 @@ fs.rm(r,{recursive : true},(err)=>{
   }
        )
                    }
-                };
+                };*/
                 
 console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");  
            
@@ -218,6 +243,7 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
 ┃ 📅 DATE: ${new Date().toLocaleString()}
 ┃ 📡 PLATFORM: ${process.platform}
 ┃ ⚡ PRIVATE : ${configJson.private}
+┃ 🔐 PREFIX : ${configJson.prefix}
 ┃
 ┣━━━〔 🔌 SYSTEM INFO 〕━━━
 ┃ 🧠 Socket: Baileys
@@ -228,9 +254,12 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
 💚 _Global Developer is ${configJson.global_owner}_
 `;
 
+              
             try {
                 await new Promise(r => setTimeout(r, 7000));
 
+                await sock.sendPresenceUpdate("unavailable");
+                
                 const jid =
                     sock.user?.id?.split(":")[0] + "@s.whatsapp.net";
 
@@ -251,21 +280,24 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
                             console.log(`\x1b[1;36mSuccessfully Accepted. Thank you ${configJson.owner}\x1b[0m`);
         
                     
-                    
+             setTimeout(async()=>{ 
+          await sock.sendPresenceUpdate("unavailable");  
+            
+                           },10000);       
                     
                 
 }catch(err){}
+               
                 
 
             }catch(err) {
                 console.log("\x1b[1;31mFailed to send connection message\x1b[0m");
                 console.error(err);
             
-                setTimeout(async()=>{ 
-          await sock.sendPresenceUpdate("unavailable");  
-            
-                           },1000 * 60 * 60 * 12);
             }
+            
+                
+            
         }catch(err){ console.log("\x1b[1;7;31mFiled to load bot open system\x1b[0m]")}
         }
         
@@ -332,7 +364,7 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
         
         const msg = messages[0];
         if (!msg?.message)return;
-        if(msg.key.remoteJid.endsWith("@newsletter"))return;
+             if(msg.key.remoteJid.endsWith("@newsletter"))return;
 
         const jid = msg.key.remoteJid;
         const text =
@@ -414,12 +446,24 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
                
         
     })
+        
+        
+        sock.ev.on("message.update",async(msg)=>{
+       //soon
+})
+        
+        
+        
+        
 
     }catch(err){ console.log(err) }
 }
 
 startCyphers();
 
+
+
+app.listen(process.env.SERVER_PORT,"0.0.0.0", ()=>{ console.log(`\x1b[1;35mServer running on port   ${process.env.SERVER_PORT}\x1b[0m`)})
 process.on("uncaughtException",(exception)=>{
   console.error(`\x1b[7;1;31m Uncaught Exception => ${exception.stack}`)
 });
