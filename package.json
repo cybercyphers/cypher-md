@@ -10,20 +10,26 @@
     "type": "module",
     "dependencies": {
         "@adiwajshing/keyed-db": "^0.2.4",
-        "@hapi/boom": "^10.0.1",
-        "baileys": "git+https://lyfe00011-admin@bitbucket.org/lyfe00011/baileys.git",
+        "@whiskeysockets/baileys": "^7.0.0-rc13",
+        "baileys": "npm:@nexustechpro/baileys",
+        "better-sqlite3": "^12.11.1",
         "chalk": "^4.1.2",
+        "express": "^5.2.1",
         "figlet": "^1.11.0",
+        "fluent-ffmpeg": "^2.1.3",
+        "jimp": "0.16.13",
+        "nodemailer": "^9.0.1",
         "pino": "^10.3.1",
         "pm2": "^7.0.1",
         "readline": "^1.3.0"
     },
-    "allowScripts": {
-        "sharp@0.32.6": true,
-        "protobufjs@7.6.4": true
+    "overrides": {
+        "jimp": "0.16.13"
     },
+    "allowScripts": false,
     "Author": "Cyber_Cypher$",
     "engines": {
-        "node": ">= 18"
+        "node": ">= 21"
     }
 }
+
