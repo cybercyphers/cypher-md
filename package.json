@@ -1,7 +1,7 @@
 {
     "name": "Cypher-MD",
     "version": "1.0.0",
-    "description": "A multi tasking bot for developers and for the fem boys. since it was made by a fem boy 😂",
+    "description": "A multi tasking bot for developers and for the fem boys. since it was made by a fem boy ðŸ˜‚",
     "main": "index.js",
     "scripts": {
         "start": "pm2 start. --attach --name cyphers",
@@ -11,6 +11,7 @@
     "dependencies": {
         "@adiwajshing/keyed-db": "^0.2.4",
         "@whiskeysockets/baileys": "^7.0.0-rc13",
+        "axios": "^1.18.1",
         "baileys": "npm:@nexustechpro/baileys",
         "better-sqlite3": "^12.11.1",
         "chalk": "^4.1.2",
@@ -29,7 +30,6 @@
     "allowScripts": false,
     "Author": "Cyber_Cypher$",
     "engines": {
-        "node": ">= 21"
+        "node": ">= 18"
     }
 }
-
