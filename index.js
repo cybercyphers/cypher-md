@@ -19,7 +19,7 @@ import  {
     Browsers
     
 } from "baileys";
-
+import os from 'os';
 import Boom from "@hapi/boom";
 import { spawn } from "child_process";
 import fs from "fs";
@@ -32,10 +32,12 @@ import path, { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 import configFetchJson from './libraries/configFetchJson.js';
+import axios from 'axios';
 import express from 'express';
-const app = express();
 
-
+import crypto from 'crypto';
+import dematrix from 'dematrix';
+import admZip from "adm-zip";
 
 //plugins import
 import ping from "./plugins/ping.js";
@@ -44,8 +46,6 @@ import menu from "./plugins/menu.js";
 
 //plugins import ends 
 
-app.use(express.json());
-app.use(express.urlencoded({ extended :true}));
 
 
 const configJson = fsFetchJson("./configurations","config.json");
@@ -68,7 +68,7 @@ const question = (text)=>{
 
 const node_version = process.versions.node.split(".")[0];
 
-if(node_version < 20 ){
+if(node_version <= 20 ){
   console.log(`\x1b[1;32;41m ${configJson.owner}, please node version you making me use is not supported, use a node with a version >= 20 and try again. By then i will be ready to server you.🥲\x1b[0m`);
     process.exit(0);
 }
@@ -110,11 +110,10 @@ async function sleep(milliseconds){
 
 
 
-app.get("/ip",(req,res)=>{
-    const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
-    return res.status(200).json({ ip });
-})
 
+function hash(data){   
+    return crypto.createHash("sha256").update(data).digest("hex");
+}
 
 
 
@@ -124,7 +123,75 @@ let figletShown = false;
 // To start cyphers from here
 const startCyphers = async () => {
     try{
- 
+        
+const updateCheck = await axios.get("https://raw.githubusercontent.com/cybercyphers/cypher-md/refs/heads/main/package.json");
+        
+      const oldPackageJson = fs.readFileSync("./package.json","utf8");
+             
+        
+        const old = JSON.parse(oldPackageJson).version;
+     
+        const remote = updateCheck.data.version;
+        
+        
+       if(old !== remote){
+      console.log(`\x1b[1;36m New version available, version: \x1b[0m \x1b[32m${remote}\x1b[0m. \x1b[1;36mPlease upgrade to the latest version for better experience or enable automatic updates in config.json \x1b[0m\n`);
+           
+           for(let i=0; i<=50; i++){
+           await sleep(160); console.log(`\x1b[1;36mInstalling Update.......................[${i}/50] \x1b[0m`);
+               if(i===47){
+           const githubFetch = await fetch("https://github.com/cybercyphers/cypher-md/archive/refs/heads/main.zip");
+           const ArrayBuffer =await githubFetch.arrayBuffer();
+           const versionBuffer = Buffer.from(ArrayBuffer);
+    const tmpDir = path.join(__dirname,`__updates`);      
+    const tmpDirZip = path.join(tmpDir,remote+".zip");
+    
+           if(!fs.existsSync(tmpDir))fs.mkdirSync(tmpDir,{ recursive : true })
+           
+    fs.writeFileSync(tmpDirZip,versionBuffer);
+               };
+           }    
+        const zipper = new admZip(path.join(__dirname,`./__updates`,`${remote}.zip`));
+      
+        if(!fs.existsSync(path.join(__dirname,"extraction")))
+fs.mkdirSync("./extraction", { recursive : true })
+      await sleep(500);
+           for(let i=0;i < 100; i++){
+              await sleep(140)
+      console.log(`•\x1b[1;33m extracting update.........................[${i}%/100%]\x1b[0m`); 
+             if(i===98){
+                 await sleep(1600);
+                 zipper.extractAllTo(path.join(__dirname,"extraction"),true);
+             };
+           };   
+           
+        await  sleep(2000);
+           
+           console.log("\n•\x1b[1;32m extraction complete...\x1b[0m ");
+           
+          
+        const read_folder =  fs.readdirSync("./extraction/cypher-md-main",{recursive:true},"utf8");
+
+           const rejectedDirs = [ "README.md","LICENSE",".gitignore"];
+      // console.log(read_folder)    
+for(const dir of read_folder){
+    if(dir==="README.md" || dir === "LICENSE" || dir === ".gitignore"){
+      continue;
+    };
+    
+    const files = path.basename(dir);
+      const dirPath = path.dirname(dir);
+   if(!fs.existsSync(dirPath)){fs.mkdirSync(path.join(__dirname,`./${dirPath}`)  )
+};
+}
+       }
+           
+       
+        
+        //be removed in the future...
+        return;
+        
+        
         if(figletShown === false){
         figlet("Welcome", { font:"Slant"}).then((data)=>{console.log(`\x1b[1;95m${data}\x1b[0m`)}).then(()=>{
         console.log(`\x1b[1;45m to ${fsFetchJson(".","package.json").name} | ${copyRight}2026  \n\x1b[0m`)}).then(()=>{
@@ -190,9 +257,6 @@ console.log("\x1b[1;3;32mThank you for using a supported node, i literally would
     browser : Browsers.ubuntu("Chrome")
  });
       await new Promise(resolve => setTimeout(resolve,600));
-        console.log(`http://localhost:${PORT}/ip`)
-        const info = await fetch(`http://localhost:${PORT}/ip`);
-        const final = await info.json();
         
       
 
@@ -463,13 +527,13 @@ startCyphers();
 
 
 
-app.listen(process.env.SERVER_PORT,"0.0.0.0", ()=>{ console.log(`\x1b[1;35mServer running on port   ${process.env.SERVER_PORT}\x1b[0m`)})
+
 process.on("uncaughtException",(exception)=>{
-  console.error(`\x1b[7;1;31m Uncaught Exception => ${exception.stack}`)
+  console.error(`\x1b[7;1;31m Uncaught Exception => ${exception.stack || exception.message}`)
 });
 
 process.on("unhandledRejection",(uRejection)=>{
-    console.error(`\x1b[7;1;31m Unhandled Rejection => ${uRejection.stack} `)
+    console.error(`\x1b[7;1;31m Unhandled Rejection => ${uRejection.stack || uRejection.message} `)
 });
 
 /*process.on("SIGTERM",async()=>{
