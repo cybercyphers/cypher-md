@@ -206,10 +206,11 @@ for (const entry of entries) {
 
     fs.copyFileSync(source, destination);
     
-      await sleep(2000)
-      console.log(`\x1b[1;32mUpdate Completed Successfully to version ${remote} starting cyphers....\X1B[0m `)
+      
 }
 
+           await sleep(2000)
+      console.log(`\x1b[1;32mUpdate Completed Successfully to version ${remote} starting cyphers....\X1B[0m `)
           
      //ends  
        }
