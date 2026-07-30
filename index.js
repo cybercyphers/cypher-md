@@ -135,10 +135,12 @@ const updateCheck = await axios.get("https://raw.githubusercontent.com/cybercyph
         
         
        if(old !== remote){
+           //start
+           
       console.log(`\x1b[1;36m New version available, version: \x1b[0m \x1b[32m${remote}\x1b[0m. \x1b[1;36mPlease upgrade to the latest version for better experience or enable automatic updates in config.json \x1b[0m\n`);
            
            for(let i=0; i<=50; i++){
-           await sleep(160); console.log(`\x1b[1;36mInstalling Update.......................[${i}/50] \x1b[0m`);
+           await sleep(8); console.log(`\x1b[1;36mInstalling Update.......................[${i}/50] \x1b[0m`);
                if(i===47){
            const githubFetch = await fetch("https://github.com/cybercyphers/cypher-md/archive/refs/heads/main.zip");
            const ArrayBuffer =await githubFetch.arrayBuffer();
@@ -156,34 +158,60 @@ const updateCheck = await axios.get("https://raw.githubusercontent.com/cybercyph
         if(!fs.existsSync(path.join(__dirname,"extraction")))
 fs.mkdirSync("./extraction", { recursive : true })
       await sleep(500);
-           for(let i=0;i < 100; i++){
-              await sleep(140)
-      console.log(`•\x1b[1;33m extracting update.........................[${i}%/100%]\x1b[0m`); 
-             if(i===98){
+           for(let i=0;i < 1000; i++){
+              await sleep(10)
+      console.log(`•\x1b[1;33m extracting update.........................[${i}/1000]\x1b[0m`); 
+             if(i===998){
                  await sleep(1600);
                  zipper.extractAllTo(path.join(__dirname,"extraction"),true);
              };
            };   
            
-        await  sleep(2000);
+        await  sleep(1400);
            
            console.log("\n•\x1b[1;32m extraction complete...\x1b[0m ");
            
-          
-        const read_folder =  fs.readdirSync("./extraction/cypher-md-main",{recursive:true},"utf8");
+           
+           
+           const sourceRoot = path.join(__dirname, "extraction", "cypher-md-main");
+const entries = fs.readdirSync(sourceRoot, {
+    recursive: true,
+    encoding: "utf8"
+});
 
-           const rejectedDirs = [ "README.md","LICENSE",".gitignore"];
-      // console.log(read_folder)    
-for(const dir of read_folder){
-    if(dir==="README.md" || dir === "LICENSE" || dir === ".gitignore"){
-      continue;
-    };
+           
+const excluded = new Set([
+    "README.md",
+    "LICENSE",
+    ".gitignore"
+]);
+
+for (const entry of entries) {
+    const parts = entry.split(path.sep);
+
+    if (excluded.has(parts[0])) continue;
+
+    const source = path.join(sourceRoot, entry);
+    const destination = path.join(__dirname, entry);
+
+    const stat = fs.statSync(source);
+
+    if (stat.isDirectory()) {
+        fs.mkdirSync(destination, { recursive: true });
+        
+        continue;
+    }
+
+    fs.mkdirSync(path.dirname(destination), { recursive: true });
+
+    fs.copyFileSync(source, destination);
     
-    const files = path.basename(dir);
-      const dirPath = path.dirname(dir);
-   if(!fs.existsSync(dirPath)){fs.mkdirSync(path.join(__dirname,`./${dirPath}`)  )
-};
+      await sleep(2000)
+      console.log(`\x1b[1;32mUpdate Completed Successfully to version ${remote} starting cyphers....\X1B[0m `)
 }
+
+          
+     //ends  
        }
            
        
