@@ -136,6 +136,8 @@ const updateCheck = await axios.get("https://raw.githubusercontent.com/cybercyph
         
        if(old !== remote){
            //start
+
+           let errEncountered;
            
       console.log(`\x1b[1;36m New version available,  \x1b[0m \x1b[32m${old} => ${remote}\x1b[0m. \x1b[1;36mstarting update process, free patch time has passed...\x1b[0m\n`);
            
@@ -209,19 +211,28 @@ for (const entry of entries) {
       
 };
     await sleep(500);
+
+           console.log(`\x1b[1;36mcleaning up...\x1b[0m`)
            const unlinking = ["__updates","extraction"];
            
                unlinking.forEach(folder=>{
-                   fs.rmSync(folder,{ 
+                   
+                    if(fs.existsSync(folder)){
+                           try{
+                        fs.rmSync(folder,{ 
                                 recursive: true,
                        force : true
                    });
+                    }catch(err){ 
+                                 errEncountered+=1;
+                               console.log(`\x1b[7;31m ${errEncountered}  Error occured while updating....  \x1b[0m`)}
+                    }
                });
            
            await sleep(2000)
       console.log(`\x1b[1;32mUpdate Completed Successfully to version ${remote} starting cyphers....\x1B[0m `)
 
-           console.log(`\n\x1b[1;36mEnjoy the new features with fixed bugs system with advanc system\x1b[0m`);
+           console.log(`\n\x1b[1;36mEnjoy the new features with fixed bugs system with advanced system\x1b[0m`);
 
            
      //ends  
