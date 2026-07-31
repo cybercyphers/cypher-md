@@ -220,7 +220,7 @@ for (const entry of entries) {
     fs.mkdirSync(path.dirname(destination), { recursive: true });
 
     await sleep(5);
-    console.log(`\n\x1b[1;7;33mRestructuring files ${files_restructed+=1} of ${entries.length}\x1b[0m`);
+    console.log(`\n\x1b[1;7;33mRestructuring files ${files_restructured+=1} of ${entries.length}\x1b[0m`);
 
 
     fs.copyFileSync(source, destination);
