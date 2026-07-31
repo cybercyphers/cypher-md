@@ -194,6 +194,9 @@ const excluded = new Set([
     ".gitignore"
 ]);
 
+           let files_restructured;
+           let folders_created;
+           
 for (const entry of entries) {
     const parts = entry.split(path.sep);
 
@@ -206,20 +209,18 @@ for (const entry of entries) {
 
     if (stat.isDirectory()) {
         fs.mkdirSync(destination, { recursive: true });
-        
-        continue;
-    }
-
     
         await sleep(5);
-    console.log(`\x1b[1;7;36mCreating directories...\x1b[0m`);
-    
+    console.log(`\n\x1b[1;36mCreating directory ${folders_created+=1} of ${entries.length}\x1b[0m`);
+      
+        continue;
+    };
 
     
     fs.mkdirSync(path.dirname(destination), { recursive: true });
-    
-        await sleep(5);
-    console.log(`\x1b[1;7;33mRestructuring files...\x1b[0m`);
+
+    await sleep(5);
+    console.log(`\n\x1b[1;7;33mRestructuring files ${files_restructed+=1} of ${entries.length}\x1b[0m`);
 
 
     fs.copyFileSync(source, destination);
