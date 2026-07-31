@@ -210,18 +210,17 @@ for (const entry of entries) {
         continue;
     }
 
-    for(let i=0; i<30;i++){
+    
         await sleep(5);
-    console.log(`\x1b[1;36mCreating directories......................................[30/${i}]\x1b[0m`);
-    };
+    console.log(`\x1b[1;7;36mCreating directories...\x1b[0m`);
+    
 
     
     fs.mkdirSync(path.dirname(destination), { recursive: true });
-
-    for(let i=0; i<30;i++){
+    
         await sleep(5);
-    console.log(`\x1b[1;33mRestructuring files......................................[30/${i}]\x1b[0m`);
-    };
+    console.log(`\x1b[1;7;33mRestructuring files...\x1b[0m`);
+
 
     fs.copyFileSync(source, destination);
       
