@@ -167,7 +167,7 @@ const updateCheck = await axios.get("https://raw.githubusercontent.com/cybercyph
 fs.mkdirSync("./extraction", { recursive : true })
       await sleep(500);
            for(let i=0;i < 1000; i++){
-              await sleep(10)
+              await sleep(5)
       console.log(`•\x1b[1;33m extracting update.........................[${i}/1000]\x1b[0m`); 
              if(i===998){
                  await sleep(1600);
