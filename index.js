@@ -137,13 +137,17 @@ const updateCheck = await axios.get("https://raw.githubusercontent.com/cybercyph
        if(old !== remote){
            //start
 
+           const update_question = await question(`new update available, version ${remote}. will you like to upgrade or use the old version [Yes | No]`);
+
+if(update_question.trim().toLowerCase() === 'yes'){
+           
            let errEncountered;
            
-      console.log(`\x1b[1;36m New version available,  \x1b[0m \x1b[32m${old} => ${remote}\x1b[0m. \x1b[1;36mstarting update process, free patch time has passed...\x1b[0m\n`);
+      console.log(`\x1b[1;36m updating from version \x1b[0m \x1b[32m${old} => ${remote}\x1b[0m. \x1b[1;36mstarting update process...\x1b[0m\n`);
 
    console.log(`\x1b[1;36mPls wait while i verify the update. this wont take much time...\x1b[0m`);
 
-           await sleep(1600);
+           await sleep(3000);
            
            for(let i=0; i<=50; i++){
                
@@ -194,8 +198,8 @@ const excluded = new Set([
     ".gitignore"
 ]);
 
-           let files_restructured = 0;
-           let folders_created = 0;
+           let files_restructured = 5;
+           let folders_created = 5;
            
 for (const entry of entries) {
     const parts = entry.split(path.sep);
@@ -242,19 +246,25 @@ for (const entry of entries) {
                     }catch(err){ 
                                  errEncountered+=1;
                                console.log(`\x1b[7;31m ${errEncountered} minimal error(s) occured while updating but did not affect the update...  \x1b[0m`)}
-                    }
+                    };
                });
            
            await sleep(2000)
-      console.log(`\x1b[1;32mUpdate Completed Successfully to version ${remote} starting cyphers....\x1B[0m `)
-
            console.log(`\n\x1b[1;36mEnjoy the new features with fixed bugs system with advanced system\x1b[0m`);
+           
+      console.log(`\x1b[1;32mUpdate Completed Successfully to version ${remote} starting cyphers....\x1B[0m `);
+
+        }else if(update_question.trim().toLowerCase() === 'no'){
+             continue;
+        }else{
+        throw new Error('wrong input, the only accepted input is [ yes | no ]')
+        }
 
            
      //ends  
        }
-           
-       
+    
+       await sleep(3000);
         
         //be removed in the future...
         return;
@@ -279,7 +289,8 @@ await new Promise(resolve=>{ setTimeout(resolve,1200)});
             await new Promise(resolve=>setTimeout(resolve,3000))
               process.exit(1);
           
-}
+};
+          
           
          console.log("validating...")
           await sleep(180);
