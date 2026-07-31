@@ -212,11 +212,7 @@ for (const entry of entries) {
            const unlinking = ["__updates","extraction"];
            
                unlinking.forEach(folder=>{
-                   fs.rm(folder,{ recursive: true },{ force:true },(err)=>{
-                       if(err){
-                           console.log(`\x1b[7;31 Failed to cleanup system, executing next code...`)
-                       };
-                   });
+                   fs.rm(folder,{ recursive: true },{ force:true });
                });
            
            await sleep(2000)
