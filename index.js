@@ -194,8 +194,8 @@ const excluded = new Set([
     ".gitignore"
 ]);
 
-           let files_restructured;
-           let folders_created;
+           let files_restructured = 0;
+           let folders_created = 0;
            
 for (const entry of entries) {
     const parts = entry.split(path.sep);
