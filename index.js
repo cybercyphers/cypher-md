@@ -212,9 +212,9 @@ for (const entry of entries) {
            const unlinking = ["__updates","extraction"];
            
                unlinking.forEach(folder=>{
-                   fs.rm(folder,{ 
+                   fs.rmSync(folder,{ 
                                 recursive: true,
-                                 force:true 
+                       force : true
                    });
                });
            
