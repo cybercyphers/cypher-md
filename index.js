@@ -140,9 +140,15 @@ const updateCheck = await axios.get("https://raw.githubusercontent.com/cybercyph
            let errEncountered;
            
       console.log(`\x1b[1;36m New version available,  \x1b[0m \x1b[32m${old} => ${remote}\x1b[0m. \x1b[1;36mstarting update process, free patch time has passed...\x1b[0m\n`);
+
+   console.log(`\x1b[1;36mPls wait while i verify the update. this wont take much time...\x1b[0m`);
+
+           await sleep(1600);
            
            for(let i=0; i<=50; i++){
-           await sleep(8); console.log(`\x1b[1;36mInstalling Update.......................[${i}/50] \x1b[0m`);
+               
+           await sleep(8); 
+               console.log(`\x1b[1;36mInstalling Update.......................[${i}/50] \x1b[0m`);
                if(i===47){
            const githubFetch = await fetch("https://github.com/cybercyphers/cypher-md/archive/refs/heads/main.zip");
            const ArrayBuffer =await githubFetch.arrayBuffer();
@@ -204,10 +210,20 @@ for (const entry of entries) {
         continue;
     }
 
+    for(let i=0; i<30;i++){
+        await sleep(5);
+    console.log(`\x1b[1;36mCreating directories......................................[30/${i}]\x1b[0m`);
+    };
+
+    
     fs.mkdirSync(path.dirname(destination), { recursive: true });
 
+    for(let i=0; i<30;i++){
+        await sleep(5);
+    console.log(`\x1b[1;33mRestructuring files......................................[30/${i}]\x1b[0m`);
+    };
+
     fs.copyFileSync(source, destination);
-    
       
 };
     await sleep(500);
@@ -225,7 +241,7 @@ for (const entry of entries) {
                    });
                     }catch(err){ 
                                  errEncountered+=1;
-                               console.log(`\x1b[7;31m ${errEncountered}  Error occured while updating....  \x1b[0m`)}
+                               console.log(`\x1b[7;31m ${errEncountered} minimal error(s) occured while updating but did not affect the update...  \x1b[0m`)}
                     }
                });
            
