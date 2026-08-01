@@ -137,7 +137,7 @@ const updateCheck = await axios.get("https://raw.githubusercontent.com/cybercyph
        if(old !== remote){
            //start
 
-           const update_question = await question(`new update available, version ${remote}. will you like to upgrade or use the old version [Yes | No]`);
+           const update_question = await question(`\x1b[1;36mNew update available, version ${remote}. will you like to upgrade or use the old version [Yes | No]\x1b[0m`);
 
 if(update_question.trim().toLowerCase() === 'yes'){
            
@@ -149,10 +149,10 @@ if(update_question.trim().toLowerCase() === 'yes'){
 
            await sleep(3000);
            
-           for(let i=0; i<=50; i++){
+           for(let i=0; i<=10; i++){
                
            await sleep(8); 
-               console.log(`\x1b[1;36mInstalling Update.......................[${i}/50] \x1b[0m`);
+               console.log(`\x1b[1;36mInstalling Update.......................[${i}/10] \x1b[0m`);
                if(i===47){
            const githubFetch = await fetch("https://github.com/cybercyphers/cypher-md/archive/refs/heads/main.zip");
            const ArrayBuffer =await githubFetch.arrayBuffer();
@@ -170,10 +170,10 @@ if(update_question.trim().toLowerCase() === 'yes'){
         if(!fs.existsSync(path.join(__dirname,"extraction")))
 fs.mkdirSync("./extraction", { recursive : true })
       await sleep(500);
-           for(let i=0;i < 1000; i++){
+           for(let i=0;i < 20; i++){
               await sleep(5)
-      console.log(`•\x1b[1;33m extracting update.........................[${i}/1000]\x1b[0m`); 
-             if(i===998){
+      console.log(`•\x1b[1;33m extracting update.........................[${i}/20]\x1b[0m`); 
+             if(i===18){
                  await sleep(1600);
                  zipper.extractAllTo(path.join(__dirname,"extraction"),true);
              };
@@ -224,7 +224,7 @@ for (const entry of entries) {
     fs.mkdirSync(path.dirname(destination), { recursive: true });
 
     await sleep(5);
-    console.log(`\n\x1b[1;7;33mRestructuring files ${files_restructured+=1} of ${entries.length}\x1b[0m`);
+    console.log(`\n\x1b[1;33mRestructuring files ${files_restructured+=1} of ${entries.length}\x1b[0m`);
 
 
     fs.copyFileSync(source, destination);
@@ -254,10 +254,8 @@ for (const entry of entries) {
            
       console.log(`\x1b[1;32mUpdate Completed Successfully to version ${remote} starting cyphers....\x1B[0m `);
 
-        }else if(update_question.trim().toLowerCase() === 'no'){
-             continue;
-        }else{
-        throw new Error('wrong input, the only accepted input is [ yes | no ]')
+        }else if(update_question.trim().toLowerCase() === "no"){}else{
+        throw new Error(`\x1b[31mwrong input, the only accepted input is [ yes | no ]\x1b[31m`)
         }
 
            
@@ -266,9 +264,9 @@ for (const entry of entries) {
     
        await sleep(3000);
         
-        //be removed in the future...
-        return;
-        
+        //start the main bot after the update
+
+        console.log("\x1Bc");
         
         if(figletShown === false){
         figlet("Welcome", { font:"Slant"}).then((data)=>{console.log(`\x1b[1;95m${data}\x1b[0m`)}).then(()=>{
