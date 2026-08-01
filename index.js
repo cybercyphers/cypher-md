@@ -568,7 +568,7 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
  return await sock.reply(jid,"*Modes can only be public or private*",msg)
 };
            
-        const newConfigJson = fs.readFileSync(path.join(__dirname,"./configurations","config.js"),"utf8")); 
+        const newConfigJson = fs.readFileSync(path.join(__dirname,"./configurations","config.js"),"utf8"); 
            
            if(userMode=== newConfigJson.private){
   return await sock.sendMessage(jid,{ text :  `~Already in ${modeValue} mode, ${msg.key.pushName || configFetchJson("owner") || "user"}~`})
