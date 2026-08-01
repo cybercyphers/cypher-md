@@ -48,7 +48,7 @@ import menu from "./plugins/menu.js";
 
 
 
-const configJson = fsFetchJson("./configurations","config.json");
+const configJson = fsFetchJson("./configurations","config.js");
 
 //question system
 const question = (text)=>{
@@ -81,7 +81,7 @@ function fsFetchJson(dir, file) {
     try {
         const readJson = fs.readFileSync(filePath, "utf8");
       
-        return JSON.parse(readJson);
+        return readJson;
     } catch (e) {
         console.log(e);
     }
@@ -292,7 +292,7 @@ await new Promise(resolve=>{ setTimeout(resolve,1200)});
           
          console.log("validating...")
           await sleep(180);
-    const configFetch = JSON.parse(fs.readFileSync(path.join(__dirname,"./configurations", "config.json"), "utf8"));
+    const configFetch = fs.readFileSync(path.join(__dirname,"./configurations", "config.js"), "utf8");
           console.log("comparing....");
           await sleep(180);
     configFetch.owner = userAsk;
@@ -517,7 +517,7 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
        if(!text.startsWith(configFetchJson("prefix")))return;
         if(jid === "status@broadcast")return;
 
-        const privateCheck = JSON.parse(fs.readFileSync(path.join(__dirname,"./configurations","config.json"),"utf8")).private;
+        const privateCheck = fs.readFileSync(path.join(__dirname,"./configurations","config.js"),"utf8").private;
         
         if(privateCheck && !msg.key.fromMe)return;
 
@@ -541,10 +541,10 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
     return await sock.reply(jid,`${value} is already set as the prefix `,msg)
 }
             
-           let oldConfig =  JSON.parse(fs.readFileSync(path.join(__dirname,"./configurations","config.json")));
+           let oldConfig = fs.readFileSync(path.join(__dirname,"./configurations","config.js"));
           
             oldConfig.prefix = String(value)
-            fs.writeFileSync("./configurations/config.json",JSON.stringify(oldConfig,null,3.5));
+            fs.writeFileSync("./configurations/config.js",oldConfig,null,3.5);
             
             console.log("\n\x1b[1;7;33mPrefix has been changed;\n\x1b[0m");
             
@@ -568,14 +568,14 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
  return await sock.reply(jid,"*Modes can only be public or private*",msg)
 };
            
-        const newConfigJson = JSON.parse(fs.readFileSync(path.join(__dirname,"./configurations","config.json"),"utf8")); 
+        const newConfigJson = fs.readFileSync(path.join(__dirname,"./configurations","config.js"),"utf8")); 
            
            if(userMode=== newConfigJson.private){
   return await sock.sendMessage(jid,{ text :  `~Already in ${modeValue} mode, ${msg.key.pushName || configFetchJson("owner") || "user"}~`})
 }
          console.log(modeValue.trim().toLowerCase() === newConfigJson.private)  
            newConfigJson.private = userMode;
-           fs.writeFileSync("./configurations/config.json", JSON.stringify(newConfigJson,null,3.5));
+           fs.writeFileSync("./configurations/config.js",newConfigJson,null,3.5);
            
            console.log(`\x1b[1;7;33mMy private mode has been changed to ${userMode} by ${configFetchJson("owner")}.\x1b[0m`)
            
