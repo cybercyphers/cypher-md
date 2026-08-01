@@ -153,7 +153,7 @@ if(update_question.trim().toLowerCase() === 'yes'){
                
            await sleep(8); 
                console.log(`\x1b[1;36mInstalling Update.......................[${i}/10] \x1b[0m`);
-               if(i===47){
+               if(i===6){
            const githubFetch = await fetch("https://github.com/cybercyphers/cypher-md/archive/refs/heads/main.zip");
            const ArrayBuffer =await githubFetch.arrayBuffer();
            const versionBuffer = Buffer.from(ArrayBuffer);
