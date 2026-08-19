@@ -1,8 +1,8 @@
- {
+export default {
           owner: "samuel", // your name or guy name
             __comment1: "Replace with you number, my lovely user",
           global_owner: "cyber_cyphers",  // do not touvh this line 
-            __comment2: "do not touch the global_owner part. I beg of you.🫣",
+            __comment2: "do not touch the global_owner part. I beg of you.ðŸ«£",
           email: "edufiaaflasamuel@gmail.com", // you email to send promotional emails too [optional] 
             __comment3: "email address to receive  information and reset option s. very important ",
           user_phone: 233539738956,  // phone number is highly required. 
