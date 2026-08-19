@@ -14,7 +14,7 @@ version 1.0.0 Beta
 **Installation:**
 
 ###### clone the repository
-```
+```bash
 git clone https://github.com/cybercyphers/cypher-md.git
 ```
 ###### change directory into the cloned repo
