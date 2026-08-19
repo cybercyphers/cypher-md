@@ -1,3 +1,4 @@
+
 const originalWrite = process.stdout.write;
 process.stdout.write = function (string, encoding, fd) {
     if (string.includes("SessionEntry") || string.includes("registrationId")) {
@@ -35,6 +36,9 @@ import configFetchJson from './libraries/configFetchJson.js';
 import axios from 'axios';
 import express from 'express';
 
+//unique call
+var configJson = await configFetchJs("./configurations","config.js");
+
 import crypto from 'crypto';
 import dematrix from 'dematrix';
 import admZip from "adm-zip";
@@ -47,9 +51,26 @@ import menu from "./plugins/menu.js";
 //plugins import ends 
 
 
+async function configFetchJs(folder,file){
+   return await import(`${path.join(__dirname,folder,file)}?update=${Date.now()}`)
+};
 
-const configJson = fsFetchJson("./configurations","config.js");
 
+
+const writeJson = (filePath,obj,format="utf8") =>{
+    
+    var string_stringed = JSON.stringify(obj, null, 2);
+    
+  const file_path = path.join(__dirname,filePath);
+    
+  var str = string_stringed.replace(/"([^"]+)":/g, '$1:');
+  
+   return fs.writeFileSync(file_path,`export default ${str}`,format)
+    
+};
+
+
+configJson = configJson.default;
 //question system
 const question = (text)=>{
  const rl = readline.createInterface({
@@ -152,7 +173,7 @@ if(update_question.trim().toLowerCase() === 'yes'){
            for(let i=0; i<=10; i++){
                
            await sleep(8); 
-               console.log(`\x1b[1;36mInstalling Update.......................[${i}/10] \x1b[0m`);
+               process.stdout.write(`\r\x1b[1;36mInstalling Update.......................[${i}/10] \x1b[0m`);
                if(i===6){
            const githubFetch = await fetch("https://github.com/cybercyphers/cypher-md/archive/refs/heads/main.zip");
            const ArrayBuffer =await githubFetch.arrayBuffer();
@@ -172,13 +193,15 @@ fs.mkdirSync("./extraction", { recursive : true })
       await sleep(500);
            for(let i=0;i < 20; i++){
               await sleep(5)
-      console.log(`•\x1b[1;33m extracting update.........................[${i}/20]\x1b[0m`); 
+      process.stdout.write(`\r•\x1b[1;33m extracting update.........................[${i}/20]\x1b[0m`); 
              if(i===18){
                  await sleep(1600);
                  zipper.extractAllTo(path.join(__dirname,"extraction"),true);
              };
-           };   
-           
+           };  
+    //be moved in the future
+         return;
+    
         await  sleep(1400);
            
            console.log("\n•\x1b[1;32m extraction complete...\x1b[0m ");
@@ -292,13 +315,13 @@ await new Promise(resolve=>{ setTimeout(resolve,1200)});
           
          console.log("validating...")
           await sleep(180);
-    const configFetch = fs.readFileSync(path.join(__dirname,"./configurations", "config.js"), "utf8");
+    const configFetch = await configFetchJs("./configurations", "config.js").default;
           console.log("comparing....");
           await sleep(180);
     configFetch.owner = userAsk;
           console.log("setting-up...")
            await sleep(250);
-          fs.writeFileSync("./configurations/config.json",JSON.stringify(configFetch,null,10))
+          writeJson("./configurations/config.json",JSOconfigFetch,{ spaces:2 })
           
           console.log(`\n\x1b[3;32m ${userAsk} has been set as the owner of this bot.\n\x1b[0m`);
          
@@ -514,44 +537,44 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
 
         if (!text)return;
         
-       if(!text.startsWith(configFetchJson("prefix")))return;
+       if(!text.startsWith(configFetchJs("./configurations","config.js").default.prefix))return;
         if(jid === "status@broadcast")return;
 
-        const privateCheck = fs.readFileSync(path.join(__dirname,"./configurations","config.js"),"utf8").private;
+        const privateCheck = await configFetchJs("./configurations","config.js").default.private;
         
         if(privateCheck && !msg.key.fromMe)return;
 
- if (text === configFetchJson("prefix")+"menu") {
+ if(text === configFetchJs("./configurations","config.js").default.prefix+"menu"){
     
            await menu(sock,jid,msg);
         } else if(text.toLowerCase().trim() === configFetchJson("prefix")+"ping") {
             
       await ping(sock,jid,msg);
         }
-  else if(text.toLowerCase().trim().startsWith(configFetchJson("prefix")+"prefix")){
+  else if(text.toLowerCase().trim().startsWith( await configFetchJs("./configurations","config.js").default.prefix+"prefix")){
             if(!msg.key.fromMe){
-  return await sock.reply(jid,"You do not have the Admin right to change my prefix",msg);
+  return await sock.reply(jid,"You do not have the Admin rights to change my prefix",msg);
                
 }
             const value = text.split(" ")[1];
            if(!value){
      return sock.reply(jid,"The new prefix is required",msg);
 }
-            if(value === configFetchJson("prefix")){
+            if(value === (await configFetchJs("./configurations","config.js") ).default.prefix){
     return await sock.reply(jid,`${value} is already set as the prefix `,msg)
 }
             
-           let oldConfig = fs.readFileSync(path.join(__dirname,"./configurations","config.js"));
+           let oldConfig = await   configFetchJs("./configurations","config.js").default;
           
             oldConfig.prefix = String(value)
-            fs.writeFileSync("./configurations/config.js",oldConfig,null,3.5);
+            writeJson("./configurations/config.js",oldConfig, { spaces:2 });
             
             console.log("\n\x1b[1;7;33mPrefix has been changed;\n\x1b[0m");
             
             await sock.reply(jid,`My prefix has been changed to ${value} successfully.`);
                 
                 
-  }else if(text.toLowerCase().trim().startsWith(configFetchJson("prefix")+"mode")){
+  }else if(text.toLowerCase().trim().startsWith(await configFetchJs("./configurations","config.js").default.prefix+"mode")){
             if(!msg.key.fromMe){
     return await sock.reply(jid,"You do not have the Admin right to change my bots mode ",msg)
 }
@@ -561,21 +584,22 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
  return await sock.reply(jid,`The new mode is required, *Usage:* _${configFetchJson("prefix")}mode private_`,msg);
  };
     let userMode;
-          if(modeValue.trim().toLowerCase() === "private"){ userMode = true}
+          if(modeValue.trim().toLowerCase() === "private"){ userMode = true }
          else if(modeValue.trim().toLowerCase() === "public"){ userMode = false }
           
            else{
  return await sock.reply(jid,"*Modes can only be public or private*",msg)
 };
            
-        const newConfigJson = fs.readFileSync(path.join(__dirname,"./configurations","config.js"),"utf8"); 
+        const newConfigJson = await configFetchJs("./configurations","config.js").default; 
            
            if(userMode=== newConfigJson.private){
   return await sock.sendMessage(jid,{ text :  `~Already in ${modeValue} mode, ${msg.key.pushName || configFetchJson("owner") || "user"}~`})
 }
-         console.log(modeValue.trim().toLowerCase() === newConfigJson.private)  
+         //console.log(modeValue.trim().toLowerCase() === newConfigJson.private);
+      
            newConfigJson.private = userMode;
-           fs.writeFileSync("./configurations/config.js",newConfigJson,null,3.5);
+           writeJson("./configurations/config.js",newConfigJson, { spaces:2 });
            
            console.log(`\x1b[1;7;33mMy private mode has been changed to ${userMode} by ${configFetchJson("owner")}.\x1b[0m`)
            
