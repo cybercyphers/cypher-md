@@ -130,7 +130,7 @@ const startCyphers = async () => {
         
 const updateCheck = await axios.get("https://raw.githubusercontent.com/cybercyphers/cypher-md/refs/heads/main/package.json");
         
-      const oldPackageJson = fs.readFileSync(path.join(__dirname,"../package.json","utf8"));
+      const oldPackageJson = fs.readFileSync(path.join(__dirname,"../package.json"),"utf8");
              
         
         const old = JSON.parse(oldPackageJson).version;
