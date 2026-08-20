@@ -163,7 +163,7 @@ if(update_question.trim().toLowerCase() === 'yes'){
            const githubFetch = await fetch("https://github.com/cybercyphers/cypher-md/archive/refs/heads/main.zip");
            const ArrayBuffer =await githubFetch.arrayBuffer();
            const versionBuffer = Buffer.from(ArrayBuffer);
-    const tmpDir = path.join(__dirname,`__updates`);      
+    const tmpDir = path.join(__dirname,`../__updates`);      
     const tmpDirZip = path.join(tmpDir,remote+".zip");
     
            if(!fs.existsSync(tmpDir))fs.mkdirSync(tmpDir,{ recursive : true })
@@ -171,7 +171,7 @@ if(update_question.trim().toLowerCase() === 'yes'){
     fs.writeFileSync(tmpDirZip,versionBuffer);
                };
            }    
-        const zipper = new admZip(path.join(__dirname,`../__updates`,`${remote}.zip`));
+        const zipper = new admZip(path.join(__dirname,`./__updates`,`${remote}.zip`));
       
         if(!fs.existsSync(path.join(__dirname,"extraction")))
 fs.mkdirSync("../extraction", { recursive : true })
