@@ -533,7 +533,7 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
 
         if (!text)return;
         
-       if(!text.startsWith(configFetchJs().default.prefix))return;
+       var temp_prefix = await configFetchJs() if(!text.startsWith(temp_prefix.default.prefix))return;
         if(jid === "status@broadcast")return;
 
         const privateCheck = await configFetchJs().default.private;
