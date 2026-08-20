@@ -87,7 +87,7 @@ const question = (text)=>{
 
 const node_version = process.versions.node.split(".")[0];
 
-if(node_version <= 20 ){
+if(node_version <= fsConfigJson("..","package.json").recommended_node_engine){
   console.log(`\x1b[1;32;41m ${configJson.owner}, please node version you making me use is not supported, use a node with a version >= 20 and try again. By then i will be ready to server you.🥲\x1b[0m`);
     process.exit(0);
 }
