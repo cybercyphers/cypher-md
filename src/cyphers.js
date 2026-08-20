@@ -32,17 +32,13 @@ import readline from 'readline';
 import path, { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
-import configFetchJson, { 
+import { 
+    configFetchJson, 
     configFetchJs,
-         fsFetchJson               
+    fsFetchJson               
                         } from '../libraries/configFunctions.js';
 import axios from 'axios';
 import express from 'express';
-
-
-//unique call
-var configJson = await configFetchJs();
-
 import crypto from 'crypto';
 import dematrix from 'dematrix';
 import admZip from "adm-zip";
@@ -68,7 +64,6 @@ const writeJson = (filePath,obj,format="utf8") =>{
 };
 
 
-configJson = configJson.default;
 //question system
 const question = (text)=>{
  const rl = readline.createInterface({
@@ -88,7 +83,7 @@ const question = (text)=>{
 const node_version = process.versions.node.split(".")[0];
 
 if(node_version <= fsFetchJson("..","package.json").recommended_node_engine){
-  console.log(`\x1b[1;32;41m ${configJson.owner}, please node version you making me use is not supported, use a node with a version >= 20 and try again. By then i will be ready to server you.🥲\x1b[0m`);
+  console.log(`\x1b[1;32;41m ${configJson.owner}, please node version you making me use is not supported, use a node with a version >= 20 or 23 and try again. By then i will be ready to server you.🥲\x1b[0m`);
     process.exit(0);
 }
 
@@ -96,14 +91,14 @@ if(node_version <= fsFetchJson("..","package.json").recommended_node_engine){
 const copyRight = "\u00A9";
 
 //check for global_owner
-    if (configJson.global_owner !== "cyber_cyphers") {
+    if (configFetchJs().global_owner !== "cyber_cyphers") {
         throw new Error(`\x1b[1;37;41m${configJson.global_owner} is not the Global owner of this bot .Strict requirements for config.json. global_owner is not meant to be touched \x1b[0m`)
        
     }
  
    const globalInterval = setInterval(async()=>{
-       var temp_con = await configFetchJs();
-    if (temp_con.default.global_owner !== "cyber_cyphers") {
+       
+    if (configFetchJs().global_owner !== "cyber_cyphers") {
             throw new Error(`\x1b[1;37;41m${temp_con.default.global_owner} is not the Global owner of this bot .Strict requirements for config.json. 'global_owner' was not meant to be touched in config.json \x1b[0m`);   
     }
     },1000 * 60 * 10);
@@ -153,10 +148,8 @@ if(update_question.trim().toLowerCase() === 'yes'){
 
            await sleep(2000);
            
-           for(let i=-1; i<=100; i++){
-               
-           await sleep(100); 
-               process.stdout.write("\x1Bc")
+      for(let i=-1; i<=100; i++){    
+           await sleep(100);              process.stdout.write("\x1Bc")
    console.log(`\x1b[1;36mInstalling Update.......................[${i}/100] \x1b[0m`);
                
                if(i===63){
@@ -289,7 +282,7 @@ await new Promise(resolve=>{ setTimeout(resolve,1200)});
         
         }
           console.log(figletShown)  
-      if(configJson.owner === "" || configJson.owner === " " || configJson === "{}" || configJson === {} || configJson === "[]" || configJson === "()" ||configJson === []){
+      if(configFetchJs().owner === "" || configFetchJs().owner=== " " || configFetchJs().owner === "{}" || configFetchJs().owner === {} || configFetchJs().owner === "[]" || configFetchJs().owner === "()" || configFetchJs().owner === []){
           
           var userAsk = await question("\n\x1b[1;36m Please enter your name or Guy name to be set as the owner:\x1b[0m");
           
@@ -304,10 +297,9 @@ await new Promise(resolve=>{ setTimeout(resolve,1200)});
           
          console.log("validating...")
           await sleep(180);
-var tmp_config_fetch = await configFetchJs();
-
-           const configFetch = tmp_config_fetch.default; 
-
+      
+ var configFetch = configFetchJs();
+        
 console.log("comparing....");
           await sleep(180);
     configFetch.owner = userAsk;
@@ -362,9 +354,9 @@ let codeRequested = false;
 
         if (connection === "open"){
             try{
-            console.log(`\x1b[1;32m ${await configJson.owner || "user" }, you are legit to login...connecting to ${fsFetchJson("..","package.json").name} with Auth credentials...\x1b[0m`);
-             var userPhonePending = await configFetchJs();
-                const userPhone = userPhonePending.default.user_phone;
+            console.log(`\x1b[1;32m ${configFetchJs().owner || "user" }, you are legit to login...connecting to ${fsFetchJson("..","package.json").name} with Auth credentials...\x1b[0m`);
+              
+                const userPhone = configFetchJs().user_phone;
              String(userPhone).trim().replace(/\D/g,"");
                 
                 await sock.sendPresenceUpdate("unavailable",`${userPhone}@swhatsapp.net`);
@@ -396,7 +388,7 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
             const connectedText = `
 ╭━━━〔  CYPHER-MD BETA 〕━━━╮
 ┃ 🟢 STATUS: Live
-┃ 👤 Owner: ${ configJson.owner || "User"}
+┃ 👤 Owner: ${ configFetchJs().owner || "User"}
 ┃ 📅 DATE: ${new Date().toLocaleString()}
 ┃ 📡 PLATFORM: ${process.platform}
 ┃ ⚡ PRIVATE : ${configJson.private}
@@ -408,7 +400,7 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
 ┃ 🛡️ Security: Enabled
 ╰━━━━━━━━━━━━━━━━━━━━━━━╯
 
-💚 _Global Developer is ${configJson.global_owner}_
+💚 _Global Developer is ${ configFetchJs().global_owner }_
 `;
 
               
@@ -469,7 +461,7 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
             console.error(`\x1b[1;31mConnection closed:, ${JSON.stringify(status)}\x1b[0m`);
 
             if(shouldNotRestart){
-  console.log(`\x1b[1;31m${configJson.owner || "user"}, You have been logged out. unlinking session folder to start fresh...\x1b[0m`); 
+  console.log(`\x1b[1;31m${configFetchJs().owner || "user"}, You have been logged out. unlinking session folder to start fresh...\x1b[0m`); 
                 fs.rm("./session",{ recursive : true }, async(err)=>{
                     if(err){console.log("\x1b[1;7;31mFailed to unlink session folder, please delete manually\x1b[0m");
                             process.exit(0);
@@ -529,24 +521,22 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
             msg.message?.conversation ||
             msg.message?.extendedTextMessage?.text;
 
-        if (!text)return;
-        
-       var temp_prefix = await configFetchJs();
-        if(!text.startsWith(temp_prefix.default.prefix))return;
+  if (!text)return; 
+      if(!text.startsWith(configFetchJs().prefix))return;
         if(jid === "status@broadcast")return;
 
-        const privateCheck = await configFetchJs().default.private;
+        const privateCheck =  configFetchJs().private;
         
         if(privateCheck && !msg.key.fromMe)return;
 
- if(text === configFetchJs().default.prefix+"menu"){
+ if(text === configFetchJs().prefix+"menu"){
     
            await menu(sock,jid,msg);
-        } else if(text.toLowerCase().trim() === configFetchJson("prefix")+"ping") {
+        } else if(text.toLowerCase().trim() === configFetchJs().prefix+"ping") {
             
       await ping(sock,jid,msg);
         }
-  else if(text.toLowerCase().trim().startsWith( await configFetchJs().default.prefix+"prefix")){
+  else if(text.toLowerCase().trim().startsWith(configFetchJs().prefix+"prefix")){
             if(!msg.key.fromMe){
   return await sock.reply(jid,"You do not have the Admin rights to change my prefix",msg);
                
@@ -555,11 +545,11 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
            if(!value){
      return sock.reply(jid,"The new prefix is required",msg);
 }
-            if(value === (await configFetchJs()).default.prefix){
+            if(value === configFetchJs().prefix){
     return await sock.reply(jid,`${value} is already set as the prefix `,msg)
 }
             
-           let oldConfig = await   configFetchJs().default;
+           let oldConfig =   configFetchJs();
           
             oldConfig.prefix = String(value)
             writeJson("../configurations/config.js",oldConfig);
@@ -569,14 +559,14 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
             await sock.reply(jid,`My prefix has been changed to ${value} successfully.`);
                 
                 
-  }else if(text.toLowerCase().trim().startsWith(await configFetchJs().default.prefix+"mode")){
+  }else if(text.toLowerCase().trim().startsWith( configFetchJs().prefix+"mode")){
             if(!msg.key.fromMe){
     return await sock.reply(jid,"You do not have the Admin right to change my bots mode ",msg)
 }
            
    const modeValue = text.split(" ")[1];
             if(!modeValue){
- return await sock.reply(jid,`The new mode is required, *Usage:* _${configFetchJson("prefix")}mode private_`,msg);
+ return await sock.reply(jid,`The new mode is required, *Usage:* _${configFetchJs().prefix}mode private_`,msg);
  };
     let userMode;
           if(modeValue.trim().toLowerCase() === "private"){ userMode = true }
@@ -586,10 +576,10 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
  return await sock.reply(jid,"*Modes can only be public or private*",msg)
 };
            
-        const newConfigJson = await configFetchJs().default; 
+        const newConfigJson = configFetchJs(); 
            
            if(userMode=== newConfigJson.private){
-  return await sock.sendMessage(jid,{ text :  `~Already in ${modeValue} mode, ${msg.key.pushName || configFetchJson("owner") || "user"}~`})
+  return await sock.sendMessage(jid,{ text :  `~Already in ${modeValue} mode, ${msg.key.pushName || configFetchJs().owner || "user"}~`})
 }
          //console.log(modeValue.trim().toLowerCase() === newConfigJson.private);
       
