@@ -5,12 +5,22 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 
 
+export function fsFetchJson(dir, file) {
+    const filePath = path.join(__dirname, dir, file);
+    if (!fs.existsSync(filePath)) return null;
+
+    try {
+        const readJson = JSON.parse(fs.readFileSync(filePath, "utf8"));
+        return readJson;
+    } catch (e) {
+        console.trace(e);
+    }
+}
 
 
 export async function configFetchJs(folder="../configurations",file="config.js"){
    return await import(`${path.join(__dirname,folder,file)}?update=${Date.now()}`)
 };
-
 
 
 
