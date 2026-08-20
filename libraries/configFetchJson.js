@@ -6,9 +6,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 
 
-const configFetchJson = (data)=>{
-    const obj = JSON.parse(fs.readFileSync(path.join(__dirname,"../configurations","config.json"),"utf8"));
+const configFetchJson = async(data)=>{
     
+    var obj = await configJson("../configurations","config.js").default;
      const finalObj = obj[data]
 
     return finalObj;
