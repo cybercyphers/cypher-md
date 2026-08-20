@@ -216,7 +216,7 @@ for (const entry of entries) {
 
     if (stat.isDirectory()){
         
-        fs.mkdirSync(path.join(__dirname,`../${ destination }`), { recursive: true })
+        fs.mkdirSync(`${ destination }`, { recursive: true })
                    console.log(`\n\x1b[1;36mCreating directory ${folders_created+=1} of cypher-md\x1b[0m`); 
      await sleep(60);
         continue;
