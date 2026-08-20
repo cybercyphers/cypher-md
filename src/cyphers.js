@@ -87,7 +87,7 @@ const question = (text)=>{
 
 const node_version = process.versions.node.split(".")[0];
 
-if(node_version <= fsConfigJson("..","package.json").recommended_node_engine){
+if(node_version <= fsFetchJson("..","package.json").recommended_node_engine){
   console.log(`\x1b[1;32;41m ${configJson.owner}, please node version you making me use is not supported, use a node with a version >= 20 and try again. By then i will be ready to server you.🥲\x1b[0m`);
     process.exit(0);
 }
@@ -223,7 +223,7 @@ for (const entry of entries) {
 
     if (stat.isDirectory()){
         
-        fs.mkdirSync(path.join(__dirname,`../${ destination }`), { recursive: true }
+        fs.mkdirSync(path.join(__dirname,`../${ destination }`), { recursive: true })
                    console.log(`\n\x1b[1;36mCreating directory ${folders_created+=1} of cypher-md\x1b[0m`); 
      await sleep(60);
         continue;
