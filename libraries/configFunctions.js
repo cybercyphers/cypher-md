@@ -18,8 +18,8 @@ export function fsFetchJson(dir, file) {
 }
 
 
-export async function configFetchJs(folder="../configurations",file="config.js"){
-   return await import(`${path.join(__dirname,folder,file)}?update=${Date.now()}`)
+export function configFetchJs(folder="../configurations",file="config.js"){
+   return  import(`${path.join(__dirname,folder,file)}?update=${Date.now()}`)
 };
 
 
