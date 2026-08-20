@@ -366,8 +366,7 @@ let codeRequested = false;
             console.log(`\x1b[1;32m ${await configJson.owner || "user" }, you are legit to login...connecting to ${fsFetchJson(".","package.json").name} with Auth credentials...\x1b[0m`);
                 const userPhone = configFetchJs().default.phone;
              String(userPhone).replace(/\D/g,"");
-                //be moved in the future
-                console.log(userPhone)
+                
                 await sock.sendPresenceUpdate("unavailable",`${userPhone}@swhatsapp.net`);
                 
                 //removing heavy space wasting directories.
@@ -495,6 +494,9 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
             console.log("\n\x1b[3;31mYou have no login Credential. Requesting registration...");
            
             console.log("\x1b[1;36mplease wait...\x1b[0m");
+
+            //be moved in the future
+                console.log(phone)
 
              const code = await sock.requestPairingCode(phone,"CYPHERSS");
 
