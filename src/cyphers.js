@@ -174,7 +174,7 @@ if(update_question.trim().toLowerCase() === 'yes'){
         const zipper = new admZip(path.join(__dirname,`./__updates`,`${remote}.zip`));
       
         if(!fs.existsSync(path.join(__dirname,"extraction")))
-fs.mkdirSync("../extraction", { recursive : true })
+fs.mkdirSync(path.join(__dirname,"../extraction"), { recursive : true })
       await sleep(500);
            for(let i=0;i < 1001; i++){
               await sleep(15);
