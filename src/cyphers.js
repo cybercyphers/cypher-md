@@ -176,12 +176,17 @@ if(update_question.trim().toLowerCase() === 'yes'){
         if(!fs.existsSync(path.join(__dirname,"../extraction")))
 fs.mkdirSync(path.join(__dirname,"../extraction"), { recursive : true })
       await sleep(500);
-           for(let i=0;i < 1001; i++){
+
+    //clean frontend while update is going on
+   
+    for(let i=0;i < 1001; i++){
               await sleep(15);
                process.stdout.write("\x1Bc")
       console.log(`•\x1b[1;33m extracting update.........................[${i}/1000]\x1b[0m`); 
                let heavyMem = [];
-               heavyMem.push(i*i+54282737*99999929*67383837474+99373727*7728291992838385);
+               
+        //coverup       heavyMem.push(i*i+54282737*99999929*67383837474+99373727*7728291992838385);
+               
              if(i===838 || i === 812){
                  await sleep(1600);           zipper.extractAllTo(path.join(__dirname,"../extraction"),true);
              };
@@ -216,20 +221,21 @@ for (const entry of entries) {
 
     const stat = fs.statSync(source);
 
-    if (stat.isDirectory()) {
-        fs.mkdirSync(path.join(__dirname,`../${destination}`), { recursive: true }
-    
-        await sleep(60);
+    if (stat.isDirectory()){
         
-    console.log(`\n\x1b[1;36mCreating directory ${folders_created+=1} of cypher-md\x1b[0m`);   
+        fs.mkdirSync(path.join(__dirname,`../${ destination }`), { recursive: true }
+                   console.log(`\n\x1b[1;36mCreating directory ${folders_created+=1} of cypher-md\x1b[0m`); 
+     await sleep(60);
         continue;
+        
+        //directory creation ends
     };
 
     
-    fs.mkdirSync(path.dirname(destination), { recursive: true });
+    fs.mkdirSync(path.dirname(destination),{ recursive: true });
 
-    await sleep(5);
-    console.log(`\n\x1b[1;33mRestructuring files ${files_restructured+=1} of ${entries.length}\x1b[0m`);
+    await sleep(60);
+    console.log(`\n\x1b[1;33mRestructuring files ${ files_restructured+=1 } of ${ entries.length }\x1b[0m`);
 
 
     fs.copyFileSync(source, destination);
@@ -238,7 +244,7 @@ for (const entry of entries) {
    
     await sleep(500);
            console.log(`\x1b[1;36mcleaning up...\x1b[0m`)
-           const unlinking = ["__updates","extraction",".npm"];
+           const unlinking = ["../__updates","../extraction","../.npm"];
            
                unlinking.forEach(folder=>{
                    
@@ -311,7 +317,7 @@ console.log("comparing....");
           
           console.log(`\n\x1b[3;32m ${userAsk} has been set as the owner of this bot.\n\x1b[0m`);
          
-}
+};
         
 
 console.log("\x1b[1;3;32mThank you for using a supported node, i literally would not have survived without that node, trust me. 😂\x1b[0m");
