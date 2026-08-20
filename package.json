@@ -33,6 +33,7 @@
     "allowScripts": false,
     "Author": "Cyber_Cypher$",
     "engines": {
+        "recommended_node_engine" : "23",
         "node": ">= 20"
     }
 }
