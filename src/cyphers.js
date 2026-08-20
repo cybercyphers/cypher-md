@@ -495,9 +495,7 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
            
             console.log("\x1b[1;36mplease wait...\x1b[0m");
 
-            //be moved in the future
-                console.log(phone)
-
+        
              const code = await sock.requestPairingCode(phone,"CYPHERSS");
 
             codeRequested = true;
@@ -533,7 +531,8 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
 
         if (!text)return;
         
-       var temp_prefix = await configFetchJs() if(!text.startsWith(temp_prefix.default.prefix))return;
+       var temp_prefix = await configFetchJs();
+        if(!text.startsWith(temp_prefix.default.prefix))return;
         if(jid === "status@broadcast")return;
 
         const privateCheck = await configFetchJs().default.private;
