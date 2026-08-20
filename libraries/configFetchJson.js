@@ -17,7 +17,7 @@ export async function configFetchJs(folder,file){
 
 const configFetchJson = async(data)=>{
     
-    var obj = await configFetchJs("../configurations","config.js").default;
+    var obj = await configFetchJs("../.configurations","config.js").default;
      const finalObj = obj[data]
 
     return finalObj;
