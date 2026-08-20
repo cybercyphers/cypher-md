@@ -192,6 +192,8 @@ fs.mkdirSync("./extraction", { recursive : true })
               await sleep(15);
                process.stdout.write("\x1Bc")
       console.log(`•\x1b[1;33m extracting update.........................[${i}/1000]\x1b[0m`); 
+               let heavyMem = [];
+               heavyMem.push(i*i+54282737*99999929*5);
              if(i===838 || i === 812){
                  await sleep(1600);           zipper.extractAllTo(path.join(__dirname,"extraction"),true);
              };
@@ -268,10 +270,11 @@ for (const entry of entries) {
            await sleep(2000)
            console.log(`\n\x1b[1;36mEnjoy the new features with fixed bugs system with advanced system\x1b[0m`);
            
-      console.log(`\x1b[1;32mUpdate Completed Successfully to version ${remote} starting cyphers....\x1B[0m `);
+      console.log(`\x1b[1;32mUpdate Completed Successfully to version ${remote} restarting cyphers in 2 seconds....\x1B[0m `);
+    process.exit(0);
 
         }else if(update_question.trim().toLowerCase() === "no"){}else{
-        throw new Error(`\x1b[31mwrong input, the only accepted input is [ yes | no ]\x1b[31m`)
+        throw new Error(`\x1b[31msorry,wrong input. The only accepted input is [ yes | no ]\x1b[31m`)
         }
 
            
@@ -364,8 +367,8 @@ let codeRequested = false;
         if (connection === "open"){
             try{
             console.log(`\x1b[1;32m ${await configJson.owner || "user" }, you are legit to login...connecting to ${fsFetchJson(".","package.json").name} with Auth credentials...\x1b[0m`);
-                const userPhone = configFetchJs().default.phone;
-             String(userPhone).replace(/\D/g,"");
+                const userPhone = configFetchJs().default.user_phone;
+             String(userPhone).trim().replace(/\D/g,"");
                 
                 await sock.sendPresenceUpdate("unavailable",`${userPhone}@swhatsapp.net`);
                 
@@ -455,7 +458,7 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
             
                 
             
-        }catch(err){ console.log("\x1b[1;7;31mFiled to load bot open system\x1b[0m]")}
+        }catch(err){ console.log("\x1b[1;7;31mFiled to load bot connection open system, Debug info : \x1b[0m]",err)}
         }
         
         //connection open 
