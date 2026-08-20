@@ -6,9 +6,18 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 
 
+
+
+export async function configFetchJs(folder,file){
+   return await import(`${path.join(__dirname,folder,file)}?update=${Date.now()}`)
+};
+
+
+
+
 const configFetchJson = async(data)=>{
     
-    var obj = await configJson("../configurations","config.js").default;
+    var obj = await configFetchJs("../configurations","config.js").default;
      const finalObj = obj[data]
 
     return finalObj;
