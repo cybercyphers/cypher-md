@@ -36,7 +36,9 @@ import configFetchJson from './libraries/configFetchJson.js';
 import axios from 'axios';
 import express from 'express';
 
+
 //unique call
+import { configFetchJson } from "./libraries/configFetchJson.js";
 var configJson = await configFetchJs("./configurations","config.js");
 
 import crypto from 'crypto';
@@ -49,12 +51,6 @@ import menu from "./plugins/menu.js";
 
 
 //plugins import ends 
-
-
-async function configFetchJs(folder,file){
-   return await import(`${path.join(__dirname,folder,file)}?update=${Date.now()}`)
-};
-
 
 
 const writeJson = (filePath,obj,format="utf8") =>{
