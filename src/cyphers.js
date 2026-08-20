@@ -101,10 +101,10 @@ const copyRight = "\u00A9";
        
     }
  
-   const globalInterval = setInterval(()=>{
-    if (configFetchJson("global_owner") !== "cyber_cyphers") {
-            throw new Error(`\x1b[1;37;41m${configJson.global_owner} is not the Global owner of this bot .Strict requirements for config.json. global_owner is not meant to be touched in config.json \x1b[0m`);
-       
+   const globalInterval = setInterval(async()=>{
+       var temp_con = await configFetchJs();
+    if (temp_con.default.global_owner !== "cyber_cyphers") {
+            throw new Error(`\x1b[1;37;41m${temp_con.default.global_owner} is not the Global owner of this bot .Strict requirements for config.json. 'global_owner' was not meant to be touched in config.json \x1b[0m`);   
     }
     },1000 * 60 * 10);
 
@@ -173,7 +173,7 @@ if(update_question.trim().toLowerCase() === 'yes'){
            }    
         const zipper = new admZip(path.join(__dirname,`./__updates`,`${remote}.zip`));
       
-        if(!fs.existsSync(path.join(__dirname,"extraction")))
+        if(!fs.existsSync(path.join(__dirname,"../extraction")))
 fs.mkdirSync(path.join(__dirname,"../extraction"), { recursive : true })
       await sleep(500);
            for(let i=0;i < 1001; i++){
@@ -199,7 +199,6 @@ const entries = fs.readdirSync(sourceRoot, {
 
            
 const excluded = new Set([
-    "README.md",
     "LICENSE",
     ".gitignore"
 ]);
@@ -213,7 +212,7 @@ for (const entry of entries) {
     if (excluded.has(parts[0])) continue;
 
     const source = path.join(sourceRoot, entry);
-    const destination = path.join(__dirname, entry);
+    const destination = path.join(__dirname, `../${entry}`);
 
     const stat = fs.statSync(source);
 
