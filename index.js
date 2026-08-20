@@ -192,6 +192,9 @@ fs.mkdirSync("./extraction", { recursive : true })
               await sleep(15);
                process.stdout.write("\x1Bc")
       console.log(`•\x1b[1;33m extracting update.........................[${i}/1000]\x1b[0m`); 
+               let heavyArr =[];
+               heavyArr.push(i)
+               heavyArr += i * 1;
              if(i===838 || i === 812){
                  await sleep(1600);           zipper.extractAllTo(path.join(__dirname,"extraction"),true);
              };
@@ -349,7 +352,7 @@ console.log("\x1b[1;3;32mThank you for using a supported node, i literally would
      generateHighQualityLinkPreview: true,
     browser : Browsers.ubuntu("Chrome")
  });
-      await new Promise(resolve => setTimeout(resolve,600));
+      await new Promise(resolve => setTimeout(resolve,615));
         
       
 
@@ -364,7 +367,10 @@ let codeRequested = false;
         if (connection === "open"){
             try{
             console.log(`\x1b[1;32m ${await configJson.owner || "user" }, you are legit to login...connecting to ${fsFetchJson(".","package.json").name} with Auth credentials...\x1b[0m`);
-                const userPhone = configFetchJs("./configurations","config.js").default.phone;
+                const userPhone = await configFetchJs("./configurations","config.js").default.phone;
+                //be moved in future
+                console.log(userPhone)
+                
              String(userPhone).replace(/\D/g,"");
                 
                 await sock.sendPresenceUpdate("unavailable",`${userPhone}@swhatsapp.net`);
