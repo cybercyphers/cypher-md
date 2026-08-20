@@ -366,7 +366,8 @@ let codeRequested = false;
             console.log(`\x1b[1;32m ${await configJson.owner || "user" }, you are legit to login...connecting to ${fsFetchJson(".","package.json").name} with Auth credentials...\x1b[0m`);
                 const userPhone = configFetchJs().default.phone;
              String(userPhone).replace(/\D/g,"");
-                
+                //be moved in the future
+                console.log(userPhone)
                 await sock.sendPresenceUpdate("unavailable",`${userPhone}@swhatsapp.net`);
                 
                 //removing heavy space wasting directories.
