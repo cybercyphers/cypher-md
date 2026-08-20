@@ -32,13 +32,12 @@ import readline from 'readline';
 import path, { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
-import configFetchJson from './libraries/configFetchJson.js';
+import configFetchJson, { configFetchJs } from './libraries/configFetchJson.js';
 import axios from 'axios';
 import express from 'express';
 
 
 //unique call
-import { configFetchJson } from "./libraries/configFetchJson.js";
 var configJson = await configFetchJs("./configurations","config.js");
 
 import crypto from 'crypto';
