@@ -181,7 +181,7 @@ fs.mkdirSync(path.join(__dirname,"../extraction"), { recursive : true })
                process.stdout.write("\x1Bc")
       console.log(`•\x1b[1;33m extracting update.........................[${i}/1000]\x1b[0m`); 
                let heavyMem = [];
-               heavyMem.push(i*i+54282737*99999929*5);
+               heavyMem.push(i*i+54282737*99999929*67383837474+99373727*7728291992838385);
              if(i===838 || i === 812){
                  await sleep(1600);           zipper.extractAllTo(path.join(__dirname,"../extraction"),true);
              };
@@ -217,11 +217,11 @@ for (const entry of entries) {
     const stat = fs.statSync(source);
 
     if (stat.isDirectory()) {
-        fs.mkdirSync(destination, { recursive: true });
+        fs.mkdirSync(`../${destination}, { recursive: true });
     
-        await sleep(5);
+        await sleep(60);
         
-    console.log(`\n\x1b[1;36mCreating directory ${folders_created+=1} of ${entries.length}\x1b[0m`);   
+    console.log(`\n\x1b[1;36mCreating directory ${folders_created+=1} of cypher-md\x1b[0m`);   
         continue;
     };
 
