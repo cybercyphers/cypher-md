@@ -367,7 +367,8 @@ let codeRequested = false;
         if (connection === "open"){
             try{
             console.log(`\x1b[1;32m ${await configJson.owner || "user" }, you are legit to login...connecting to ${fsFetchJson(".","package.json").name} with Auth credentials...\x1b[0m`);
-                const userPhone = await configFetchJs().default.user_phone;
+             var userPhonePending = await configFetchJs();
+                const userPhone = userPhonePending.default.user_phone;
              String(userPhone).trim().replace(/\D/g,"");
                 
                 await sock.sendPresenceUpdate("unavailable",`${userPhone}@swhatsapp.net`);
