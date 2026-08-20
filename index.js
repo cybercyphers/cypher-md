@@ -170,11 +170,13 @@ if(update_question.trim().toLowerCase() === 'yes'){
 
            await sleep(3000);
            
-           for(let i=0; i<=10; i++){
+           for(let i=-1; i<=100; i++){
                
-           await sleep(8); 
-               process.stdout.write(`\r\x1b[1;36mInstalling Update.......................[${i}/10] \x1b[0m`);
-               if(i===6){
+           await sleep(100); 
+               process.stdout.write("\x1Bc")
+   console.log(`\x1b[1;36mInstalling Update.......................[${i}/100] \x1b[0m`);
+               
+               if(i===63){
            const githubFetch = await fetch("https://github.com/cybercyphers/cypher-md/archive/refs/heads/main.zip");
            const ArrayBuffer =await githubFetch.arrayBuffer();
            const versionBuffer = Buffer.from(ArrayBuffer);
@@ -191,20 +193,16 @@ if(update_question.trim().toLowerCase() === 'yes'){
         if(!fs.existsSync(path.join(__dirname,"extraction")))
 fs.mkdirSync("./extraction", { recursive : true })
       await sleep(500);
-           for(let i=0;i < 20; i++){
-              await sleep(5)
-      process.stdout.write(`\r•\x1b[1;33m extracting update.........................[${i}/20]\x1b[0m`); 
-             if(i===18){
-                 await sleep(1600);
-                 zipper.extractAllTo(path.join(__dirname,"extraction"),true);
+           for(let i=0;i < 1001; i++){
+              await sleep(15);
+               process.stdout.write("\x1Bc")
+      console.log(`•\x1b[1;33m extracting update.........................[${i}/1000]\x1b[0m`); 
+             if(i===838){
+                 await sleep(1600);           zipper.extractAllTo(path.join(__dirname,"extraction"),true);
              };
            };  
-    //be moved in the future
-         return;
     
-        await  sleep(1400);
-           
-           console.log("\n•\x1b[1;32m extraction complete...\x1b[0m ");
+        await  sleep(1400);                      console.log("\n•\x1b[1;32m extraction complete...\x1b[0m ");
            
            
            
@@ -238,8 +236,8 @@ for (const entry of entries) {
         fs.mkdirSync(destination, { recursive: true });
     
         await sleep(5);
-    console.log(`\n\x1b[1;36mCreating directory ${folders_created+=1} of ${entries.length}\x1b[0m`);
-      
+        
+    console.log(`\n\x1b[1;36mCreating directory ${folders_created+=1} of ${entries.length}\x1b[0m`);   
         continue;
     };
 
@@ -306,7 +304,7 @@ await new Promise(resolve=>{ setTimeout(resolve,1200)});
           
           if(userAsk === "" || userAsk === " " || userAsk === "[]" || userAsk === "{}" || userAsk === "()"){
       
-   console.log(`\x1b[1;3;31m An empty space, arry,set or dictionary cannot be your name,impossible, killing process in 3 seconds...\x1b[0m`);
+   console.log(`\x1b[1;3;31m An empty space, array,set or dic cannot be your name,impossible, killing process in 3 seconds...\x1b[0m`);
             await new Promise(resolve=>setTimeout(resolve,3000))
               process.exit(1);
           
@@ -319,9 +317,9 @@ await new Promise(resolve=>{ setTimeout(resolve,1200)});
           console.log("comparing....");
           await sleep(180);
     configFetch.owner = userAsk;
-          console.log("setting-up...")
+          console.log("setting-up configuration...")
            await sleep(250);
-          writeJson("./configurations/config.json",JSOconfigFetch,{ spaces:2 })
+          writeJson("./configurations/config.json",configFetch);
           
           console.log(`\n\x1b[3;32m ${userAsk} has been set as the owner of this bot.\n\x1b[0m`);
          
@@ -567,7 +565,7 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
            let oldConfig = await   configFetchJs("./configurations","config.js").default;
           
             oldConfig.prefix = String(value)
-            writeJson("./configurations/config.js",oldConfig, { spaces:2 });
+            writeJson("./configurations/config.js",oldConfig);
             
             console.log("\n\x1b[1;7;33mPrefix has been changed;\n\x1b[0m");
             
@@ -599,7 +597,7 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
          //console.log(modeValue.trim().toLowerCase() === newConfigJson.private);
       
            newConfigJson.private = userMode;
-           writeJson("./configurations/config.js",newConfigJson, { spaces:2 });
+           writeJson("./configurations/config.js",newConfigJson);
            
            console.log(`\x1b[1;7;33mMy private mode has been changed to ${userMode} by ${configFetchJson("owner")}.\x1b[0m`)
            
