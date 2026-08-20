@@ -1,4 +1,3 @@
-
 import fs from 'node:fs';
 import path,{ dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -8,7 +7,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 
 
-export async function configFetchJs(folder,file){
+export async function configFetchJs(folder="../configurations",file="config.js"){
    return await import(`${path.join(__dirname,folder,file)}?update=${Date.now()}`)
 };
 
@@ -17,7 +16,7 @@ export async function configFetchJs(folder,file){
 
 const configFetchJson = async(data)=>{
     
-    var obj = await configFetchJs("../.configurations","config.js").default;
+    var obj = await configFetchJs().default;
      const finalObj = obj[data]
 
     return finalObj;
