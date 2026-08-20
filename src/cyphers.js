@@ -32,7 +32,10 @@ import readline from 'readline';
 import path, { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
-import configFetchJson, { configFetchJs } from '../libraries/configFetchJson.js';
+import configFetchJson, { 
+    configFetchJs,
+         fsFetchJson               
+                        } from '../libraries/configFunctions.js';
 import axios from 'axios';
 import express from 'express';
 
@@ -88,22 +91,6 @@ if(node_version <= 20 ){
   console.log(`\x1b[1;32;41m ${configJson.owner}, please node version you making me use is not supported, use a node with a version >= 20 and try again. By then i will be ready to server you.🥲\x1b[0m`);
     process.exit(0);
 }
-
-
-function fsFetchJson(dir, file) {
-    const filePath = path.join(__dirname, dir, file);
-    if (!fs.existsSync(filePath)) return null;
-
-    try {
-        const readJson = fs.readFileSync(filePath, "utf8");
-//be moved in the future
-      console.log(readJson)
-        return readJson;
-    } catch (e) {
-        console.trace(e);
-    }
-}
-
 
 
 const copyRight = "\u00A9";
