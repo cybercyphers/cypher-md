@@ -2,7 +2,7 @@
     "name": "Cypher-MD",
     "version": "0.0.2-beta.2",
     "description": "A multi tasking bot for developers and for the fem boys. since it was made by a fem boy ðŸ˜‚",
-    "main": "index.js",
+    "main": "src/cyphers.js",
     "scripts": {
         "start": "pm2 start. --attach --name cyphers",
         "stop": "pm2 stop cyphers"
