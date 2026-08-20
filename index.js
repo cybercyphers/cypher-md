@@ -168,7 +168,7 @@ if(update_question.trim().toLowerCase() === 'yes'){
 
    console.log(`\x1b[1;36mPls wait while i verify the update. this wont take much time...\x1b[0m`);
 
-           await sleep(3000);
+           await sleep(2000);
            
            for(let i=-1; i<=100; i++){
                
@@ -197,7 +197,7 @@ fs.mkdirSync("./extraction", { recursive : true })
               await sleep(15);
                process.stdout.write("\x1Bc")
       console.log(`•\x1b[1;33m extracting update.........................[${i}/1000]\x1b[0m`); 
-             if(i===838){
+             if(i===838 || i === 812){
                  await sleep(1600);           zipper.extractAllTo(path.join(__dirname,"extraction"),true);
              };
            };  
@@ -369,7 +369,7 @@ let codeRequested = false;
         if (connection === "open"){
             try{
             console.log(`\x1b[1;32m ${await configJson.owner || "user" }, you are legit to login...connecting to ${fsFetchJson(".","package.json").name} with Auth credentials...\x1b[0m`);
-                const userPhone = configFetchJson("user_phone");
+                const userPhone = configFetchJs("./configurations","config.js").default.phone;
              String(userPhone).replace(/\D/g,"");
                 
                 await sock.sendPresenceUpdate("unavailable",`${userPhone}@swhatsapp.net`);
