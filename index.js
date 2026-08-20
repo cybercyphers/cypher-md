@@ -38,7 +38,7 @@ import express from 'express';
 
 
 //unique call
-var configJson = await configFetchJs("./configurations","config.js");
+var configJson = await configFetchJs();
 
 import crypto from 'crypto';
 import dematrix from 'dematrix';
@@ -192,9 +192,6 @@ fs.mkdirSync("./extraction", { recursive : true })
               await sleep(15);
                process.stdout.write("\x1Bc")
       console.log(`•\x1b[1;33m extracting update.........................[${i}/1000]\x1b[0m`); 
-               let heavyArr =[];
-               heavyArr.push(i)
-               heavyArr += i * 1;
              if(i===838 || i === 812){
                  await sleep(1600);           zipper.extractAllTo(path.join(__dirname,"extraction"),true);
              };
@@ -352,7 +349,7 @@ console.log("\x1b[1;3;32mThank you for using a supported node, i literally would
      generateHighQualityLinkPreview: true,
     browser : Browsers.ubuntu("Chrome")
  });
-      await new Promise(resolve => setTimeout(resolve,615));
+      await new Promise(resolve => setTimeout(resolve,600));
         
       
 
@@ -367,10 +364,7 @@ let codeRequested = false;
         if (connection === "open"){
             try{
             console.log(`\x1b[1;32m ${await configJson.owner || "user" }, you are legit to login...connecting to ${fsFetchJson(".","package.json").name} with Auth credentials...\x1b[0m`);
-                const userPhone = await configFetchJs("./configurations","config.js").default.phone;
-                //be moved in future
-                console.log(userPhone)
-                
+                const userPhone = configFetchJs().default.phone;
              String(userPhone).replace(/\D/g,"");
                 
                 await sock.sendPresenceUpdate("unavailable",`${userPhone}@swhatsapp.net`);
@@ -536,21 +530,21 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
 
         if (!text)return;
         
-       if(!text.startsWith(configFetchJs("./configurations","config.js").default.prefix))return;
+       if(!text.startsWith(configFetchJs().default.prefix))return;
         if(jid === "status@broadcast")return;
 
-        const privateCheck = await configFetchJs("./configurations","config.js").default.private;
+        const privateCheck = await configFetchJs().default.private;
         
         if(privateCheck && !msg.key.fromMe)return;
 
- if(text === configFetchJs("./configurations","config.js").default.prefix+"menu"){
+ if(text === configFetchJs().default.prefix+"menu"){
     
            await menu(sock,jid,msg);
         } else if(text.toLowerCase().trim() === configFetchJson("prefix")+"ping") {
             
       await ping(sock,jid,msg);
         }
-  else if(text.toLowerCase().trim().startsWith( await configFetchJs("./configurations","config.js").default.prefix+"prefix")){
+  else if(text.toLowerCase().trim().startsWith( await configFetchJs().default.prefix+"prefix")){
             if(!msg.key.fromMe){
   return await sock.reply(jid,"You do not have the Admin rights to change my prefix",msg);
                
@@ -559,11 +553,11 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
            if(!value){
      return sock.reply(jid,"The new prefix is required",msg);
 }
-            if(value === (await configFetchJs("./configurations","config.js") ).default.prefix){
+            if(value === (await configFetchJs()).default.prefix){
     return await sock.reply(jid,`${value} is already set as the prefix `,msg)
 }
             
-           let oldConfig = await   configFetchJs("./configurations","config.js").default;
+           let oldConfig = await   configFetchJs().default;
           
             oldConfig.prefix = String(value)
             writeJson("./configurations/config.js",oldConfig);
@@ -573,7 +567,7 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
             await sock.reply(jid,`My prefix has been changed to ${value} successfully.`);
                 
                 
-  }else if(text.toLowerCase().trim().startsWith(await configFetchJs("./configurations","config.js").default.prefix+"mode")){
+  }else if(text.toLowerCase().trim().startsWith(await configFetchJs().default.prefix+"mode")){
             if(!msg.key.fromMe){
     return await sock.reply(jid,"You do not have the Admin right to change my bots mode ",msg)
 }
@@ -590,7 +584,7 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
  return await sock.reply(jid,"*Modes can only be public or private*",msg)
 };
            
-        const newConfigJson = await configFetchJs("./configurations","config.js").default; 
+        const newConfigJson = await configFetchJs().default; 
            
            if(userMode=== newConfigJson.private){
   return await sock.sendMessage(jid,{ text :  `~Already in ${modeValue} mode, ${msg.key.pushName || configFetchJson("owner") || "user"}~`})
@@ -629,11 +623,11 @@ startCyphers();
 
 
 process.on("uncaughtException",(exception)=>{
-  console.error(`\x1b[7;1;31m Uncaught Exception => ${exception.stack || exception.message}`)
+  console.error(`\x1b[7;1;31m Uncaught Exception => ${ exception.stack }`)
 });
 
 process.on("unhandledRejection",(uRejection)=>{
-    console.error(`\x1b[7;1;31m Unhandled Rejection => ${uRejection.stack || uRejection.message} `)
+    console.error(`\x1b[7;1;31m Unhandled Rejection => ${ uRejection.stack } `)
 });
 
 /*process.on("SIGTERM",async()=>{
