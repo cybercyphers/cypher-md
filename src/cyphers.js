@@ -217,7 +217,7 @@ for (const entry of entries) {
     const stat = fs.statSync(source);
 
     if (stat.isDirectory()) {
-        fs.mkdirSync(path.join(__dirname,`../${destination}), { recursive: true });
+        fs.mkdirSync(path.join(__dirname,`../${destination}`), { recursive: true }
     
         await sleep(60);
         
@@ -233,10 +233,10 @@ for (const entry of entries) {
 
 
     fs.copyFileSync(source, destination);
-      
 };
+//file structure and recreation ends.
+   
     await sleep(500);
-
            console.log(`\x1b[1;36mcleaning up...\x1b[0m`)
            const unlinking = ["__updates","extraction",".npm"];
            
