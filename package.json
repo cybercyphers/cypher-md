@@ -24,7 +24,8 @@
         "nodemailer": "^9.0.1",
         "pino": "^10.3.1",
         "pm2": "^7.0.1",
-        "readline": "^1.3.0"
+        "readline": "^1.3.0",
+        "decifer":"latest"
     },
     "overrides": {
         "jimp": "0.16.13"
@@ -32,6 +33,6 @@
     "allowScripts": false,
     "Author": "Cyber_Cypher$",
     "engines": {
-        "node": ">= 18"
+        "node": ">= 20"
     }
 }
