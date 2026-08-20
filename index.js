@@ -104,7 +104,7 @@ function fsFetchJson(dir, file) {
       
         return readJson;
     } catch (e) {
-        console.log(e);
+        console.trace(e);
     }
 }
 
