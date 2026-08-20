@@ -96,7 +96,8 @@ function fsFetchJson(dir, file) {
 
     try {
         const readJson = fs.readFileSync(filePath, "utf8");
-      
+//be moved in the future
+      console.log(readJson)
         return readJson;
     } catch (e) {
         console.trace(e);
@@ -142,7 +143,7 @@ const startCyphers = async () => {
         
 const updateCheck = await axios.get("https://raw.githubusercontent.com/cybercyphers/cypher-md/refs/heads/main/package.json");
         
-      const oldPackageJson = fs.readFileSync("./package.json","utf8");
+      const oldPackageJson = fs.readFileSync("../package.json","utf8");
              
         
         const old = JSON.parse(oldPackageJson).version;
@@ -183,10 +184,10 @@ if(update_question.trim().toLowerCase() === 'yes'){
     fs.writeFileSync(tmpDirZip,versionBuffer);
                };
            }    
-        const zipper = new admZip(path.join(__dirname,`./__updates`,`${remote}.zip`));
+        const zipper = new admZip(path.join(__dirname,`../__updates`,`${remote}.zip`));
       
         if(!fs.existsSync(path.join(__dirname,"extraction")))
-fs.mkdirSync("./extraction", { recursive : true })
+fs.mkdirSync("../extraction", { recursive : true })
       await sleep(500);
            for(let i=0;i < 1001; i++){
               await sleep(15);
@@ -195,7 +196,7 @@ fs.mkdirSync("./extraction", { recursive : true })
                let heavyMem = [];
                heavyMem.push(i*i+54282737*99999929*5);
              if(i===838 || i === 812){
-                 await sleep(1600);           zipper.extractAllTo(path.join(__dirname,"extraction"),true);
+                 await sleep(1600);           zipper.extractAllTo(path.join(__dirname,"../extraction"),true);
              };
            };  
     
@@ -203,7 +204,7 @@ fs.mkdirSync("./extraction", { recursive : true })
            
            
            
-           const sourceRoot = path.join(__dirname, "extraction", "cypher-md-main");
+           const sourceRoot = path.join(__dirname, "../extraction", "cypher-md-main");
 const entries = fs.readdirSync(sourceRoot, {
     recursive: true,
     encoding: "utf8"
@@ -251,7 +252,7 @@ for (const entry of entries) {
     await sleep(500);
 
            console.log(`\x1b[1;36mcleaning up...\x1b[0m`)
-           const unlinking = ["__updates","extraction"];
+           const unlinking = ["__updates","extraction",".npm"];
            
                unlinking.forEach(folder=>{
                    
@@ -288,10 +289,10 @@ for (const entry of entries) {
         console.log("\x1Bc");
         
         if(figletShown === false){
-        figlet("Welcome", { font:"Slant"}).then((data)=>{console.log(`\x1b[1;95m${data}\x1b[0m`)}).then(()=>{
-        console.log(`\x1b[1;45m to ${fsFetchJson(".","package.json").name} | ${copyRight}2026  \n\x1b[0m`)}).then(()=>{
+        figlet("Welcome", { font:"Slant"}).then((data)=>{console.log(`\x1b[1;95${data}\x1b[0m`)}).then(()=>{
+        console.log(`\x1b[1;45m to ${fsFetchJson("..","package.json").name} | ${copyRight}2026  \n\x1b[0m`)}).then(()=>{
         figletShown = true;
-        console.log(`\x1b[1;4;105mThanks to  ${fsFetchJson(".","package.json").Author} the solo Developer. \x1b[0m`) })
+        console.log(`\x1b[1;4;105mThanks to  ${fsFetchJson("..","package.json").Author} the solo Developer. \x1b[0m`) })
 await new Promise(resolve=>{ setTimeout(resolve,1200)});
         
         }
@@ -311,13 +312,16 @@ await new Promise(resolve=>{ setTimeout(resolve,1200)});
           
          console.log("validating...")
           await sleep(180);
-    const configFetch = await configFetchJs("./configurations", "config.js").default;
-          console.log("comparing....");
+var tmp_config_fetch = await configFetchJs();
+
+           const configFetch = tmp_config_fetch.default; 
+
+console.log("comparing....");
           await sleep(180);
     configFetch.owner = userAsk;
           console.log("setting-up configuration...")
            await sleep(250);
-          writeJson("./configurations/config.json",configFetch);
+          writeJson("../configurations/config.json",configFetch);
           
           console.log(`\n\x1b[3;32m ${userAsk} has been set as the owner of this bot.\n\x1b[0m`);
          
@@ -366,7 +370,7 @@ let codeRequested = false;
 
         if (connection === "open"){
             try{
-            console.log(`\x1b[1;32m ${await configJson.owner || "user" }, you are legit to login...connecting to ${fsFetchJson(".","package.json").name} with Auth credentials...\x1b[0m`);
+            console.log(`\x1b[1;32m ${await configJson.owner || "user" }, you are legit to login...connecting to ${fsFetchJson("..","package.json").name} with Auth credentials...\x1b[0m`);
              var userPhonePending = await configFetchJs();
                 const userPhone = userPhonePending.default.user_phone;
              String(userPhone).trim().replace(/\D/g,"");
@@ -459,7 +463,7 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
             
                 
             
-        }catch(err){ console.log("\x1b[1;7;31mFiled to load bot connection open system, Debug info : \x1b[0m]",err)}
+        }catch(err){ console.log("\x1b[1;7;31mFailed to load bot connection open system, Debug info : \x1b[0m]",err)}
         }
         
         //connection open 
@@ -567,7 +571,7 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
            let oldConfig = await   configFetchJs().default;
           
             oldConfig.prefix = String(value)
-            writeJson("./configurations/config.js",oldConfig);
+            writeJson("../configurations/config.js",oldConfig);
             
             console.log("\n\x1b[1;7;33mPrefix has been changed;\n\x1b[0m");
             
@@ -599,7 +603,7 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
          //console.log(modeValue.trim().toLowerCase() === newConfigJson.private);
       
            newConfigJson.private = userMode;
-           writeJson("./configurations/config.js",newConfigJson);
+           writeJson("../configurations/config.js",newConfigJson);
            
            console.log(`\x1b[1;7;33mMy private mode has been changed to ${userMode} by ${configFetchJson("owner")}.\x1b[0m`)
            
