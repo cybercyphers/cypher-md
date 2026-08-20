@@ -32,7 +32,7 @@ import readline from 'readline';
 import path, { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
-import configFetchJson, { configFetchJs } from './libraries/configFetchJson.js';
+import configFetchJson, { configFetchJs } from '../libraries/configFetchJson.js';
 import axios from 'axios';
 import express from 'express';
 
@@ -45,8 +45,8 @@ import dematrix from 'dematrix';
 import admZip from "adm-zip";
 
 //plugins import
-import ping from "./plugins/ping.js";
-import menu from "./plugins/menu.js";
+import ping from "../plugins/ping.js";
+import menu from "../plugins/menu.js";
 
 
 //plugins import ends 
