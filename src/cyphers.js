@@ -6,10 +6,8 @@ process.stdout.write = function (string, encoding, fd) {
     }
     return originalWrite.apply(process.stdout, arguments);
 };
-
-
+import { spawnSync, spawn } from "child_process";
 const PORT = process.env.SERVER_PORT;
-
 process.stdout.write("\x1Bc");
 import  {
     makeWASocket,
@@ -22,12 +20,12 @@ import  {
 } from "baileys";
 import os from 'os';
 import Boom from "@hapi/boom";
-import { spawnSync, spawn } from "child_process";
 import fs from "fs";
 import pino from "pino";
 import figlet from "figlet";
 import nodemailer from "nodemailer";
 import chalk from "chalk";
+import dbase from "better-sqlite3";
 import readline from 'readline';
 import path, { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -265,30 +263,47 @@ for (const entry of entries) {
 
         }else if(update_question.trim().toLowerCase() === "no"){}else{
         throw new Error(`\x1b[31msorry,wrong input. The only accepted input is [ yes | no ]\x1b[31m`)
-        }
-
-           
+        }         
      //ends  
-       }
+           
+     }
     
-       await sleep(3000);
+       await sleep(3000);    
         
         //start the main bot after the update
-
-        console.log("\x1Bc");
+      console.log("\x1Bc");
         
         if(figletShown === false){
-            console.log("[\x1b[1;35m compiling typescript...\x1b[0m]")
+            
+           
+console.log("[\x1b[1;35m compiling typescript...\x1b[0m]")
+            
             //ts compilation begins
             if(!fs.existsSync(path.join(__dirname,"../tsconfig.json"))){
-       var tsConfigInit = spawnSync("npx",["tsc","--init"],{ shell:true, stdio:"inherit"});
+       var tsConfigInit =await spawnSync("npx",["tsc","--init"],{ shell:true, stdio:"inherit"});
          };
             //only start  compilation if previous init compilement return status code 0 or tsconfig.json file already exists;
             
            if(tsConfigInit?.status === 0 || fs.existsSync(path.join(__dirname,"../tsconfig.json"))){
-     spawnSync("npx",["tsc"],{ shell:true, stdio:"inherit" });
+    await spawnSync("npx",["tsc"],{ shell:true, stdio:"inherit" });
  };
+            
+console.log("[\x1b[1;35m successfully compiled TypeScript...\x1b[0m]\n");
             //ts-compilation ends
+
+            
+console.log("[\x1b[1;35m compiling Sqlite...\x1b[0m]")
+            
+            //sql compilation begins
+            var db = new dbase(path.join(__dirname,"../Databases","cypher_legal_user_info.db"));
+            
+            var sql_startup_scripts = fs.readFileSync(path.join(__dirname,"../SQL","ciph_schema.sql"),"utf8");
+     await db.exec(sql_startup_scripts);
+            
+   await sleep(1900);        
+            
+console.log("[\x1b[1;35m successfully compiled Sqlite...\x1b[0m]")
+         //sql compilation ends   
             
         figlet("Welcome", { font:"Slant"}).then((data)=>{console.log(`\x1b[1;95${data}\x1b[0m`)}).then(()=>{
         console.log(`\x1b[1;45m to ${fsFetchJson("..","package.json").name} | ${copyRight}2026  \n\x1b[0m`)}).then(()=>{
@@ -625,6 +640,7 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
     }catch(err){ 
         console.trace(err);    
 }
+};
 
     //main bot login begins
 startCyphers();
