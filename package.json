@@ -3,10 +3,12 @@
     "version": "0.0.3-beta.1",
     "description": "A multi tasking bot for developers and for the fem boys. since it was made by a fem boy",
     "main": "index.js",
+    
     "scripts": {
-       "start": "pm2 start src/cyphers.js --name cyphers --watch",
-        "stop": "pm2 stop cyphers" 
-    },
+   "start": "pm2 start src/cyphers.js --name cyphers --watch --ignore-watch=\"cyphers/ *installer.js\"",
+   "stop": "pm2 stop cyphers" 
+},
+
     "type": "module",
     "dependencies": {
         "@adiwajshing/keyed-db": "^0.2.4",
