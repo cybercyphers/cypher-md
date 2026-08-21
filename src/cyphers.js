@@ -244,7 +244,7 @@ for (const entry of entries) {
                         fs.rmSync(path.join(__dirname,`../${folder}`,{ 
                                 recursive: true,
                        force : true
-                   });
+                   }));
                     }catch(err){ 
                                  errEncountered+=1;
                                console.log(`\x1b[7;31m ${errEncountered} minimal error(s) occured while updating but did not affect the update...  \x1b[0m`)}
