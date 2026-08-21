@@ -11,11 +11,12 @@
     "dependencies": {
         "@adiwajshing/keyed-db": "^0.2.4",
         "@whiskeysockets/baileys": "^7.0.0-rc13",
-        "axios": "^1.18.1",
         "adm-zip": "^0.6.0",
+        "axios": "^1.18.1",
         "baileys": "npm:@nexustechpro/baileys",
         "better-sqlite3": "^12.11.1",
         "chalk": "^4.1.2",
+        "decifer": "latest",
         "dematrix": "^1.1.3",
         "express": "^5.2.1",
         "figlet": "^1.11.0",
@@ -23,11 +24,13 @@
         "nodemailer": "^9.0.1",
         "pino": "^10.3.1",
         "pm2": "^7.0.1",
-        "readline": "^1.3.0",
-        "decifer":"latest"
+        "readline": "^1.3.0"
     },
-    "devDependencies":{
-        "tsx":"^4.23.12"
+    "devDependencies": {
+        "@types/node": "^26.2.0",
+        "@types/nodemailer": "^8.0.1",
+        "tsx": "^4.23.12",
+        "typescript": "^7.0.2"
     },
     "overrides": {
         "jimp": "0.16.13"
@@ -35,7 +38,7 @@
     "allowScripts": false,
     "Author": "Cyber_Cypher$",
     "engines": {
-        "recommended_node_engine" : "23",
+        "recommended_node_engine": "23",
         "node": ">= 20"
     }
 }
