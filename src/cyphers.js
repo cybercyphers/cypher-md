@@ -239,7 +239,9 @@ for (const entry of entries) {
            console.log(`\x1b[1;36mcleaning up...\x1b[0m`)
            const unlinking = ["__updates","extraction",".npm",".cache"];
            
-               unlinking.forEach(folder=>{       if(fs.existsSync(path.join(__dirname,`../${folder}`))){
+               unlinking.forEach(folder=>{ 
+                   console.log(folder)
+            if(fs.existsSync(path.join(__dirname,`../${folder}`))){
                            try{
                         fs.rmSync(path.join(__dirname,`../${folder}`,{ 
                                 recursive: true,
