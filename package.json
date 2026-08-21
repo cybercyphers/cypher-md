@@ -19,7 +19,6 @@
         "dematrix": "^1.1.3",
         "express": "^5.2.1",
         "figlet": "^1.11.0",
-        "fluent-ffmpeg": "^2.1.3",
         "jimp": "0.16.13",
         "nodemailer": "^9.0.1",
         "pino": "^10.3.1",
