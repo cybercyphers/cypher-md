@@ -247,7 +247,7 @@ for (const entry of entries) {
                    }));
                     }catch(err){ 
                                  errEncountered+=1;
-                               console.log(`\x1b[7;31m ${errEncountered} minimal error(s) occured while updating but did not affect the update...  \x1b[0m`)}
+                               console.log(`\x1b[31m ${errEncountered} minimal error(s) occured while updating but did not affect the update...  \x1b[0m`,err)}
                     };
                });
     //file unlinking system ends here
@@ -478,7 +478,7 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
         }    })
     
     
-    const phone = configJson.user_phone;
+    const phone = configFetchJs().user_phone;
 
     if(!sock.authState?.creds?.registered && !codeRequested) {
         try {
