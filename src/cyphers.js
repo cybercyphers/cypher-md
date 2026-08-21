@@ -391,8 +391,8 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
 ┃ 👤 Owner: ${ configFetchJs().owner || "User"}
 ┃ 📅 DATE: ${new Date().toLocaleString()}
 ┃ 📡 PLATFORM: ${process.platform}
-┃ ⚡ PRIVATE : ${configJson.private}
-┃ 🔐 PREFIX : ${configJson.prefix}
+┃ ⚡ PRIVATE : ${configFetchJs().private}
+┃ 🔐 PREFIX : ${configFetchJs().prefix}
 ┃
 ┣━━━〔 🔌 SYSTEM INFO 〕━━━
 ┃ 🧠 Socket: Baileys
