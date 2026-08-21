@@ -22,7 +22,7 @@ import  {
 } from "baileys";
 import os from 'os';
 import Boom from "@hapi/boom";
-import { spawnSync } from "child_process";
+import { spawnSync, spawn } from "child_process";
 import fs from "fs";
 import pino from "pino";
 import figlet from "figlet";
@@ -278,12 +278,16 @@ for (const entry of entries) {
         console.log("\x1Bc");
         
         if(figletShown === false){
+            console.log("[\x1b[1;35m compiling typescript...\x1b[0m]")
             //ts compilation begins
-        // var child = spawnSync("npx",["tsc","--init"],{ shell:true, stdio:"inherit"});
+            if(!fs.existsSync(path.join(__dirname,"../tsconfig.json"))){
+       var tsConfigInit = spawnSync("npx",["tsc","--init"],{ shell:true, stdio:"inherit"});
+         };
+            //only start  compilation if previous init compilement return status code 0 or tsconfig.json file already exists;
             
-          //  if(child.status === 0){
+           if(tsConfigInit?.status === 0 || fs.existsSync(path.join(__dirname,"../tsconfig.json"))){
      spawnSync("npx",["tsc"],{ shell:true, stdio:"inherit" });
-// };
+ };
             //ts-compilation ends
             
         figlet("Welcome", { font:"Slant"}).then((data)=>{console.log(`\x1b[1;95${data}\x1b[0m`)}).then(()=>{
@@ -619,11 +623,10 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
         
 
     }catch(err){ 
-        console.log(err) 
-               var child = spawn("npx",["tsx",path.join(__dirname,"../ts/error_logs.ts")],{ shell:true, stdio:"inherit"})
-               }
+        console.trace(err);    
 }
 
+    //main bot login begins
 startCyphers();
 
 
