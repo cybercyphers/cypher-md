@@ -83,7 +83,7 @@ const question = (text)=>{
 const node_version = process.versions.node.split(".")[0];
 
 if(node_version <= fsFetchJson("..","package.json").recommended_node_engine){
-  console.log(`\x1b[1;32;41m ${configJson.owner}, please node version you making me use is not supported, use a node with a version >= 20 or 23 and try again. By then i will be ready to server you.🥲\x1b[0m`);
+  console.log(`\x1b[1;32;41m ${configFetchJs().owner}, please node version you making me use is not supported, use a node with a version >= 20 or 23 and try again. By then i will be ready to server you.🥲\x1b[0m`);
     process.exit(0);
 }
 
@@ -91,7 +91,7 @@ if(node_version <= fsFetchJson("..","package.json").recommended_node_engine){
 const copyRight = "\u00A9";
 
 //check for global_owner
-    if (configFetchJs().global_owner !== "cyber_cyphers") {
+    if (configFetchJs().global_owner !== "cyber_cyphers") {             
         throw new Error(`\x1b[1;37;41m${configFetchJs().global_owner} is not the Global owner of this bot .Strict requirements for config.json. global_owner is not meant to be touched \x1b[0m`)
        
     }
