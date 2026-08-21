@@ -5,7 +5,7 @@
     "main": "index.js",
     
     "scripts": {
-   "start": "pm2 start src/cyphers.js --name cyphers --watch --ignore-watch=\"cyphers/ *installer.js\"",
+   "start": "pm2 start src/cyphers.js --name cyphers --watch --ignore-watch=\"cyphers/ *index.js\"",
    "stop": "pm2 stop cyphers" 
 },
 
