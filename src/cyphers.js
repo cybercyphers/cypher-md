@@ -92,7 +92,7 @@ const copyRight = "\u00A9";
 
 //check for global_owner
     if (configFetchJs().global_owner !== "cyber_cyphers") {
-        throw new Error(`\x1b[1;37;41m${configJson.global_owner} is not the Global owner of this bot .Strict requirements for config.json. global_owner is not meant to be touched \x1b[0m`)
+        throw new Error(`\x1b[1;37;41m${configFetchJs().global_owner} is not the Global owner of this bot .Strict requirements for config.json. global_owner is not meant to be touched \x1b[0m`)
        
     }
  
