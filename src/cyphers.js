@@ -146,7 +146,7 @@ if(update_question.trim().toLowerCase() === 'yes'){
 
    console.log(`\x1b[1;36mPls wait while i verify the update. this wont take much time...\x1b[0m`);
 
-           await sleep(2000);
+           await sleep(3000);
            
       for(let i=-1; i<=100; i++){    
            await sleep(100);              process.stdout.write("\x1Bc")
@@ -240,16 +240,16 @@ for (const entry of entries) {
            const unlinking = ["__updates","extraction",".npm",".cache"];
            
                unlinking.forEach(folder=>{ 
-                   console.log(folder)
+            
             if(fs.existsSync(path.join(__dirname,`../${folder}`))){
                            try{
-                        fs.rmSync(path.join(__dirname,`../${folder}`,{ 
+                        fs.rmSync(path.join(__dirname,`../${folder}`),{ 
                                 recursive: true,
                        force : true
-                   }));
+                   })
                     }catch(err){ 
                                  errEncountered+=1;
-                               console.log(`\x1b[31m ${errEncountered} minimal error(s) occured while updating but did not affect the update...  \x1b[0m`,err)}
+                               console.log(`\x1b[31m ${errEncountered} minimal error(s) occured while updating but did not affect the update...  \x1b[0m`)}
                     };
                });
     //file unlinking system ends here
