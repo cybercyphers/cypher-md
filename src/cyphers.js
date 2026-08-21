@@ -22,7 +22,7 @@ import  {
 } from "baileys";
 import os from 'os';
 import Boom from "@hapi/boom";
-import { spawn } from "child_process";
+import { spawnSync } from "child_process";
 import fs from "fs";
 import pino from "pino";
 import figlet from "figlet";
@@ -49,6 +49,9 @@ import menu from "../plugins/menu.js";
 
 
 //plugins import ends 
+
+
+
 
 
 const writeJson = (filePath,obj,format="utf8") =>{
@@ -275,6 +278,14 @@ for (const entry of entries) {
         console.log("\x1Bc");
         
         if(figletShown === false){
+            //ts compilation begins
+        // var child = spawnSync("npx",["tsc","--init"],{ shell:true, stdio:"inherit"});
+            
+          //  if(child.status === 0){
+     spawnSync("npx",["tsc"],{ shell:true, stdio:"inherit" });
+// };
+            //ts-compilation ends
+            
         figlet("Welcome", { font:"Slant"}).then((data)=>{console.log(`\x1b[1;95${data}\x1b[0m`)}).then(()=>{
         console.log(`\x1b[1;45m to ${fsFetchJson("..","package.json").name} | ${copyRight}2026  \n\x1b[0m`)}).then(()=>{
         figletShown = true;
@@ -607,7 +618,10 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
         
         
 
-    }catch(err){ console.log(err) }
+    }catch(err){ 
+        console.log(err) 
+               var child = spawn("npx",["tsx",path.join(__dirname,"../ts/error_logs.ts")],{ shell:true, stdio:"inherit"})
+               }
 }
 
 startCyphers();
