@@ -239,9 +239,7 @@ for (const entry of entries) {
            console.log(`\x1b[1;36mcleaning up...\x1b[0m`)
            const unlinking = ["__updates","extraction",".npm",".cache"];
            
-               unlinking.forEach(folder=>{
-                   
-                    if(fs.existsSync(path.join(__dirname,`../${folder}`)){
+               unlinking.forEach(folder=>{       if(fs.existsSync(path.join(__dirname,`../${folder}`))){
                            try{
                         fs.rmSync(path.join(__dirname,`../${folder}`,{ 
                                 recursive: true,
@@ -252,6 +250,7 @@ for (const entry of entries) {
                                console.log(`\x1b[7;31m ${errEncountered} minimal error(s) occured while updating but did not affect the update...  \x1b[0m`)}
                     };
                });
+    //file unlinking system ends here
            
            await sleep(2000)
            console.log(`\n\x1b[1;36mEnjoy the new features with fixed bugs system with advanced system\x1b[0m`);
