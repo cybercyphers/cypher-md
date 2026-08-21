@@ -140,7 +140,7 @@ const updateCheck = await axios.get("https://raw.githubusercontent.com/cybercyph
 
 if(update_question.trim().toLowerCase() === 'yes'){
            
-           let errEncountered;
+           let errEncountered=0;
            
       console.log(`\x1b[1;36m updating from version \x1b[0m \x1b[32m${old} => ${remote}\x1b[0m. \x1b[1;36mstarting update process...\x1b[0m\n`);
 
@@ -237,13 +237,13 @@ for (const entry of entries) {
    
     await sleep(500);
            console.log(`\x1b[1;36mcleaning up...\x1b[0m`)
-           const unlinking = ["../__updates","../extraction","../.npm"];
+           const unlinking = ["__updates","extraction",".npm",".cache"];
            
                unlinking.forEach(folder=>{
                    
-                    if(fs.existsSync(folder)){
+                    if(fs.existsSync(path.join(__dirname,`../${folder}`)){
                            try{
-                        fs.rmSync(folder,{ 
+                        fs.rmSync(path.join(__dirname,`../${folder}`,{ 
                                 recursive: true,
                        force : true
                    });
