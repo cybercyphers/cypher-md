@@ -238,7 +238,7 @@ for (const entry of entries) {
    
     await sleep(500);
            console.log(`\x1b[1;36mcleaning up...\x1b[0m`)
-           const unlinking = ["__updates","extraction",".npm",".cache"];
+           const unlinking = ["__updates","extraction"];
            
                unlinking.forEach(folder=>{ 
             
