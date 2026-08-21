@@ -5,8 +5,7 @@
     "main": "src/cyphers.js",
     "scripts": {
         "start": "pm2 start. --attach --name cyphers",
-        "stop": "pm2 stop cyphers",
-        "install" : "npm install --loglevel=silent"
+        "stop": "pm2 stop cyphers"
     },
     "type": "module",
     "dependencies": {
