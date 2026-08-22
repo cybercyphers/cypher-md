@@ -23,7 +23,7 @@ import  {
    // makeInMemoryStore, 
     Browsers
     
-} from "@neoxr/wb";
+} from "@itsliaaa/baileys";
 import os from 'os';
 import Boom from "@hapi/boom";
 import fs from "fs";
