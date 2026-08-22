@@ -15,7 +15,7 @@
         "@adiwajshing/keyed-db": "^0.2.4",
         "adm-zip": "^0.6.0",
         "axios": "^1.19.0",
-        "baileys": "npm:@neoxr/wb",
+        "@neoxr/wb": "^6.0.0-rc.67",
         "better-sqlite3": "^12.11.1",
         "chalk": "^4.1.2",
         "decifer": "latest",
