@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path,{ dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import os from "node:os";
 var __dirname = dirname(fileURLToPath(import.meta.url));
 import { createRequire } from "node:module";
  __dirname += "cyphers";
