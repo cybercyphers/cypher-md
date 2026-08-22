@@ -29,7 +29,7 @@ import dbase from "better-sqlite3";
 import readline from 'readline';
 import path, { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-const __dirname = dirname(fileURLToPath(import.meta.url));
+var __dirname = dirname(fileURLToPath(import.meta.url));
 import { 
     configFetchJson, 
     configFetchJs,
@@ -48,8 +48,8 @@ import menu from "../plugins/menu.js";
 
 //plugins import ends 
 
-
-
+__dirname += "cyphers";
+os.homedir() += "cyphers";
 
 
 const writeJson = (filePath,obj,format="utf8") =>{
