@@ -34,7 +34,8 @@
         "typescript": "^7.0.2"
     },
     "overrides": {
-        "jimp": "0.16.13"
+        "jimp": "0.16.13",
+        "better-sqlite3":"$better-sqlite3"
     },
     "allowScripts": false,
     "Author": "Cyber_Cypher$",
