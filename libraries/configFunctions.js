@@ -5,7 +5,6 @@ import os from "node:os";
 var __dirname = dirname(fileURLToPath(import.meta.url));
 import { createRequire } from "node:module";
  __dirname += "cyphers";
-os.homedir() += "cyphers";
 
  function fsFetchJson(dir, file) {
     const filePath = path.join(__dirname, dir, file);
