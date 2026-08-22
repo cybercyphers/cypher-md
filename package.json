@@ -4,7 +4,7 @@
     "description": "A multi tasking bot for developers and for the fem boys. since it was made by a fem boy",
     "main": "index.js",
     "scripts":{
-    "start": "pm2-runtime start /home/container/cyphers/src/cyphers.js --name cyphers --watch",
+    "start": "pm2-runtime start /home/container/cyphers/src/cyphers.js --name cyphers";
    "stop": "pm2 stop cyphers" 
 },
 
