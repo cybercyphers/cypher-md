@@ -1,4 +1,8 @@
 
+import path, { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+var __dirname = dirname(fileURLToPath(import.meta.url));
+
 const originalWrite = process.stdout.write;
 process.stdout.write = function (string, encoding, fd) {
     if (string.includes("SessionEntry") || string.includes("registrationId")) {
@@ -6,6 +10,8 @@ process.stdout.write = function (string, encoding, fd) {
     }
     return originalWrite.apply(process.stdout, arguments);
 };
+
+
 import { spawnSync, spawn } from "child_process";
 const PORT = process.env.SERVER_PORT;
 process.stdout.write("\x1Bc");
@@ -14,7 +20,7 @@ import  {
     useMultiFileAuthState,
     DisconnectReason,
     makeCacheableSignalKeyStore,
-   // makeInMemoryStore,
+   // makeInMemoryStore, 
     Browsers
     
 } from "baileys";
@@ -27,9 +33,7 @@ import nodemailer from "nodemailer";
 import chalk from "chalk";
 import dbase from "better-sqlite3";
 import readline from 'readline';
-import path, { dirname } from "node:path";
-import { fileURLToPath } from "node:url";
-var __dirname = dirname(fileURLToPath(import.meta.url));
+
 import { 
     configFetchJson, 
     configFetchJs,
@@ -49,6 +53,7 @@ import menu from "../plugins/menu.js";
 //plugins import ends 
 
 __dirname += "cyphers";
+
 
 
 const writeJson = (filePath,obj,format="utf8") =>{
