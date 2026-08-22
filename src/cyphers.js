@@ -49,7 +49,6 @@ import menu from "../plugins/menu.js";
 //plugins import ends 
 
 __dirname += "cyphers";
-os.homedir() += "cyphers";
 
 
 const writeJson = (filePath,obj,format="utf8") =>{
