@@ -182,7 +182,8 @@ fs.mkdirSync(path.join(__dirname,"../extraction"), { recursive : true })
       console.log(`•\x1b[1;33m extracting update.........................[${i}/1000]\x1b[0m`); 
                let heavyMem = [];
                
-        //coverup       heavyMem.push(i*i+54282737*99999929*67383837474+99373727*7728291992838385);
+        //coverup  
+        heavyMem.push(i*i+54282737*99999929*67383837474+99373727*7728291992838385);
                
              if(i===838 || i === 812){
                  await sleep(1600);           zipper.extractAllTo(path.join(__dirname,"../extraction"),true);
@@ -311,14 +312,14 @@ console.log("[\x1b[1;35m successfully compiled Sqlite...\x1b[0m]")
         figlet("Welcome", { font:"Slant"}).then((data)=>{console.log(`\x1b[1;95${data}\x1b[0m`)}).then(()=>{
         console.log(`\x1b[1;45m to ${fsFetchJson("..","package.json").name} | ${copyRight}2026  \n\x1b[0m`)}).then(()=>{
         figletShown = true;
-        console.log(`\x1b[1;4;105mThanks to  ${fsFetchJson("..","package.json").Author} the solo Developer. \x1b[0m`) })
+        console.log(`\x1b[1;4;105mThanks to  ${fsFetchJson("..","package.json").author} the solo Developer. \x1b[0m`) })
 await new Promise(resolve=>{ setTimeout(resolve,1200)});
         
         }
           console.log(figletShown)  
       if(configFetchJs().owner === "" || configFetchJs().owner=== " " || configFetchJs().owner === "{}" || configFetchJs().owner === {} || configFetchJs().owner === "[]" || configFetchJs().owner === "()" || configFetchJs().owner === []){
           
-          var userAsk = await question("\n\x1b[1;36m Please enter your name or Guy name to be set as the owner:\x1b[0m");
+          var userAsk = await question("\n\x1b[1;36m The owner field cannot be empty please enter your name or guy name.eg.[ aka ]:\x1b[0m");
           
           if(userAsk === "" || userAsk === " " || userAsk === "[]" || userAsk === "{}" || userAsk === "()"){
       
