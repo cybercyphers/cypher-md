@@ -12,5 +12,7 @@ export default {
           private: false, //true or false for the mode or response and request from you or other public users....
             __comment6: "Toggle false to allow the bot to be accessible by every one.",
           automatic_updates : true, //true  or false...      recommended : true
-          __comment6: "this will allow me to automatically apply new updates from cyber_cyphers for better functionality and improved or fixed bug in my code" 
+          __comment6: "this will allow me to automatically apply new updates from cyber_cyphers for better functionality and improved or fixed bug in my code" ,
+          "already_configured": false, // this part is also no meant to be touched
+          "__comment7" : "This option enables the startup script { index.js } to configure its tokens, it automatically toggle as set times" 
 }
