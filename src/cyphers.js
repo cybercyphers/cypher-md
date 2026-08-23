@@ -339,7 +339,7 @@ console.log("comparing....");
     configFetch.owner = userAsk;
           console.log("setting-up configuration...")
            await sleep(250);
-          writeJson("../configurations/config.json",configFetch);
+          writeJson("../configurations/config.js",configFetch);
           
           console.log(`\n\x1b[3;32m ${userAsk} has been set as the owner of this bot.\n\x1b[0m`);
          
