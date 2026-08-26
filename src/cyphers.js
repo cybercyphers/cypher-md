@@ -2,7 +2,7 @@
 import path, { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 var __dirname = dirname(fileURLToPath(import.meta.url));
-
+import nodeCache from "node-cache";
 const originalWrite = process.stdout.write;
 process.stdout.write = function (string, encoding, fd) {
     if (string.includes("SessionEntry") || string.includes("registrationId")) {
@@ -53,6 +53,14 @@ import menu from "../plugins/menu.js";
 
 __dirname += "cyphers";
 
+
+
+var _cache = new nodeCache({
+    stdTTL: 5 * 60,     // Keeps keys in memory for 5 minutes (Baileys standard)
+    useClones: false   
+});
+
+var msgRetryCounterCache = new nodeCache();
 
 
 const writeJson = (filePath,obj,format="utf8") =>{
