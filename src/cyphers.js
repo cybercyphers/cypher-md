@@ -356,25 +356,32 @@ console.log("\x1b[1;3;32mThank you for using a supported node, i literally would
     const { state, saveCreds } = await useMultiFileAuthState("./session");
 
     console.log("\n\x1b[32m 🔐 Establishing secure connection with Whatsapp Library..\x1b[0m");
-        let logger = pino({ level : "silent"});
+        let logger = pino({ level : "fatal"});
         
 
-        const sock = makeWASocket({
-      auth: {
-       creds : state.creds,
-      keys : makeCacheableSignalKeyStore(state.keys,logger)},
-     syncFullHistory :false,
-     //version : [2, 3000, 1027934701],
-     logger: logger,
-     shouldSyncHistoryMessage : () => false,
-     emitOwnEvents : false,
-     markOnlineOnConnect :false,
-    options :{
-         timeout : 6000
-   },
-     generateHighQualityLinkPreview: true,
-    browser : Browsers.ubuntu("Chrome")
- });
+const sock = await makeWASocket({
+            auth : { 
+                 creds : state.creds,
+                 keys : makeCacheableSignalKeyStore(state.keys,logger,_cache)
+        },
+            logger:logger,
+            emitOwnEvents:false,
+            markOnlineOnConnect : false,
+            syncFullHistory:false,
+            shouldSyncHistoryMessage : () => false,
+            ignoreOfflineMessages : false,
+            enableRecentMessageCache: true,
+            msgRetryCounterCache,
+            enableAutoSessionRecreation: true,
+            generateHighQualityLinkPreview:true,
+            browser : Browsers.ubuntu("Chrome")
+            
+});
+
+
+
+
+        
       await new Promise(resolve => setTimeout(resolve,600));
         
       
