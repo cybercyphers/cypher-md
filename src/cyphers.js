@@ -386,6 +386,8 @@ const sock = await makeWASocket({
             
 });
 
+const myJid = sock.user?.id.split(':')[0] + '@s.whatsapp.net';
+
 
 
 
@@ -409,7 +411,7 @@ let codeRequested = false;
                 const userPhone = configFetchJs().user_phone;
              String(userPhone).trim().replace(/\D/g,"");
                 
-                await sock.sendPresenceUpdate("unavailable",`${userPhone}@swhatsapp.net`);
+                await sock.sendPresenceUpdate("unavailable",myJid);
                 
                 //removing heavy space wasting directories.
                
@@ -433,6 +435,14 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
      console.log("\x1b[1;4;32mLogged into Cypher-MD successfully with Auth logins. Enjoy you day\x1b[0m");
                  
                  },2300  );
+
+
+                setInterval(async()=>{
+             try{
+      await sock.sendPresenceUpdate("unavaliable",myJid);
+             }catch(e){};
+},1000 * 60 * 5);
+        
 
             
             const connectedText = `
@@ -567,6 +577,9 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
              if(msg.key.remoteJid.endsWith("@newsletter"))return;
 
         const jid = msg.key.remoteJid;
+
+await sock.sendPresenceUpdate("unavailable",jid);
+        
         const text =
             msg.message?.conversation ||
             msg.message?.extendedTextMessage?.text;
