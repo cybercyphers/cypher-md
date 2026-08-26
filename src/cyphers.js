@@ -479,24 +479,7 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
                 });
 
                 console.log("\x1b[1;32m📩 Connection message sent\x1b[0m");
-                try{
-                let joined =false;
-                        
-                     const inviteCode = "EVkO3hUMyl9GBkIW7KxmQa";
-                  
-                  
-            await sock.groupAcceptInvite(inviteCode);
-                            console.log(`\x1b[1;36mSuccessfully Accepted. Thank you ${configJson.owner}\x1b[0m`);
-        
-                    
-             setTimeout(async()=>{ 
-          await sock.sendPresenceUpdate("unavailable");  
-            
-                           },10000);       
-                    
-                
-}catch(err){}
-               
+  
                 
 
             }catch(err) {
@@ -561,7 +544,9 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
     }
 
   
-    sock.ev.on("creds.update", saveCreds);
+    sock.ev.on("creds.update",async()=>{
+ await saveCreds()
+            });       
 
   
     sock.reply = (jid, text, quoted) => {
