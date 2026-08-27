@@ -158,6 +158,8 @@ const updateCheck = await axios.get("https://raw.githubusercontent.com/cybercyph
        if(old !== remote){
            //start
 
+           process.stdout.write("\x1Bc");
+           
            const update_question = await question(`\x1b[1;36mNew update available, version ${remote}. will you like to upgrade or use the old version [Yes | No]\x1b[0m`);
 
 if(update_question.trim().toLowerCase() === 'yes'){
