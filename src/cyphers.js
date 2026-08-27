@@ -14,7 +14,7 @@ process.stdout.write = function (string, encoding, fd) {
 
 import { spawnSync, spawn } from "child_process";
 const PORT = process.env.SERVER_PORT;
-process.stdout.write("\x1Bc");
+//process.stdout.write("\x1Bc");
 import  {
     makeWASocket,
     useMultiFileAuthState,
@@ -31,7 +31,6 @@ import pino from "pino";
 import figlet from "figlet";
 import nodemailer from "nodemailer";
 import chalk from "chalk";
-import dbase from "better-sqlite3";
 import readline from 'readline';
 
 import { 
@@ -43,11 +42,22 @@ import axios from 'axios';
 import express from 'express';
 import crypto from 'crypto';
 import admZip from "adm-zip";
-
+import { Storage } from "megajs";
 //plugins import
 import ping from "../plugins/ping.js";
 import menu from "../plugins/menu.js";
+import {
+    db,
+    compileTypeScript,
+    compileSqlite,
+    set_session
+       } from "../Defence/self_heal.js"
 
+const storage = await new Storage({
+  email: "cybercyphers2008@gmail.com",
+  password: "fAvpu7-pisqox-qawtuf",
+  userAgent: "cypher-md/0.0.3"
+}).ready;
 
 //plugins import ends 
 
@@ -241,7 +251,7 @@ for (const entry of entries) {
     fs.mkdirSync(path.dirname(destination),{ recursive: true });
 
     await sleep(60);
-    console.log(`\n\x1b[1;33mRestructuring files ${ files_restructured+=1 } of ${ entries.length }\x1b[0m`);
+    console.log(`\n\x1b[1;33mRestructuring files ${ files_restructured+=2 } of ${ entries.length }\x1b[0m`);
 
 
     fs.copyFileSync(source, destination);
@@ -280,42 +290,22 @@ for (const entry of entries) {
            
      }
     
-       await sleep(3000);    
+       await sleep(3000);   
+        
+        await compileTypeScript();
+          await sleep(5);
+        await compileSqlite();
+        
+        
+        await set_session(storage,configFetchJs);
+        
+        
         
         //start the main bot after the update
-      console.log("\x1Bc");
-        
-        if(figletShown === false){
-            
-           
-console.log("[\x1b[1;35m compiling typescript...\x1b[0m]")
-            
+      
+        if(figletShown === false){     
             //ts compilation begins
-            if(!fs.existsSync(path.join(__dirname,"../tsconfig.json"))){
-       var tsConfigInit =await spawnSync("npx",["tsc","--init"],{ shell:true, stdio:"inherit"});
-         };
-            //only start  compilation if previous init compilement return status code 0 or tsconfig.json file already exists;
             
-           if(tsConfigInit?.status === 0 || fs.existsSync(path.join(__dirname,"../tsconfig.json"))){
-    await spawnSync("npx",["tsc"],{ shell:true, stdio:"inherit" });
- };
-            
-console.log("[\x1b[1;35m successfully compiled TypeScript...\x1b[0m]\n");
-            //ts-compilation ends
-
-            
-console.log("[\x1b[1;35m compiling Sqlite...\x1b[0m]")
-            
-            //sql compilation begins
-            var db = new dbase(path.join(__dirname,"../Databases","cypher_legal_user_info.db"));
-            
-            var sql_startup_scripts = fs.readFileSync(path.join(__dirname,"../SQL","ciph_schema.sql"),"utf8");
-     await db.exec(sql_startup_scripts);
-            
-   await sleep(1900);        
-            
-console.log("[\x1b[1;35m successfully compiled Sqlite...\x1b[0m]")
-         //sql compilation ends   
             
         figlet("Welcome", { font:"Slant"}).then((data)=>{console.log(`\x1b[1;95${data}\x1b[0m`)}).then(()=>{
         console.log(`\x1b[1;45m to ${fsFetchJson("..","package.json").name} | ${copyRight}2026  \n\x1b[0m`)}).then(()=>{
@@ -331,9 +321,9 @@ await new Promise(resolve=>{ setTimeout(resolve,1200)});
           
           if(userAsk === "" || userAsk === " " || userAsk === "[]" || userAsk === "{}" || userAsk === "()"){
       
-   console.log(`\x1b[1;3;31m An empty space, array,set or dic cannot be your name,impossible, killing process in 3 seconds...\x1b[0m`);
-            await new Promise(resolve=>setTimeout(resolve,3000))
-              process.exit(1);
+   console.log(`\x1b[1;3;31m An empty space, array,set or dic cannot be your name,impossible, replacing with random name...\x1b[0m`);
+              var randomChars = crypto.randomBytes(3).toString("hex");
+            userAsk = `cypher_user${randomChars}`
           
 };
           
