@@ -58,12 +58,15 @@ async function set_session(storage,configFetchJs){
 }
  else{
      
-  //   var cloudCredsSizeCheck = cloudCreds.size === undefined ? false : cloudCreds.size;
-   //  if(cloudCredsSizeCheck < 2200 || false){
+  var cloudCredsSizeCheck = cloudCreds.size === undefined ? false : cloudCreds.size;
+    if(cloudCredsSizeCheck < 2200 || false){
      var credsCloudFile = await cloudCreds.downloadBuffer();
      
     fs.promises.writeFile(credsPath,credsCloudFile);
-     //}
+ console.log("\x1b[Session id is valid... \x1b[0m");
+    
+    };
+       
   
 }
 
