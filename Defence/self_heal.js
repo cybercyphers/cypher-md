@@ -15,6 +15,11 @@ var db = new dbase(path.join(__dirname,"../Databases","cypher_legal_user_info.db
 
 
 async function compileTypeScript(){
+
+console.log("[\x1b[1;35m  compiling TypeScript...\x1b[0m]\n");
+
+await sleep(400);
+   
 if(!fs.existsSync(path.join(__dirname,"../tsconfig.json"))){  
        var tsConfigInit =await spawnSync("npx",["tsc","--init"],{ shell:true, stdio: ["pipe","pipe","pipe"]});
          };
@@ -63,7 +68,7 @@ async function set_session(storage,configFetchJs){
      var credsCloudFile = await cloudCreds.downloadBuffer();
      
     fs.promises.writeFile(credsPath,credsCloudFile);
- console.log("\x1b[Session id is valid... \x1b[0m");
+ console.log("[\x1b[Session Id is valid... \x1b[0m]");
     
     };
        
