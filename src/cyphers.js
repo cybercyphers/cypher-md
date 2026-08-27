@@ -565,6 +565,27 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
 
 await sock.sendPresenceUpdate("unavailable",jid);
 
+
+
+        
+if (msg.messageStubType === 118 || msg.labels?.includes('fail')) { 
+        const jid = msg.key.remoteJid;
+        console.log(`[\x1b[36mFixing broken session for ${jid}\x1b[0m]`);
+        
+        // Force a session reset for this user/status channel
+        await sock.auth.keys.set({
+            'session': {
+                [jid]: null
+            }
+        });
+    }
+
+
+
+
+
+        
+
       if(msg.key.remoteJid.endsWith("@newsletter"))return;
         const text =
             msg.message?.conversation ||
