@@ -290,10 +290,11 @@ for (const entry of entries) {
            
      }
     
-       await sleep(3000);   
+       await sleep(800);   
         
         await compileTypeScript();
           await sleep(5);
+        console.log("\x1b[1;32mplease wait...\x1b[0m")
         await compileSqlite();
         
         
