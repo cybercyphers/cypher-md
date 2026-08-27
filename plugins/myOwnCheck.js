@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
  var __dirname = dirname(fileURLToPath(import.meta.url));
 
  
-  async function repo(sock, jid, msg) {
+  export default async function repo(sock, jid, msg) {
     await sock.sendMessage(jid, { react: { text: '🔗', key: msg.key } });
     const statusMsg = await sock.sendMessage(jid, { text: '📡 Fetching repository info...' });
 
@@ -83,4 +83,4 @@ import { fileURLToPath } from 'node:url';
 
 
 
-export default repo;
+
