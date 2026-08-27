@@ -382,7 +382,7 @@ const sock = await makeWASocket({
             msgRetryCounterCache,
             enableAutoSessionRecreation: true,
             generateHighQualityLinkPreview:true,
-            browser : Browsers.ubuntu("Chrome")
+            browser: ["Mac OS", "Chrome", "125.0.0.0"] 
             
 });
 
@@ -392,7 +392,7 @@ const myJid = sock.user?.id.split(':')[0] + '@s.whatsapp.net';
 
 
         
-      await new Promise(resolve => setTimeout(resolve,600));
+      await new Promise(resolve => setTimeout(resolve,612));
         
       
 
@@ -559,12 +559,13 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
         
         const msg = messages[0];
         if (!msg?.message)return;
-             if(msg.key.remoteJid.endsWith("@newsletter"))return;
+             
 
         const jid = msg.key.remoteJid;
 
 await sock.sendPresenceUpdate("unavailable",jid);
-        
+
+      if(msg.key.remoteJid.endsWith("@newsletter"))return;
         const text =
             msg.message?.conversation ||
             msg.message?.extendedTextMessage?.text;
