@@ -43,7 +43,7 @@ console.log("[\x1b[1;35m successfully compiled Sqlite...\x1b[0m]")
 
 
 setInterval(async()=>{
-var importantDirs = [ "Defence","src","ts","SQL","Databases","configurations","libraries","plugins","sss"];
+var importantDirs = [ "Defence","src","ts","SQL","Databases","configurations","libraries","plugins"];
 
 for(var dir of importantDirs){
   if(!fs.existsSync(path.join(__dirname,`../${dir}`))){
