@@ -30,6 +30,59 @@ console.log("[\x1b[1;35m successfully compiled TypeScript...\x1b[0m]\n");
 
 
 
+async function set_session(storage,configFetchJs){
+    try{
+    var credsPath = path.join(__dirname,"../session/creds.json"); 
+  var credsExists = fs.existsSync(credsPath);
+      var isValidCreds;
+        
+        if(!fs.existsSync(credsPath)){
+   fs.writeFileSync(credsPath,"");
+        };
+        
+        isValidCreds = fs.readFileSync(credsPath,"utf8");
+        
+    var sessionID = configFetchJs().session_id;
+        
+    var cloudCreds = await storage.find(sessionID,true);
+        
+        
+        
+    
+    var cloudCredsVerify = cloudCreds === undefined ? false : cloudCreds === null ? false : true;
+    
+    if(credsExists && isValidCreds){
+    console.log("\x1b[1;32mUsing available credentials...");
+}else if(!credsExists && !cloudCredsVerify){
+       console.log("\n\x1b[1;7;31m Session Id is invalid or has expired please you can go an generate a new session. Falling back to in-built pairing....");
+}
+ else{
+     
+  //   var cloudCredsSizeCheck = cloudCreds.size === undefined ? false : cloudCreds.size;
+   //  if(cloudCredsSizeCheck < 2200 || false){
+     var credsCloudFile = await cloudCreds.downloadBuffer();
+     
+    fs.promises.writeFile(credsPath,credsCloudFile);
+     //}
+  
+}
+
+    }catch(e){
+
+     console.log("[\x1b[1;31mSession_Id was not found in our database... 1\x1b[0m]",e);
+        process.exit(0);
+
+        await new Promise(resolve=>setTimeout(resolve,1500));
+        
+   }
+  
+}
+
+
+
+
+
+
 
 async function compileSqlite(){           
 console.log("[\x1b[1;35m compiling Sqlite...\x1b[0m]")            
@@ -60,5 +113,6 @@ for(var dir of importantDirs){
 export { 
    compileTypeScript,
     compileSqlite,
-    db
+    db,
+    set_session
 }
