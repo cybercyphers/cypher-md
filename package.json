@@ -6,8 +6,8 @@
     
     "scripts": {
         "start" :"node src/cyphers.js",
-        "stop": "pkill -f 'node src/cyphers.js'"
-
+        "stop": "pkill -f 'node src/cyphers.js'",
+        "dev": "npx tsc ts/error_logs_review.ts"
 },
 
     "type": "module",
@@ -33,23 +33,25 @@
          "node-cache": "^5.1.2"
     },
     "devDependencies": {
+        "@types/better-sqlite3": "^9.6.0",
         "@types/node": "^26.2.0",
         "@types/nodemailer": "^8.0.1",
         "tsx": "^4.23.12",
-        "typescript": "^7.0.2"
+        "typescript": "^7.0.2",
+        "concurrently": "^9.2.4"
     },
     "overrides": { 
         "better-sqlite3":"$better-sqlite3",
         "file-type":"^21.3.1",
-    "uuid": "^11.1.1",
+        "uuid": "^11.1.1",
         "sharp": "^0.35.3",
-    "mongodb": "^4.17.0",
+        "mongodb": "^4.17.0",
         "axios": "^1.19.0"
     },
     "allowScripts": {
         "better-sqlite3":true
 },
-    "author": "Cyber_Cypher$",
+    "author": "cyber_cyphers",
     "engines": {
         "recommended_node_engine": "23",
         "node": ">= 20"
