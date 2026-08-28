@@ -46,6 +46,9 @@ import { Storage } from "megajs";
 //plugins import
 import ping from "../plugins/ping.js";
 import menu from "../plugins/menu.js";
+import repo from "..plugins/myOwnCheck.js";
+
+    //plugins import ends
 import {
     db,
     compileTypeScript,
@@ -655,7 +658,24 @@ if (msg.messageStubType === 118 || msg.labels?.includes('fail')) {
            
         return await sock.reply(jid,`*Private mode has been toggled to ${String(userMode)} sucessfully*`,msg)
          
-}else{
+}
+  
+     
+        //github plugin load 
+        else if(text.trim().toLowerCase() === configFetchJs().prefix+"repo"){
+   await repo(sock,jid,msg);
+}
+  
+
+            //continue plugins 
+
+
+
+
+            
+  
+  //ends of all plugins
+  else{
    return await sock.sendMessage(jid,{ text:"*Command not found or is coming soon...*"});
 }
                
