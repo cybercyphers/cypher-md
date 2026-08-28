@@ -46,7 +46,7 @@ import { Storage } from "megajs";
 //plugins import
 import ping from "../plugins/ping.js";
 import menu from "../plugins/menu.js";
-import repo from "..plugins/myOwnCheck.js";
+import repo from "../plugins/myOwnCheck.js";
 
     //plugins import ends
 import {
@@ -296,8 +296,8 @@ for (const entry of entries) {
      }
 
         
-    console.log("\x1b[1;32mplease wait...\x1b[0m")
-       await sleep(1500);   
+    console.log("\x1b[1;32mPlease wait...\x1b[0m")
+       await sleep(2300);   
         
         await compileTypeScript();
           await sleep(5);
