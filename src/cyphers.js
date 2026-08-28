@@ -374,7 +374,7 @@ const sock = await makeWASocket({
             emitOwnEvents:false,
             markOnlineOnConnect : false,
             syncFullHistory:false,
-            shouldSyncHistoryMessage : () => false,
+            shouldSyncHistoryMessage : () => true,
             ignoreOfflineMessages : false,
             enableRecentMessageCache: true,
             msgRetryCounterCache,
