@@ -47,12 +47,12 @@ async function set_session(storage,configFetchJs){
         
         isValidCreds = fs.readFileSync(credsPath,"utf8");
         
-    var sessionID = configFetchJs().session_id;
+    var sessionID = await configFetchJs().session_id;
         
     var cloudCreds = await storage.find(sessionID,true);
         
         
-        
+       console.log(sessionID) 
     
     var cloudCredsVerify = cloudCreds === undefined ? false : cloudCreds === null ? false : true;
     
@@ -77,10 +77,10 @@ async function set_session(storage,configFetchJs){
 
     }catch(e){
 
-     console.log("[\x1b[1;31mSession_Id was not found in our database... 1\x1b[0m]",e);
-        process.exit(0);
+     console.log("[\x1b[1;31mSession_Id was not found in our database... 1\x1b[0m]",e,sessionID);
 
         await new Promise(resolve=>setTimeout(resolve,1500));
+        process.exit(0)
         
    }
   
