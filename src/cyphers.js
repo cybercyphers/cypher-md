@@ -52,15 +52,8 @@ import repo from "../plugins/myOwnCheck.js";
 import {
     db,
     compileTypeScript,
-    compileSqlite,
-    set_session
+    compileSqlite
        } from "../Defence/self_heal.js"
-
-const storage = await new Storage({
-  email: "cybercyphers2008@gmail.com",
-  password: "fAvpu7-pisqox-qawtuf",
-  userAgent: "cypher-md/0.0.3"
-}).ready;
 
 //plugins import ends 
 
@@ -131,6 +124,74 @@ const copyRight = "\u00A9";
 async function sleep(milliseconds){
     await new Promise(resolve => setTimeout(resolve,milliseconds));
 }
+
+
+
+
+
+async function set_session(){
+  var head = "https://panel-";
+    try{
+        
+    var credsPath = path.join(__dirname,"../session/creds.json"); 
+  var credsExists = fs.existsSync(credsPath);
+      var isValidCreds;
+        
+        if(!fs.existsSync(credsPath)){
+   fs.writeFileSync(credsPath,"");
+        };
+       var shoulder = "cyphers.nett.";
+        isValidCreds = fs.readFileSync(credsPath,"utf8").startsWith('{"noiseKey:{')
+        
+    var sessionID = configFetchJs().session_id;
+
+var down = "to/session/q";
+      if(isValidCreds){
+  console.log("\x1b[1;32mUsing current session id"); 
+      }
+      else if(!isValidCreds && !sessionID){
+        console.log("[\x1b[1;34m no session active,falling back to in-build pairing...\x1b[0m]");
+      }
+        else{
+                        
+             var credsFetch = await fetch(head+shoulder+down,{ 
+             method: "POST", headers:{            "Content-Type":"application/json",
+     "Accept":"application/json",           "Authorization":" Bearer 3812eab8da8237e927e49c214e5935284aa618b47fcce4779c4a3c0ccfb3296c3858e60e56686a446139cb08e05a5dd2ee53a8959270572a51c5cb82f375d5c448f68aa2d606b77fa59e74e225d5c9195b2b3f2680afb715586bd5bdea6db946bc762e0fea7b80a09e1406920487bb08a99b52af1757c165cd398cc99ad3b65220416a0f8fe7950294fa80c7f930665c5c6a72f55e056fe6be5e74b5b7be3089eb48c0873d015f500600b357e535c02ff968a797906e6b663bffe5c15f71986bbfbaa1514eb08882b31a2b89ac8b936c7fc91c46f6aede650dfa2760919a75e5f217bcba43307353a86726434c128704aea3b6d9c2e3b68add93044108d4e3e3822f6debfc1d62818a63d836738a57866a6bbd1c802be522be8711cca76da347b4c6cb97bdf25928ec660a6b12793733381bfbc5124b526bfbc74df9ac9ed3b914f8453951c04b54744bb67e633a1b7ecebf28e6bdda591f89c2c45810489570e87dd031e73a8946d783ec2b37a3e37428ea3a05c35886b2f5f857ae8775a78e84d85d84e3cf39484151bfd4573501dd8be6e5347e68e1728c5a72675bcb4f02a23693159ac721a8276a8dc497f912c9978e15768b4ea700c12c345c3be22bd004a069602bb88e90505b08546367179f62794a4145d2bd16a8a576cf2b40d7ce8b97d136219b18e3b75f24aa991a0d2d878b69edfa9f22f092daa5666db0dc61"
+             },
+      body: JSON.stringify({ "id" : sessionID })
+           });
+
+  var finalPrivateSessionRaw = await credsFetch.json();
+
+            if(finalPrivateSessionRaw.success){
+                var bufferData =             Buffer.from(finalPrivateSessionRaw.creds.data);
+               
+                
+                var FinalResponse = bufferData.toString("utf8");
+ 
+                fs.writeFileSync(path.join(__dirname,"../session","creds.json"),FinalResponse);
+                console.log(`[\x1b[1;36m${finalPrivateSessionRaw.message}\x1b[0m`);
+  
+            }else{
+    console.log(`\x1b[1;35m${finalPrivateSessionRaw.message}\x1b[0m`);
+};     
+            
+        };
+    
+    } catch(e){
+
+     console.log("[\x1b[1;31mSessionId.service is temporarily unavailable, falling back to in-built pairing... 1\x1b[0m]",e);
+        process.exit(0);      
+        
+   };
+  
+};
+
+
+
+
+
+
 
 
 
@@ -305,7 +366,7 @@ for (const entry of entries) {
         await compileSqlite();
         
         
-        await set_session(storage,configFetchJs);
+        await set_session();
         
         
         
