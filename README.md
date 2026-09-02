@@ -3,7 +3,7 @@
 A multi-tasking whatsapp  bot made just for Developers and fem boys
 
 ```
-version 0.0.3-Beta.3
+version 0.0.4-Beta.1
 ```
 
 <p align="center">
