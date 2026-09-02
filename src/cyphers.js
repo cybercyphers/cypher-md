@@ -1,8 +1,9 @@
+globalThis.myMetaUrl = import.meta,url;
 import "dotenv/config";
 import { buffer } from "node:stream/consumers";
 import path, { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-var __dirname = dirname(fileURLToPath(import.meta.url));
+var __dirname = dirname(fileURLToPath(globalThis.myMetaUrl));
 import nodeCache from "node-cache";
 const originalWrite = process.stdout.write;
 process.stdout.write = function (string, encoding, fd) {
