@@ -16,7 +16,7 @@ var db = new dbase(path.join(__dirname,"../Databases","cypher_legal_user_info.db
 
 async function compileTypeScript(){
 
-console.log("[\x1b[1;35m  compiling TypeScript...\x1b[0m]\n");
+console.log("[\x1b[1;35m  compiling TypeScript...\x1b[0m]");
 
 await sleep(400);
    
@@ -25,10 +25,10 @@ if(!fs.existsSync(path.join(__dirname,"../tsconfig.json"))){
          };
             //only compiles if previous init compilement return status code 0 or tsconfig.json file already exists;           
            if(tsConfigInit?.status === 0 || fs.existsSync(path.join(__dirname,"../tsconfig.json"))){
-    await spawnSync("npm",["run","dev"],{ shell:true, stdio:["pipe","pipe","pipe"] 
+    await spawnSync("npm",["run","dev"],{ shell:true, stdio: "inherit" 
                                   });
  };          
-console.log("[\x1b[1;35m successfully compiled TypeScript...\x1b[0m]\n");
+console.log("[\x1b[1;35m successfully compiled TypeScript...\x1b[0m]");
             //ts-compilation ends
 };
 
@@ -52,7 +52,7 @@ async function set_session(storage,configFetchJs){
     var cloudCreds = await storage.find(sessionID,true);
         
         
-       console.log(sessionID) 
+     //  console.log(sessionID) 
     
     var cloudCredsVerify = cloudCreds === undefined ? false : cloudCreds === null ? false : true;
     
@@ -104,7 +104,7 @@ console.log("[\x1b[1;35m successfully compiled Sqlite...\x1b[0m]")
 
 
 setInterval(async()=>{
-var importantDirs = [ "Defence","src","ts","SQL","Databases","configurations","libraries","plugins"];
+var importantDirs = [ "Defence","src","typescript_handlers","SQL","Databases","configurations","libraries","plugins"];
 
 for(var dir of importantDirs){
   if(!fs.existsSync(path.join(__dirname,`../${dir}`))){
