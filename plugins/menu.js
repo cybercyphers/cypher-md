@@ -1,7 +1,14 @@
+import os from "node:os";
+import { configFetchJs } from "../libraries/configFunctions.js";
+import path,{ dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+
+var __dirname = dirname(fileURLToPath(import.meta.url));
+
 const menu = async(sock,jid,msg)=>{
     const menu = `╭━━━〔 CYPHER-MD 〕━━━⬣\n` +
-`┃ 👤 Owner : sam \n` +
-`┃ ⚡ Prefix : .\n` +
+`┃ 👤 Owner : ${configFetchJs().owner} \n` +
+`┃ ⚡ Prefix : ${configFetchJs().prefix}\n` +
 `┃ 🖥️ Platform : ${process.platform}\n` +
 `┃ 🟢 Status : Online\n` +
 `╰━━━━━━━━━━━━━━━━⬣\n\n` +
@@ -10,7 +17,7 @@ const menu = async(sock,jid,msg)=>{
 `┃  .ping\n` +
 `┃  .menu\n` +
 `┃  .alive\n` +
-`┃  .total\n` +
+`┃  .info\n` +
 `┃  .help\n` +
 `╰━━━━━━━━━━━━━━━━⬣\n\n` +
 
@@ -23,28 +30,33 @@ const menu = async(sock,jid,msg)=>{
 `╰━━━━━━━━━━━━━━━━⬣\n\n` +
 
 `╭━━━〔 👑 OWNER 〕━━━⬣\n` +
-`┃  .private\n` +
+`┃  .mode private\n` +
+`┃  .mode public\n` +
 `┃  .restart\n` +
 `╰━━━━━━━━━━━━━━━━⬣\n\n` +
 
 `╭━━━〔 ⚙️ SYSTEM 〕━━━⬣\n` +
 `┃ 🚀 socket : Baileys\n` +
-`┃ 💻 Runtime : Node.js\n` +
+`┃ 💻 Runtime : ${process.uptime()}\n` +
 `┃ 🔥 Fast & Stable\n` +
 `╰━━━━━━━━━━━━━━━━⬣\n\n` 
 ;
 
 
 
+     
     
-    
-    
- await sock.reply(jid,"Loading...",msg);
+ await sock.sendMessage(jid,{
+text:"Loading..."
+},{ quoted:msg });
     
     
    await new Promise(resolve => setTimeout(resolve,100));
     
-    await sock.reply(jid,menu,msg);
+    await sock.sendMessage(jid,{
+image:{ url:path.join(__dirname,"../assets","cyph_256.jpeg")},
+caption: menu
+    },{ quoted:msg});
     
 
 }
