@@ -1,4 +1,4 @@
-const metaUrl = eval("import.meta,url");
+const metaUrl = eval("import.meta.url");
 import "dotenv/config";
 import { buffer } from "node:stream/consumers";
 import path, { dirname } from "node:path";
