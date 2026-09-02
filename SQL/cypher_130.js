@@ -21,16 +21,7 @@ async function loadmediadb(){
 
   }
 }
-await loadmediadb()
 
-
-
-
-
-integrity(db,image_db)
-
-//clear old caches that Re no more needed;
-  clearOld(db);
     
 
 
@@ -112,10 +103,17 @@ async function get_deleted(id){
 
 
 
+
+
+
+
 export { 
 storeChat,
     get_deleted, 
     image_db,
     store_media,
-    get_media
+    get_media,
+    loadmediadb,
+    integrity,
+    clearOld
 };
