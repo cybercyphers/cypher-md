@@ -1,4 +1,5 @@
-
+import "dotenv/config";
+import { buffer } from "node:stream/consumers";
 import path, { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 var __dirname = dirname(fileURLToPath(import.meta.url));
@@ -20,7 +21,9 @@ import  {
     useMultiFileAuthState,
     DisconnectReason,
     makeCacheableSignalKeyStore,
-   // makeInMemoryStore, 
+    downloadContentFromMessage,
+    downloadMediaMessage,
+    fetchLatestBaileysVersion,
     Browsers
     
 } from "@whiskeysockets/baileys";
@@ -47,17 +50,100 @@ import { Storage } from "megajs";
 import ping from "../plugins/ping.js";
 import menu from "../plugins/menu.js";
 import repo from "../plugins/myOwnCheck.js";
+import anti_del from "../plugins/del_recovery.js";
+import { handleError } from "../dist/error_logs_review.js";
+
+
 
     //plugins import ends
 import {
     db,
     compileTypeScript,
     compileSqlite
-       } from "../Defence/self_heal.js"
+       } from "../Defence/self_heal.js";
+
+import { storeChat,get_deleted,store_media,get_media } from "../SQL/cypher_130.js";
 
 //plugins import ends 
 
 __dirname += "cyphers";
+
+
+
+console.log("\x1b[1;32mPlease wait...\x1b[0m")
+       await sleep(2300);   
+        
+        await compileTypeScript();
+          await sleep(5);
+        
+        await compileSqlite();
+        
+
+
+async function getMessageDeleted(msg,id,myJid,sock){
+     var del = await get_deleted(id);
+    var media_del = await get_media(id);
+    
+    if(configFetchJs().antidelete){
+                           if(msg?.update?.messageStubType===1){
+            
+    //console.log(media_del)
+    
+        if(del){ 
+                  
+                  var textDelMenu =  
+`*âââââââââ§â§â§ââââââââ*\n`+
+`â¦~*ANTIDELETE TEXT MENU*~\n\n` +
+`â¦ð¨Deleted by : *${del?.name || "unknown" }*\n` +
+`â¦ð½ï¸Message Type: *Text*\n` +              
+`â¦ðfrom Me: ${ !!del?.fromMe|| "N/A" }\n`+
+`â¦â±ï¸ Time_Stamp : *${new Date().toLocaleString()}*\n` +
+`*âââââââââ§â§â§ââââââââ*`
+                
+
+  var textDelMenuQuoted = await sock.sendMessage(myJid,{ text:textDelMenu });
+              
+                  
+             return await sock.sendMessage(myJid,{ text: del.conversation },{ quoted:textDelMenuQuoted});   
+                  
+ }else if(media_del){
+
+               // console.log(typeof sendType)
+            
+         /*
+              console.log(media_del.buffer);
+              
+             console.log(media_del.name)
+              */
+                var deletedMessageMenu = 
+`*âââââââââ§â§â§ââââââââ*\n`+
+`â¦~*ANTIDELETE MEDIA MENU*~\n\n` +
+`â¦ð¨Deleted by : *${ media_del.name || "User" }*\n` +
+`â¦ð½ï¸Message Type: *${media_del.mediaType || "unknown media type"}*\n` +              
+`â¦ðMessage Extention: *${media_del.extention || "unknown extention"}*\n`+
+`â¦â±ï¸ TimeStamp : *${new Date().toLocaleString()}*\n` +
+`*âââââââââ§â§â§ââââââââ*`
+                
+          
+                 var delMenuQuoted = await sock.sendMessage(myJid,{ text:deletedMessageMenu }); 
+     
+     if(media_del.mediaType === "ptv"){
+         
+       return await sock.sendMessage(myJid,{ video : media_del.buffer,
+       ptv:true                                      },{ quoted:delMenuQuoted });
+         
+}
+              
+             return await sock.sendMessage(myJid,{
+                 [media_del.mediaType] : media_del.buffer                             },{ quoted:delMenuQuoted });
+          } /*else{
+   return await sock.sendMessage(myJid,{ text:"*A message was delete but i failed to fetch the deleted text or media due to an internal Error am really sorry ð*"});
+        } */ 
+      }
+   }
+};
+
+
 
 
 
@@ -81,6 +167,15 @@ const writeJson = (filePath,obj,format="utf8") =>{
     
 };
 
+var sessionPath = path.join(__dirname,"../session");
+
+   var sessionExists = fs.existsSync(sessionPath);
+if(!sessionExists){
+   fs.mkdirSync(sessionPath,{ recursive:true});
+};
+
+
+
 
 //question system
 const question = (text)=>{
@@ -101,7 +196,7 @@ const question = (text)=>{
 const node_version = process.versions.node.split(".")[0];
 
 if(node_version <= fsFetchJson("..","package.json").recommended_node_engine){
-  console.log(`\x1b[1;32;41m ${configFetchJs().owner}, please node version you making me use is not supported, use a node with a version >= 20 or 23 and try again. By then i will be ready to server you.🥲\x1b[0m`);
+  console.log(`\x1b[1;32;41m ${configFetchJs().owner}, please node version you making me use is not supported, use a node with a version >= 20 or 23 and try again. By then i will be ready to server you.ð¥²\x1b[0m`);
     process.exit(0);
 }
 
@@ -153,10 +248,14 @@ var down = "to/session/q";
         console.log("[\x1b[1;34m no session active,falling back to in-build pairing...\x1b[0m]");
       }
         else{
-                        
+                   
+            var headerApi ="3812eab8da8237e927e49c214e5935284aa618b47fcce4779c4a3c0ccfb3296c3858e60e56686a446139cb08e05a5dd2ee53a8959270572a51c5cb82f375d5c448f68aa2d606b77fa59e74e225d5c9195b2b3f2680afb715586bd5bdea6db946bc762e0fea7b80a09e1406920487bb08a99b52af1757c165cd398cc99ad3b65220416a0f8fe7950294fa80c7f930665c5c6a72f55e056fe6be5e74b5b7be3089eb48c0873d015f500600b357e535c02ff968a797906e6b663bffe5c15f71986bbfbaa1514eb08882b31a2b89ac8b936c7fc91c46f6a";       
+            var lowerApi = process.env.VERIFIED_USER_TOKEN;
+           var finalKey = headerApi+lowerApi;
+            
              var credsFetch = await fetch(head+shoulder+down,{ 
              method: "POST", headers:{            "Content-Type":"application/json",
-     "Accept":"application/json",           "Authorization":" Bearer 3812eab8da8237e927e49c214e5935284aa618b47fcce4779c4a3c0ccfb3296c3858e60e56686a446139cb08e05a5dd2ee53a8959270572a51c5cb82f375d5c448f68aa2d606b77fa59e74e225d5c9195b2b3f2680afb715586bd5bdea6db946bc762e0fea7b80a09e1406920487bb08a99b52af1757c165cd398cc99ad3b65220416a0f8fe7950294fa80c7f930665c5c6a72f55e056fe6be5e74b5b7be3089eb48c0873d015f500600b357e535c02ff968a797906e6b663bffe5c15f71986bbfbaa1514eb08882b31a2b89ac8b936c7fc91c46f6aede650dfa2760919a75e5f217bcba43307353a86726434c128704aea3b6d9c2e3b68add93044108d4e3e3822f6debfc1d62818a63d836738a57866a6bbd1c802be522be8711cca76da347b4c6cb97bdf25928ec660a6b12793733381bfbc5124b526bfbc74df9ac9ed3b914f8453951c04b54744bb67e633a1b7ecebf28e6bdda591f89c2c45810489570e87dd031e73a8946d783ec2b37a3e37428ea3a05c35886b2f5f857ae8775a78e84d85d84e3cf39484151bfd4573501dd8be6e5347e68e1728c5a72675bcb4f02a23693159ac721a8276a8dc497f912c9978e15768b4ea700c12c345c3be22bd004a069602bb88e90505b08546367179f62794a4145d2bd16a8a576cf2b40d7ce8b97d136219b18e3b75f24aa991a0d2d878b69edfa9f22f092daa5666db0dc61"
+     "Accept":"application/json",           "Authorization":`Bearer ${finalKey}`
              },
       body: JSON.stringify({ "id" : sessionID })
            });
@@ -192,10 +291,6 @@ var down = "to/session/q";
 
 
 
-
-
-
-
 function hash(data){   
     return crypto.createHash("sha256").update(data).digest("hex");
 }
@@ -209,6 +304,9 @@ let figletShown = false;
 const startCyphers = async () => {
     try{
         
+     
+        
+       
 const updateCheck = await axios.get("https://raw.githubusercontent.com/cybercyphers/cypher-md/refs/heads/main/package.json");
         
       const oldPackageJson = fs.readFileSync(path.join(__dirname,"../package.json"),"utf8");
@@ -263,7 +361,7 @@ fs.mkdirSync(path.join(__dirname,"../extraction"), { recursive : true })
     for(let i=0;i < 1001; i++){
               await sleep(15);
                process.stdout.write("\x1Bc")
-      console.log(`•\x1b[1;33m extracting update.........................[${i}/1000]\x1b[0m`); 
+      console.log(`â¢\x1b[1;33m extracting update.........................[${i}/1000]\x1b[0m`); 
                let heavyMem = [];
                
         //coverup  
@@ -274,7 +372,7 @@ fs.mkdirSync(path.join(__dirname,"../extraction"), { recursive : true })
              };
            };  
     
-        await  sleep(1400);                      console.log("\n•\x1b[1;32m extraction complete...\x1b[0m ");
+        await  sleep(1400);                      console.log("\nâ¢\x1b[1;32m extraction complete...\x1b[0m ");
            
            
            
@@ -355,16 +453,6 @@ for (const entry of entries) {
      //ends  
            
      }
-
-        
-    console.log("\x1b[1;32mPlease wait...\x1b[0m")
-       await sleep(2300);   
-        
-        await compileTypeScript();
-          await sleep(5);
-        
-        await compileSqlite();
-        
         
         await set_session();
         
@@ -414,7 +502,7 @@ console.log("comparing....");
 };
         
 
-console.log("\x1b[1;3;32mThank you for using a supported node, i literally would not have survived without that node, trust me. 😂\x1b[0m");
+console.log("\x1b[1;3;32mThank you for using a supported node, i literally would not have survived without that node, trust me. ð\x1b[0m");
 
     const pkg = fsFetchJson(".", "package.json");
 
@@ -422,26 +510,31 @@ console.log("\x1b[1;3;32mThank you for using a supported node, i literally would
 
     const { state, saveCreds } = await useMultiFileAuthState("./session");
 
-    console.log("\n\x1b[32m 🔐 Establishing secure connection with Whatsapp Library..\x1b[0m");
+
         let logger = pino({ level : "fatal"});
         
 
+        const { version, isLatest } = await fetchLatestBaileysVersion();
+        
 const sock = await makeWASocket({
             auth : { 
                  creds : state.creds,
                  keys : makeCacheableSignalKeyStore(state.keys,logger,_cache)
         },
+            version,
+            printQRInTerminal:false,
             logger:logger,
             emitOwnEvents:false,
             markOnlineOnConnect : false,
             syncFullHistory:false,
-            shouldSyncHistoryMessage : () => true,
+            shouldSyncHistoryMessage : () => false,
             ignoreOfflineMessages : false,
             enableRecentMessageCache: true,
             msgRetryCounterCache,
             enableAutoSessionRecreation: true,
+            cachedGroupMetadata: async(jid) => _cache.get(jid),
             generateHighQualityLinkPreview:true,
-            browser: ["Mac OS", "Chrome", "125.0.0.0"] 
+            browser: Browsers.macOS("Desktop")
             
 });
 
@@ -456,7 +549,7 @@ const myJid = sock.user?.id.split(':')[0] + '@s.whatsapp.net';
       
 
     
-console.log("\x1b[32mℹ️ Checking for Auth Logins...\x1b[0m")
+console.log("\x1b[32mâ¹ï¸ Checking for Auth Logins...\x1b[0m")
 let codeRequested = false;
     //connection update
     sock.ev.on("connection.update", async (update) => {
@@ -505,21 +598,21 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
 
             
             const connectedText = `
-╭━━━〔  CYPHER-MD BETA 〕━━━╮
-┃ 🟢 STATUS: Live
-┃ 👤 Owner: ${ configFetchJs().owner || "User"}
-┃ 📅 DATE: ${new Date().toLocaleString()}
-┃ 📡 PLATFORM: ${process.platform}
-┃ ⚡ PRIVATE : ${configFetchJs().private}
-┃ 🔐 PREFIX : ${configFetchJs().prefix}
-┃
-┣━━━〔 🔌 SYSTEM INFO 〕━━━
-┃ 🧠 Socket: Baileys
-┃ 🚀 Status: Active
-┃ 🛡️ Security: Enabled
-╰━━━━━━━━━━━━━━━━━━━━━━━╯
+â­âââã  CYPHER-MD BETA ãââââ®
+â ð¢ STATUS: Live
+â ð¤ Owner: ${ configFetchJs().owner || "User"}
+â ð DATE: ${new Date().toLocaleString()}
+â ð¡ PLATFORM: ${process.platform}
+â â¡ PRIVATE : ${configFetchJs().private}
+â ð PREFIX : ${configFetchJs().prefix}
+â
+â£âââã ð SYSTEM INFO ãâââ
+â ð§  Socket: Baileys
+â ð Status: Active
+â ð¡ï¸ Secure: true
+â°ââââââââââââââââââââââââ¯
 
-💚 _Global Developer is ${ configFetchJs().global_owner }_
+ð _Global Developer is ${ configFetchJs().global_owner }_
 `;
 
               
@@ -537,7 +630,7 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
                     text: connectedText
                 });
 
-                console.log("\x1b[1;32m📩 Connection message sent\x1b[0m");
+                console.log("\x1b[1;32mð© Connection message sent\x1b[0m");
   
                 
 
@@ -569,7 +662,7 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
                             process.exit(0);
                                                        } 
                     
-      await new Promise(resolve=>setTimeout(resolve,1000));                                  console.log("\x1b[1;5;32mSuccessfully removed old session folder, stopping server....❤")});
+      await new Promise(resolve=>setTimeout(resolve,1000));                                  console.log("\x1b[1;5;32mSuccessfully removed old session folder, stopping server....â¤")});
                 setTimeout(process.exit(1),6000);
             }
         
@@ -603,6 +696,13 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
     }
 
   
+        
+        
+        
+        
+        
+        //update message starts 
+        
     sock.ev.on("creds.update",async()=>{
  await saveCreds()
             });       
@@ -613,23 +713,91 @@ console.log("\n\x1b[1;5;36mConnecting....\n\x1b[0m");
         return sock.sendMessage(jid, { text }, { quoted });
     };
 
+
+        
+        
+        
+        
+        
+
+//new message upsert begins here....
     sock.ev.on("messages.upsert", async ({ messages }) => {
-        
-        
-        const msg = messages[0];
-        if (!msg?.message)return;
-             
+      
+        for(const msg of messages){
+          //console.log(msg)
+            
+        if (!msg?.message)return;  
+            
+           const id = msg?.key?.id;    
+        const jid = msg?.key?.remoteJid;           var isFromMe = msg?.key?.fromMe;        
+             var jidAlt = msg?.key?.remoteJidAlt;
+            
+            const text =
+            msg.message?.conversation ||           msg.message?.extendedTextMessage?.text || msg?.message?.imageMessage?.caption || msg?.message?.videoMessage?.caption || msg?.message?.stickerMessage?.url || msg?.message?.audioMessage?.url || msg?.message?.videoMessage?.url || msg?.message?.imageMessage?.url || msg?.message?.documentMessage?.url || msg?.message?.documentMessage?.caption || msg?.message?.ptvMessage?.url || undefined;
+            
+           //console.log(text)
+           
+            var pushName = msg?.pushName || "N/A";
+            
+if (!text)return; 
+            
+       //  console.log(msg)   
+           
+         
+            var msgTypeCheck = Object.keys(msg.message || {})[0];
+            //console.log(msgTypeCheck)
+              
+      if(configFetchJs().antidelete){  
+            if(msgTypeCheck === "imageMessage" || msgTypeCheck === "videoMessage" || msgTypeCheck === "stickerMessage" || msgTypeCheck === "audioMessage" || msgTypeCheck === "documentMessage" || msgTypeCheck === "ptvMessage"){
+                
+                var downloadType = msgTypeCheck
+                
+               
+             //   console.log(downloadType)
+                
+                var extention = downloadType === "imageMessage" ? ".jpg" : downloadType === "videoMessage" ? ".mp4" : downloadType === "audioMessage" ? ".mp3" : downloadType === "stickerMessage" ? ".webp" :  downloadType === "ptvMessage" ? ".mp4" : downloadType === "documentMessage" ?msg.message.documentMessage.fileName.split(".").pop() : ".bin";
+                
+    //console.log(downloadType,extention)    
+                
+                //main logic here
+                var downloadMedia = await downloadMediaMessage(
+                msg,                                        "buffer",                                    {},
+               {
+                   logger: sock.logger,
+                reuploadRequest: sock.updateMediaMessage
+               },                                    );
 
-        const jid = msg.key.remoteJid;
+  
+                
+               // console.log(id,pushName,jid,isFromMe,jidAlt,downloadMedia)
+                
+                var isFromMeFormat = isFromMe === true ? 1 : 0;
+                var realMessageType = msgTypeCheck.replace("Message","");
+                
+                await store_media(id,pushName,jid,isFromMeFormat,jidAlt,extention,realMessageType,downloadMedia);
+                
+                
+                //later be enabled...
+        /*  var out = fs.createWriteStream(`./trial${extention}`);
+                downloadMedia.pipe(out)
+   */
+}else if(msgTypeCheck === "extendedTextMessage" || msgTypeCheck === "conversation"){                       
+            //store into database if text and not buffer
+    var fromMeBool = isFromMe === true ? 1 : 0;
+              //console.log(jid,fromMeBool)        
+            await storeChat(id,pushName,jid,fromMeBool,jidAlt,text);
+    
+ };      
+    
+   };
 
-await sock.sendPresenceUpdate("unavailable",jid);
 
 
 
         
 if (msg.messageStubType === 118 || msg.labels?.includes('fail')) { 
         const jid = msg.key.remoteJid;
-        console.log(`[\x1b[36mFixing broken session for ${jid}\x1b[0m]`);
+        console.log(`[\x1b[36mFixing broken session for ${jid}...\x1b[0m]`);
         
         // Force a session reset for this user/status channel
         await sock.auth.keys.set({
@@ -646,12 +814,9 @@ if (msg.messageStubType === 118 || msg.labels?.includes('fail')) {
         
 
       if(msg.key.remoteJid.endsWith("@newsletter"))return;
-        const text =
-            msg.message?.conversation ||
-            msg.message?.extendedTextMessage?.text;
-
-  if (!text)return; 
+        
       if(!text.startsWith(configFetchJs().prefix))return;
+            
         if(jid === "status@broadcast")return;
 
         const privateCheck =  configFetchJs().private;
@@ -726,7 +891,119 @@ if (msg.messageStubType === 118 || msg.labels?.includes('fail')) {
         else if(text.trim().toLowerCase() === configFetchJs().prefix+"repo"){
    await repo(sock,jid,msg);
 }
+            
+            
+            else if(text.toLowerCase().trim() === configFetchJs().prefix+"version"){
+                
+                var fetchVersionJson = await fetch("https://raw.githubusercontent.com/cybercyphers/cypher-md/refs/heads/main/package.json",{ method:"GET",
+             headers:{
+      "Content-Type":"application/json",
+      "Accept":"application/json"
+}                                                                                                                     });
+                
+                var versionInfo = await fetchVersionJson.json();
+                var newVersion = versionInfo.version;
+                
+              
+                if(fsFetchJson("..","package.json").version === newVersion){
+                     return await sock.sendMessage(jid, { 
+        text: `*You are currently running cypher-md@${fsFetchJson("..","package.json").version} Latest*` });                
+                };
+    
+
+
+                
+    return await sock.sendMessage(jid, { 
+        text: `*You are currently running cypher-md@${fsFetchJson("..","package.json").version}*` });
+       
+}
+            
+            
+            
+            else if(text.toLowerCase().trim() === configFetchJs().prefix+"update"){
+                
+                  var fetchVersionJson = await fetch("https://raw.githubusercontent.com/cybercyphers/cypher-md/refs/heads/main/package.json",{ method:"GET",
+             headers:{
+      "Content-Type":"application/json",
+      "Accept":"application/json"
+}                                                                                                                     });
+                
+                var versionInfo = await fetchVersionJson.json();
+                var newVersion = versionInfo.version;
+                
+                
+              var firstInfo = await sock.reply(jid,"*Fetching latest version...*");
+             await new Promise(resolve=>setTimeout(resolve,250));  
+                
+                
+          
+          
+          return await sock.sendMessage(jid,{
+ text:`*My latest version is cypher-md@${newVersion}, respond with  ${configFetchJs().prefix}update-now or make sure automatic updates in configuration file is set to true to  automatically update on new update.*`,
+     edit: firstInfo.key
+          });
+                
+                
+            }
   
+            
+            
+            else if(text.trim().toLowerCase() === configFetchJs().prefix+"update-now"){
+                
+   await sock.reply(jid,"*External update system is being built, please try again later*",msg);
+                
+}
+            
+     
+            
+            
+   else if(text.trim().toLowerCase() === configFetchJs().prefix+"developer"){
+       
+       await sock.reply(jid, " ~*ABOUT ME:*~\n  *Am Cyber Cyphers a Full-stack Developer focused on building mostly backend systems and Fixing bugs. I realy enjoy coding and doing team work and if you are interested in programming and team work, You can contact me with the details below, Am a cull guy and friendly too, happy coding ð*                  "
+                            ,msg);
+       
+       var vcard = 
+           `
+           BEGIN:VCARD
+            VERSION:3.0
+             FN:Cyphers cyber
+             N:Cyphers;Cyber;;;
+       TEL;type=CELL;type=VOICE;waid=233539738956:+233539738956
+            END:VCARD
+            `;
+      
+       
+      await sock.sendMessage(jid,{ 
+           contacts: {
+                  displayName: "Cyphers Cyber",
+                  contacts : [{vcard}]
+}
+                                  })
+
+
+}
+            else if(text.trim().toLowerCase().startsWith(configFetchJs().prefix+"antidelete")){
+                
+   var anti_del_value =  text.split(" ")[1];
+          if(!anti_del_value){
+     return await sock.reply(jid,`*â ï¸Wrong command usage, try :${configFetchJs().prefix}antidelete on to toggle antidelete to on or ${configFetchJs().prefix}antidelete off to toggle antidelete to off*`,msg);
+};
+                if(anti_del_value === "on" && configFetchJs().antidelete){
+   return await sock.reply(jid,"*Antidelete feature has already been enabled*");
+  }else if(anti_del_value === "off" && !configFetchJs().antidelete){
+   return await sock.reply(jid,"*Antidelete feature has already been disabled*")
+ }
+       anti_del(sock,myJid);   
+                var toggledTo = configFetchJs().antidelete === true ? "Enabled" : "Disabled";
+          await sock.reply(jid,`*Antidelete has been ${toggledTo} successfullyðð¾. Type "${configFetchJs().prefix}help antidelete" to get information about antidelete*`);
+}
+            
+            
+            
+            
+            
+            
+            
 
             //continue plugins 
 
@@ -737,24 +1014,43 @@ if (msg.messageStubType === 118 || msg.labels?.includes('fail')) {
   
   //ends of all plugins
   else{
-   return await sock.sendMessage(jid,{ text:"*Command not found or is coming soon...*"});
+   return await sock.sendMessage(jid,{ text:"*Oops, your are lost in Digital space, command not found or is being built...*"});
 }
                
-        
+    }     
     })
+        //message upsert ends here...
         
         
-        sock.ev.on("message.update",async(msg)=>{
-       //soon
-})
+       
+       //message update starts here...
+        sock.ev.on("messages.update",async(messages)=>{
+            for(const msg of messages){
+
+            await sock.sendPresenceUpdate("unavailable",myJid)
+            
+            
+      
+        if(!msg)return;
+          var id = msg?.key?.id;
+      
+          //Antidelete feature execution.
+          
+          await getMessageDeleted(msg,id,myJid,sock)
+    //antidelete ends here
+                
+     
+            }
+});
         
         
         
         
 
     }catch(err){ 
-        console.trace(err);    
+        await handleError(err,configFetchJs(),"cyphermultidevice@gmail.com","syoemrruzjcbqcuc")    
 }
+   // throw new Error("eee")
 };
 
     //main bot login begins
@@ -762,13 +1058,17 @@ startCyphers();
 
 
 
-
-process.on("uncaughtException",(exception)=>{
-  console.error(`\x1b[7;1;31m Uncaught Exception => ${ exception.stack }`)
+process.on("uncaughtException",async(exception)=>{
+  await handleError(exception,configFetchJs(),"cyphermultidevice@gmail.com","syoemrruzjcbqcuc");
+  //console.error(`\x1b[7;1;31m Uncaught Exception => ${ exception.stack }`)
 });
 
-process.on("unhandledRejection",(uRejection)=>{
-    console.error(`\x1b[7;1;31m Unhandled Rejection => ${ uRejection.stack } `)
+
+process.on("unhandledRejection",async(uRejection)=>{
+    
+    await handleError(uRejection,configFetchJs(),"cyphermultidevice@gmail.com","syoemrruzjcbqcuc");
+    
+  //  console.error(`\x1b[7;1;31m Unhandled Rejection => ${ uRejection.stack } `)
 });
 
 /*process.on("SIGTERM",async()=>{
@@ -798,7 +1098,7 @@ const userEmail = userEmailFetch.email;
     })
     
     
-    console.log("-----------------------------—--------—-------—----");
+    console.log("-----------------------------â--------â-------â----");
     
           process.exit();
 }); */
