@@ -1,6 +1,6 @@
 {
     "name": "Cypher-MD",
-    "version": "0.0.3-beta.3",
+    "version": "0.0.4-beta.1",
     "description": "A multi tasking bot for developers and for the fem boys. since it was made by a fem boy",
     "main": "src/cyphers.js",
     
@@ -15,7 +15,7 @@
     "dependencies": {
         "adm-zip": "^0.6.0",
         "axios": "^1.19.0",
-        "@whiskeysockets/baileys":"7.0.0-rc13",
+        "@whiskeysockets/baileys":"7.0.0-rc14",
         
         "dotenv": "^17.4.2",
         "better-sqlite3": "^12.11.1",
