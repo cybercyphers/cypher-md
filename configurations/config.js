@@ -10,5 +10,6 @@ export default {
   already_configured: false,
   allowBugsReview: true,
   antidelete: false,
+  autotyping:false,
   production: true
 }
