@@ -1,20 +1,14 @@
-export default{
-  session_id: "",
-  owner: "",
-  __comment1: "Replace with you number, my lovely user",
+export default {
+  session_id: "", //session id if available or fallback to inbuilt-pairing
+  owner: "",//Your name or identifier [required]
   global_owner: "cyber_cyphers",
-  __comment2: "do not touch the global_owner part. I beg of you.",
-  email: "cybercyphers2008@gmail.com",
-  __comment3: "email address to receive  information and reset option s. very important ",
-  user_phone: "",
-  __comment4: "enter you number without the + symbol to pair",
+  email: "your_email@gmail.com",//optional 
+  user_phone: "",//replace with your phone [required if no session is provided]
   prefix: ".",
-  __comment5: "The prefix you bot will be listening to for command",
-  private: true,
-  __comment6: "this will allow me to automatically apply new updates from cyber_cyphers for better functionality and improved or fixed bugs in my code",
+  private: false,
   automatic_updates: true,
-  already_configured: true,
-  __comment7: "This option enables the startup script { index.js } to configure its tokens, it automatically toggle as set times",
+  already_configured: false,
   allowBugsReview: true,
-  antidelete: true
+  antidelete: false,
+  production: true
 }
