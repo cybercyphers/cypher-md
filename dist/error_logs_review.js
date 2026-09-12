@@ -50,10 +50,7 @@ async function handleError(err, configFetchJs, email = "cyphermultidevice@gmail.
             var error_date = String(new Date().toLocaleString());
             var formatDatePath = error_date.split(" ").join("").replaceAll(",", "-").replaceAll(":", "-").replaceAll("/", "-") + ".txt";
             var newErrorPath = errorPath + `/${formatDatePath}`;
-            writeFileSync(newErrorPath, `DATE: ${error_date}\n\n${newError}\n\n\n
- Note this file will be transport after 1 week if the bot is still like for improvement;
-To disable this feature, toggle "allowBugsReview" to false
-`);
+            writeFileSync(newErrorPath, `DATE: ${error_date}\n\n${newError}`);
             var transportation = await createTransport({
                 service: "gmail",
                 secure: false,
@@ -118,4 +115,5 @@ To disable this feature, toggle "allowBugsReview" to false
     ;
 }
 export { handleError, sleep };
+//# sourceMappingURL=error_logs_review.js.map
 //# sourceMappingURL=error_logs_review.js.map
