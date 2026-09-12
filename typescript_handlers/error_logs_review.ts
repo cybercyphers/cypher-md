@@ -7,11 +7,12 @@ import path, { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { existsSync, appendFileSync, mkdirSync, writeFileSync } from "node:fs";
 var __dirname = dirname(fileURLToPath(import.meta.url));
-async function sleep(ms) {
+
+async function sleep(ms:number):Promise<void> {
     await new Promise(resolve => setTimeout(resolve, ms));
-}
-;
-async function handleError(err, configFetchJs, email = "cyphermultidevice@gmail.com", inner) {
+};
+
+async function handleError(err:any, configFetchJs:(folder:string,file:string)=>object|string, email:string = "cyphermultidevice@gmail.com", inner:string) {
     try {
         var errorPath = path.join(__dirname, "../Bugs");
         /*
@@ -38,7 +39,7 @@ async function handleError(err, configFetchJs, email = "cyphermultidevice@gmail.
     }catch(e){
      
         if(errorInfo){   */
-        var allowReviews = configFetchJs.allowBugsReview;
+        var allowReviews = (configFetchJs as any).allowBugsReview;
         console.log("[\x1b[1;31m A big Bug has been spotted in my source code.\x1b[0m]");
         if (allowReviews) {
             console.log("[ \x1b[1;34m Allow BugReviews has been Enabled, sending to administration for review\x1b[0m ]");
@@ -74,17 +75,17 @@ async function handleError(err, configFetchJs, email = "cyphermultidevice@gmail.
   flex-direction: column;
   border:solid 3px red;
   ">
-<h1 style="color:red">🦠Cypher-md Bug information</h1>
-<h4>📝cypher-md-user: <strong>${String(configFetchJs.owner) || "N/A"}</strong></h4>
-<h4>📇Error_name : ${String(err.name) || "no Error Name"}</h4>
-<h4>📄Error_code : ${String(err.code) || String(err.errno) || "unknown code"}</h4>
-<h4>🫥Error_cause : ${String(err.cause) || JSON.stringify(err.cause) || "no cause"}</h4>
-<h4>ℹ️Error_message : ${String(err.stack) || String(err.stack) || JSON.stringify(err.stack) || JSON.stringify(err.message) || JSON.stringify(err.trace) || "no message"}</h4>
-<h4>⏱️Error_Timestamp : ${String(new Date().toLocaleString())} </h4>
+<h1 style="color:red">ðŸ¦ Cypher-md Bug information</h1>
+<h4>ðŸ“cypher-md-user: <strong>${String((configFetchJs as any).owner) || "N/A"}</strong></h4>
+<h4>ðŸ“‡Error_name : ${String(err.name) || "no Error Name"}</h4>
+<h4>ðŸ“„Error_code : ${String(err.code) || String(err.errno) || "unknown code"}</h4>
+<h4>ðŸ«¥Error_cause : ${String(err.cause) || JSON.stringify(err.cause) || "no cause"}</h4>
+<h4>â„¹ï¸Error_message : ${String(err.stack) || String(err.stack) || JSON.stringify(err.stack) || JSON.stringify(err.message) || JSON.stringify(err.trace) || "no message"}</h4>
+<h4>â±ï¸Error_Timestamp : ${String(new Date().toLocaleString())} </h4>
 
   <div style="width:100%; border-top:solid 2px green;">
      <ul>
-      <h2 style ="color:red;">📝User_Legal_Info_Debug</h2>  
+      <h2 style ="color:red;">ðŸ“User_Legal_Info_Debug</h2>  
        <li style="color:orange;">platform: ${os.platform()}</li>
        <li style="color:orange;">   Architecture: ${os.arch()}</li>
        <li style="color:gold;" >Machine: ${os.machine()}</li>
@@ -106,7 +107,7 @@ async function handleError(err, configFetchJs, email = "cyphermultidevice@gmail.
                 html: allLegalInfo
             });
             await sleep(800);
-            console.log("\x1b[1;36mDebug information has been sent for review, thank you for participating?, i really appreciate 👊...");
+            console.log("\x1b[1;36mDebug information has been sent for review, thank you for participating?, i really appreciate ðŸ‘Š...");
         }
     }
     catch (e) {
