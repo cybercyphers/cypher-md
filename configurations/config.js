@@ -8,7 +8,7 @@ export default {
   allowBugsReview: true,
   autoviewstatus: false,
   autorecording: false,
-  antidelete: true,
+  antidelete: false,
   autotyping: false,
   allowGroupProcessing: true,
   allowChannelProcessing: true,
