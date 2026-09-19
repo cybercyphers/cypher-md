@@ -6,13 +6,8 @@ import { configFetchJs } from "../libraries/configFunctions.js";
 var __dirname = dirname(fileURLToPath(import.meta.url))
 
 
-const anti_del = async(sock,myJid)=>{
-     if(!sock){
-   throw new Error("[\x1b[31msock is not defined...\x1b[0m]");
-};
-    if(!myJid){
-   throw new Error("[\x1b[31m my jidhas not been declared or has been forgotted\x1b[0m]");
-};
+const anti_del = async()=>{
+     
     
     var pastConf = await import(path.join(__dirname,"../configurations","config.js"))
     
