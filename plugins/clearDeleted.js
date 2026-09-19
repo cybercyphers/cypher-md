@@ -25,3 +25,9 @@ async function clearOld(db,image_db,cypherAiDb){
 
 
 
+
+
+
+
+
+export default clearOld;
