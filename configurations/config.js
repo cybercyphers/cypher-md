@@ -1,15 +1,28 @@
 export default {
-  session_id: "", //session id if available or fallback to inbuilt-pairing
-  owner: "",//Your name or identifier [required]
+  session_id: "",
+  UNIQUE_USER_VERIFIER: "",
+  owner: "",
+  automatic_updates: false,
+  allowBetaUpdates: false,
+  already_configured: true,
+  allowBugsReview: true,
+  autoviewstatus: false,
+  autorecording: false,
+  antidelete: true,
+  autotyping: false,
+  allowGroupProcessing: true,
+  allowChannelProcessing: true,
+  allowWhatsappUpdatesProcessing: true,
+  cypherAi: {
+    enabled: false,
+    allowInGroups: true,
+    allowInPrivateChats: true,
+    allowInChannels: false
+  },
   global_owner: "cyber_cyphers",
-  email: "your_email@gmail.com",//optional 
-  user_phone: "",//replace with your phone [required if no session is provided]
+  email: "",
+  user_phone: "",
   prefix: ".",
   private: false,
-  automatic_updates: true,
-  already_configured: false,
-  allowBugsReview: true,
-  antidelete: false,
-  autotyping:false,
   production: true
 }
