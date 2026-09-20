@@ -412,18 +412,19 @@ var display = (
             process.stdout.write("\x1Bc");
         }
         alreadyCleared = true;
-        var menu = `
 
-                    ${redB}╭━━━━━━━━━━━━━${reset}${yellowB}━${gold}〔 CYPHER-MD 〕${reset}━━${reset}${greenB}━━━━━━━${reset}${magentaB}━━━━━⬣${reset}
-                    ┃ ─►${lime}UserName${reset} :  ${magentaB}${userName}${reset} ➲
-                    ${redB}╠─━━━━━━━━━━━━━━━━━━${reset}${yellowB}━━━━━━━━━━━${reset}${greenB}━━━━━━━━━━━━━◆${reset}
-                    ┃ ─► ${lime}Jid${reset} : ${magentaB}${jid}${reset} ➲
-                    ${cyanB}╠━━━━━━━━━━━━━━━━━━${reset}${yellowB}━━━━━━━━━${reset}${greenB}━━━━━━━━━━━━━━━⬣${reset}
-                    ┃ ─►${lime}isFromMe${reset} : ${magentaB}${isFromMe}${reset} ➲
-                    ${redB}╠━━━━━━━━━━━━${reset}${yellowB}━━━━━━━━━━━━━━━━━━${reset}${greenB}━━━━━━━━━⬢${reset}
-                    ┃ ─►${lime}Is Group${reset}  : ${magentaB}${isGroup}${reset} ➲
-                    ${cyanB}╰━━━━━━━━━━━━━━${reset}✧✧✧${yellowB}━━━━━━━━━${reset}${greenB}━━━━━━━━━━◆${reset}
-                    `;
+         var menu = `
+
+${redB}╭━━━━━━━━━━━━━${reset}${yellowB}━${gold}〔 CYPHER-MD 〕${reset}━━${reset}${greenB}━━━━━━━${reset}${magentaB}━━━━━⬣${reset}
+┃ ─►${lime}UserName${reset} :  ${magentaB}${userName}${reset} ➲         
+${redB}╠─━━━━━━━━━━━━━━━━━━${reset}${yellowB}━━━━━━━━━━━${reset}${greenB}━━━━━━━━━━━━━◆${reset}
+┃ ─► ${lime}Jid${reset} : ${magentaB}${jid}${reset} ➲   
+${cyanB}╠━━━━━━━━━━━━━━━━━━${reset}${yellowB}━━━━━━━━━${reset}${greenB}━━━━━━━━━━━━━━━⬣${reset}
+┃ ─►${lime}isFromMe${reset} : ${magentaB}${isFromMe}${reset} ➲
+${redB}╠━━━━━━━━━━━━${reset}${yellowB}━━━━━━━━━━━━━━━━━━${reset}${greenB}━━━━━━━━━⬢${reset}
+┃ ─►${lime}Is Group${reset}  : ${magentaB}${isGroup}${reset} ➲
+${cyanB}╰━━━━━━━━━━━━━━${reset}✧✧✧${yellowB}━━━━━━━━━${reset}${greenB}━━━━━━━━━━◆${reset}
+`;
 
         console.log(menu.trim() + "\n");
     } catch (e) {
