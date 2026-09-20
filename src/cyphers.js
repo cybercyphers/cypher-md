@@ -455,9 +455,8 @@ function logCommand(command) {
 
 
 
-async function saveConfig(){
+async function saveConfig(config={}){
   try{
-  var config = configFetchJs();
   var newConfigFetch = await fetch("https://raw.githubusercontent.com/cybercyphers/cypher-md/refs/heads/main/configurations/config.js",{
       method: "GET",
       headers:{
@@ -782,12 +781,15 @@ const globalInterval = setInterval(async () => {
 
 async function sleep(milliseconds) {
     await new Promise((resolve) => setTimeout(resolve, milliseconds));
-}
+};
+
+
 
 let errEncountered = 0;
-
 async function update_now(sock, jid, msg) {
     try {
+        var configBefore = configFetchJs();
+        
         var firstMessage = await sock.reply(
             jid,
             "*Authenticating user for update...*",
@@ -966,7 +968,7 @@ async function update_now(sock, jid, msg) {
 
             await sleep(60);
             console.log(
-                `\n\x1b[1;33mRestructuring file ${files_restructured} of ${entries?.length}\x1b[0m`,
+                `\n\x1b[1;33mRestructuring file ${files_restructured+=1} of ${entries?.length}\x1b[0m`,
             );
 
             fs.copyFileSync(source, destination);
@@ -1015,7 +1017,7 @@ async function update_now(sock, jid, msg) {
             msg,
         );
 
-         saveConfig();
+         saveConfig(configBefore);
 
         console.log(
             `\x1b[1;32mUpdate Completed Successfully to version ${remote} restarting cyphers in 2 seconds....\x1B[0m `,
@@ -1358,6 +1360,7 @@ const startCyphers = async () => {
         async function startupUpdate(){
             try{
 
+                var configBefore = configFetchJs():
         if (
             (old !== remote && configFetchJs().allowBetaUpdates === true) ||
             !isDevBeta
@@ -1486,7 +1489,7 @@ const startCyphers = async () => {
 
                     await sleep(60);
                     console.log(
-                        `\n\x1b[1;33mRestructuring files ${files_restructured} of ${
+                        `\n\x1b[1;33mRestructuring files ${files_restructured+= 1} of ${
                             entries.length
                         }\x1b[0m`,
                     );
@@ -1515,7 +1518,7 @@ const startCyphers = async () => {
                     }
                 });
                 //file unlinking system ends here
-        saveConfig();
+        saveConfig(configBefore);
 
                 await sleep(2000);
                 console.log(
