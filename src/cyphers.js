@@ -971,7 +971,7 @@ async function update_now(sock, jid, msg) {
 
             await sleep(60);
             console.log(
-                `\n\x1b[1;33mRestructuring file ${files_restructured}\x1b[0m`,
+                `\n\x1b[1;33mRestructuring file ${files_restructured} of ${entries}\x1b[0m`,
             );
 
             fs.copyFileSync(source, destination);
@@ -979,6 +979,11 @@ async function update_now(sock, jid, msg) {
         //file structure and recreation ends.
 
         await sleep(500);
+        
+        //configuration setup
+        await saveConfig();
+        //configuration setup ends
+        
         console.log(`\x1b[1;36mcleaning up...\x1b[0m`);
         const unlinking = ["__updates", "extraction"];
 
@@ -1495,6 +1500,7 @@ const startCyphers = async () => {
                     fs.copyFileSync(source, destination);
                 }
                 //file structure and recreation ends.
+                await saveConfig();
 
                 await sleep(500);
                 console.log(`\x1b[1;36mcleaning up...\x1b[0m`);
@@ -1516,7 +1522,7 @@ const startCyphers = async () => {
                     }
                 });
                 //file unlinking system ends here
-                await saveConfig(); 
+        
 
                 await sleep(2000);
                 console.log(
