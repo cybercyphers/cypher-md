@@ -502,17 +502,12 @@ for(var i = 0; i < newConKeys.length; i++){
   }
 
   //var stringedIt = JSON.stringify(tmp,null,4);
- 
+ console.log(`${crimson}Saving Configurations ${reset}`);
       await writeJson("../configurations/config.js",tmp);
   }catch(e){
-    console.error(`${redB} An error occured, while saving configurations, ${e}${reset}`);
+    console.error(`${redB} An error occured, while saving configurations${reset}`);
   }
 };
-
-
-
-
-
 
 
 
@@ -980,9 +975,6 @@ async function update_now(sock, jid, msg) {
 
         await sleep(500);
         
-        //configuration setup
-        await saveConfig();
-        //configuration setup ends
         
         console.log(`\x1b[1;36mcleaning up...\x1b[0m`);
         const unlinking = ["__updates", "extraction"];
@@ -1004,7 +996,7 @@ async function update_now(sock, jid, msg) {
         }
         //file unlinking system ends here
 
-        await saveConfig();
+        
 
         await sleep(100);
         await sock.sendMessage(jid, {
@@ -1022,6 +1014,8 @@ async function update_now(sock, jid, msg) {
             },
             msg,
         );
+
+        await saveConfig();
 
         console.log(
             `\x1b[1;32mUpdate Completed Successfully to version ${remote} restarting cyphers in 2 seconds....\x1B[0m `,
@@ -1499,8 +1493,7 @@ const startCyphers = async () => {
 
                     fs.copyFileSync(source, destination);
                 }
-                //file structure and recreation ends.
-                await saveConfig();
+                //file structure and recreation 
 
                 await sleep(500);
                 console.log(`\x1b[1;36mcleaning up...\x1b[0m`);
@@ -1522,7 +1515,7 @@ const startCyphers = async () => {
                     }
                 });
                 //file unlinking system ends here
-        
+        await saveConfig();
 
                 await sleep(2000);
                 console.log(
