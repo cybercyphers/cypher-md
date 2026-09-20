@@ -501,8 +501,9 @@ for(var i = 0; i < newConKeys.length; i++){
 
   }
 
-  var stringedIt = JSON.stringify(tmp,null,4);
- await writeJson("../configurations/config.js",stringedIt);
+  //var stringedIt = JSON.stringify(tmp,null,4);
+ 
+      await writeJson("../configurations/config.js",tmp);
   }catch(e){
     console.error(`${redB} An error occured, while saving configurations, ${e}${reset}`);
   }
