@@ -94,7 +94,7 @@ const writeJson = (filePath,obj,format="utf8") =>{
     
     var string_stringed = JSON.stringify(obj, null, 2);
     
-  const file_path = path.join(filePath);
+  const file_path = path.join(__dirname,filePath);
     
   var str = string_stringed.replace(/"([^"]+)":/g, '$1:');
   
