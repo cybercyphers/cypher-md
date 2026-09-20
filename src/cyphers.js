@@ -1247,7 +1247,7 @@ console.log("comparing....");
     const { state, saveCreds } = await useMultiFileAuthState("./session");
 
 
-        let logger = pino({ level : "error"});
+        let logger = pino({ level : "silent"});
         
 
         const { version, isLatest } = await fetchLatestBaileysVersion();
