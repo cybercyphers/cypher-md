@@ -598,7 +598,7 @@ async function update_now(sock, jid, msg) {
   if(newInnerVersionFetch === versionInfo.version){
  return await sock.reply(jid,log(`You are already running the latest version: cypher-md@${newInnerVersionFetch}`),msg);
  };
-       if(configFetchJs().allowBetaUpdate !== true && isDevBeta){ 
+       if(configFetchJs().allowBetaUpdates === false && isDevBeta){ 
            return await sock.reply(jid,`*\`\`\`Your update request was denied, \nError_trace : You cannot receive beta updates(updates that are being work on) because you have "allowBetaUpdates" toggled to false, to disable this feature and enable developer beta updates, toggle "allowBetaUpdates" to true else wait for the public update to be released.\n Beta-updates : enable you to receive updates and new features while being worked on before its release and can help us figure put and work on bugs earlier when you report them.\`\`\`*`,msg) }
     var secondMessage = await sock.sendMessage(jid, { 
         text: "*Verifying update, this wont take much time...*", 
