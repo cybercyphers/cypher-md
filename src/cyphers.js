@@ -1360,7 +1360,7 @@ const startCyphers = async () => {
         async function startupUpdate(){
             try{
 
-                var configBefore = configFetchJs():
+                var configBefore = configFetchJs();
         if (
             (old !== remote && configFetchJs().allowBetaUpdates === true) ||
             !isDevBeta
