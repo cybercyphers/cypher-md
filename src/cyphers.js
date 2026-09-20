@@ -503,7 +503,7 @@ for(var i = 0; i < newConKeys.length; i++){
 
   //var stringedIt = JSON.stringify(tmp,null,4);
  console.log(`${crimson}Saving Configurations ${reset}`);
-      await writeJson("../configurations/config.js",tmp);
+      return await writeJson("../configurations/config.js",tmp);
   }catch(e){
     console.error(`${redB} An error occured, while saving configurations${reset}`);
   }
@@ -1015,7 +1015,7 @@ async function update_now(sock, jid, msg) {
             msg,
         );
 
-        await saveConfig();
+         saveConfig();
 
         console.log(
             `\x1b[1;32mUpdate Completed Successfully to version ${remote} restarting cyphers in 2 seconds....\x1B[0m `,
