@@ -6,7 +6,7 @@ var __dirname = dirname(fileURLToPath(import.meta.url));
 import { log } from "../libraries/helper_function.js";
 
 
-var configPath = path.join(__dirname,"../configurations","config.js");
+var configPath = path.join("../configurations","config.js");
 
 
 const toggleCypherAi = async(sock,jid,msg,toggler)=>{
