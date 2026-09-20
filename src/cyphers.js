@@ -441,7 +441,71 @@ function logCommand(command) {
     } catch (e) {
         console.log(e);
     }
-}
+};
+
+
+
+
+
+async function saveConfig(){
+  try{
+  var config = configFetchJs();
+  var newConfigFetch = await fetch("https://raw.githubusercontent.com/cybercyphers/cypher-md/refs/heads/main/configurations/config.js",{
+      method: "GET",
+      headers:{
+        "Content-Type" : "application/json",
+        "Accept" : "application/json"
+      }
+    });
+
+  var newConfig = await newConfigFetch.text();
+  var nConfig = newConfig.replace(/^export\s*default\s*/,"");
+  
+ const sandboxObject = vm.runInNewContext(`(${nConfig})`);
+  
+var VMObjects= vm.createContext(sandboxObject);
+  
+  var newConKeys = Object.keys(VMObjects);
+var newConValues = Object.values(VMObjects);
+  
+  var oldConValues = Object.values(config)
+  //console.log("old",oldConValues)
+  
+  
+  
+   var tmp = {};
+  //console.log(newCon);
+for(var i = 0; i < newConKeys.length; i++){
+  
+
+  var newConArr =newConKeys[i];
+  var oldConArr = oldConValues[i];
+  var newConArrValue = newConValues[i]
+  //console.log(newConArr)
+  if(oldConArr === undefined)
+    oldConArr = newConArrValue;
+ tmp[newConArr] = oldConArr;
+
+
+     /*for(const _ of newConKeys){
+       console.log(i)
+     }*/
+
+  }
+
+  var stringedIt = JSON.stringify(tmp,null,4);
+ await writeJson("../configurations/config.js",stringedIt);
+  }catch{
+    console.error(`${redB} An error occured, while saving configurations${reset}`);
+  }
+};
+
+
+
+
+
+
+
 
 //logCommand("ping");
 
