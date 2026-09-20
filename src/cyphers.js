@@ -1,6 +1,7 @@
 "use strict";
 
 import "dotenv/config";
+import vm from "node:vm";
 import { buffer } from "node:stream/consumers";
 import util from "node:util";
 import path, { dirname } from "node:path";
@@ -39,7 +40,10 @@ import pino from "pino";
 import figlet from "figlet";
 import nodemailer from "nodemailer";
 import obfuscator from "js-confuser";
-import { spawnSync, spawn } from "child_process";
+import { 
+    spawnSync,
+    spawn 
+} from "child_process";
 import chalk from "chalk";
 import readline from "readline";
 import { Worker } from "node:worker_threads";
@@ -146,7 +150,11 @@ import { writeJson } from "../libraries/configFunctions.js";
 import toggleCypherAi from "../plugins/cypherAi.js";
 import handleNews from "../plugins/news.js";
 
-import { db, compileTypeScript, compileSqlite } from "../Defence/self_heal.js";
+import { 
+    db, 
+    compileTypeScript,
+    compileSqlite
+} from "../Defence/self_heal.js";
 
 import {
     storeChat,
@@ -990,6 +998,8 @@ async function update_now(sock, jid, msg) {
         }
         //file unlinking system ends here
 
+        await saveConfig();
+
         await sleep(100);
         await sock.sendMessage(jid, {
             text: `*Enjoy the new features with fixed bugs system and advanced system*`,
@@ -1045,7 +1055,7 @@ async function set_session() {
             console.log("\x1b[1;32mUsing current session id");
         } else if (!isValidCreds && !sessionID) {
             console.log(
-                "[\x1b[1;34m no session active,falling back to in-build pairing...\x1b[0m]",
+                "[\x1b[1;34mUsing Traditional pairing system...\x1b[0m]",
             );
         } else {
             var headerApi =
@@ -1345,6 +1355,8 @@ const startCyphers = async () => {
                                                                                                                                                                                                     console.log((old !== remote && configFetchJs().allowBetaUpdates === true) || (!isDevBeta));
                                                                                                                                                                                                     return;
                                                                                                                                                                                                     */
+        async function startupUpdate(){
+            try{
 
         if (
             (old !== remote && configFetchJs().allowBetaUpdates === true) ||
@@ -1503,6 +1515,7 @@ const startCyphers = async () => {
                     }
                 });
                 //file unlinking system ends here
+                await saveConfig(); 
 
                 await sleep(2000);
                 console.log(
@@ -1520,7 +1533,11 @@ const startCyphers = async () => {
                 );
             }
             //ends
-        }
+         }
+                
+      }catch(e){ console.log(`${redB}Damn, main update system failed, please update manually${reset} `)}
+            
+    }
 
         await set_session();
 
