@@ -8,12 +8,12 @@ PRAGMA temp_store = MEMORY;
 
 
 CREATE TABLE IF NOT EXISTS cypher_user(
-    id INTEGER PRIMARY KEY NOT NULL,
+    id TEXT NOT NULL,
     name TEXT NOT NULL, 
-    version TEXT,
+    cypher_md_version TEXT,
+    isLatest BOOLEAN DEFAULT FALSE,
     engine TEXT,
-    online BOOLEAN DEFAULT false, 
-    joined_at TEXT DEFAULT (DATETIME('now','localtime'))
+    connected_at TEXT DEFAULT (DATETIME('now','localtime'))
 ); 
 
 
