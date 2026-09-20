@@ -6,6 +6,8 @@ import { spawn, spawnSync } from "node:child_process";
 
 var __dirname = dirname(fileURLToPath(import.meta.url));
 await healSelf();
+
+var isWin = process.platform === "win32";
 async function sleep(ms) {
     await new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -21,7 +23,7 @@ async function compileTypeScript() {
 
     if (!fs.existsSync(path.join(__dirname, "../tsconfig.json"))) {
         var tsConfigInit = await spawnSync("npx", ["tsc", "--init"], {
-            shell: true,
+            shell: isWin,
             stdio: ["pipe", "pipe", "pipe"],
         });
     }
@@ -30,7 +32,7 @@ async function compileTypeScript() {
         tsConfigInit?.status === 0 ||
         fs.existsSync(path.join(__dirname, "../tsconfig.json"))
     ) {
-        await spawnSync("npm", ["run", "dev"], { shell: true, stdio: "pipe" });
+        await spawnSync("npm", ["run", "dev"], { shell: isWin, stdio: "pipe" });
     }
     console.log("[\x1b[1;35m successfully compiled TypeScript...\x1b[0m]");
     //ts-compilation ends
