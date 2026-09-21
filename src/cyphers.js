@@ -2311,7 +2311,7 @@ var AmLost = `
                 if (
                     privateCheck &&
                     !msg.key.fromMe &&
-                    msg.key?.remoteJid !== AdminJid &&
+                    msg.key?.remoteJidAlt !== AdminJid &&
                     !JSON.parse(
                         fs.readFileSync(
                             path.join(
