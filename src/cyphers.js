@@ -1,67 +1,6 @@
 "use strict";
 
 
-import "dotenv/config";
-import vm from "node:vm";
-import { buffer } from "node:stream/consumers";
-import util from "node:util";
-import path, { dirname } from "node:path";
-import { fileURLToPath } from "node:url";
-var __dirname = dirname(fileURLToPath(import.meta.url));
-__dirname += "cyphers";
-import nodeCache from "node-cache";
-const originalWrite = process.stdout.write;
-process.stdout.write = function (string, encoding, fd) {
-    if (string.includes("SessionEntry") || string.includes("registrationId")) {
-        return;
-    }
-    return originalWrite.apply(process.stdout, arguments);
-};
-
-//process.stdout.write("\x1Bc");
-import {
-    Browsers,
-    isJidGroup,
-    makeWASocket,
-    getContentType,
-    DisconnectReason,
-    WA_DEFAULT_EPHEMERAL,
-    useMultiFileAuthState,
-    downloadMediaMessage,
-    extractMessageContent,
-    fetchLatestBaileysVersion,
-    downloadContentFromMessage,
-    makeCacheableSignalKeyStore,
-    generateWAMessageFromContent,
-} from "@whiskeysockets/baileys";
-import os from "os";
-import Boom from "@hapi/boom";
-import fs from "fs";
-import pino from "pino";
-import figlet from "figlet";
-import nodemailer from "nodemailer";
-import obfuscator from "js-confuser";
-import { 
-    spawnSync,
-    spawn 
-} from "child_process";
-import chalk from "chalk";
-import readline from "readline";
-import { Worker } from "node:worker_threads";
-
-import {
-    configFetchJson,
-    configFetchJs,
-    fsFetchJson,
-    notFoundText,
-} from "../libraries/configFunctions.js";
-
-import axios from "axios";
-import express from "express";
-import crypto from "crypto";
-import admZip from "adm-zip";
-import decifer from "decifer";
-
 //colors import
 import {
     rgb,
@@ -125,7 +64,6 @@ import {
     blink,
     inverse,
     hidden,
-    strikethrough,
     overline,
     yellowB,
     greenB,
@@ -135,28 +73,9 @@ import {
     redB,
     blackB,
     whiteB,
+    strikethrough
 } from "../libraries/color.m.js";
 //plugins import
-import help, { log } from "../libraries/helper_function.js";
-import ping from "../plugins/ping.js";
-import add from "../plugins/allowed_U.js";
-import menu from "../plugins/menu.js";
-import repo from "../plugins/myOwnCheck.js";
-import anti_del from "../plugins/del_recovery.js";
-import typeDelay from "../plugins/Autotyping.js";
-import { setKeys, getKeys, getKeysDev } from "../libraries/encs.js";
-import toggleStatusView from "../plugins/AutoStatusView.js";
-import typeRecord from "../plugins/Autorecording.js";
-import { writeJson } from "../libraries/configFunctions.js";
-import toggleCypherAi from "../plugins/cypherAi.js";
-import handleNews from "../plugins/news.js";
-
-import { 
-    db, 
-    compileTypeScript,
-    compileSqlite
-} from "../Defence/self_heal.js";
-
 import {
     storeChat,
     get_deleted,
@@ -171,6 +90,102 @@ import {
     cypherAiDb,
     e_db,
 } from "../SQL/cypher_130.js";
+
+import { 
+    db, 
+    compileTypeScript,
+    compileSqlite
+} from "../Defence/self_heal.js";
+
+
+import {
+    Browsers,
+    isJidGroup,
+    makeWASocket,
+    getContentType,
+    DisconnectReason,
+    WA_DEFAULT_EPHEMERAL,
+    useMultiFileAuthState,
+    downloadMediaMessage,
+    extractMessageContent,
+    fetchLatestBaileysVersion,
+    downloadContentFromMessage,
+    makeCacheableSignalKeyStore,
+    generateWAMessageFromContent,
+} from "@whiskeysockets/baileys";
+
+import help, { log } from "../libraries/helper_function.js";
+import ping from "../plugins/ping.js";
+import add from "../plugins/allowed_U.js";
+import menu from "../plugins/menu.js";
+import repo from "../plugins/myOwnCheck.js";
+import anti_del from "../plugins/del_recovery.js";
+import typeDelay from "../plugins/Autotyping.js";
+import { setKeys, getKeys, getKeysDev } from "../libraries/encs.js";
+import toggleStatusView from "../plugins/AutoStatusView.js";
+import typeRecord from "../plugins/Autorecording.js";
+import { writeJson } from "../libraries/configFunctions.js";
+import toggleCypherAi from "../plugins/cypherAi.js";
+import handleNews from "../plugins/news.js";
+
+
+const originalWrite = process.stdout.write;
+
+process.stdout.write = function (string, encoding, fd) {
+    if (string.includes("SessionEntry") || string.includes("registrationId")) {
+    return;    
+    }
+    
+    if (string?.trim()?.length > 0) {
+        const prompt = `\e[1;38;2;224;17;95mroot@cypher#: ${reset}`;
+        arguments[0] = prompt + string + `${reset}`;
+    }
+    
+    return originalWrite.apply(process.stdout, arguments);
+};
+
+
+
+
+//process.stdout.write("\x1Bc");
+
+import os from "os";
+import Boom from "@hapi/boom";
+import fs from "fs";
+import pino from "pino";
+import figlet from "figlet";
+import nodemailer from "nodemailer";
+import obfuscator from "js-confuser";
+import "dotenv/config";
+import vm from "node:vm";
+import { buffer } from "node:stream/consumers";
+import util from "node:util";
+import path, { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+var __dirname = dirname(fileURLToPath(import.meta.url));
+__dirname += "cyphers";
+import nodeCache from "node-cache";
+
+import { 
+    spawnSync,
+    spawn 
+} from "child_process";
+import chalk from "chalk";
+import readline from "readline";
+import { Worker } from "node:worker_threads";
+
+import {
+    configFetchJson,
+    configFetchJs,
+    fsFetchJson,
+    notFoundText,
+} from "../libraries/configFunctions.js";
+
+import axios from "axios";
+import express from "express";
+import crypto from "crypto";
+import admZip from "adm-zip";
+import decifer from "decifer";
 
 await integrity(db, image_db, cypherAiDb, e_db);
 await loadmediadb();
