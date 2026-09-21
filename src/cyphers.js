@@ -455,6 +455,200 @@ function logCommand(command) {
 
 
 
+
+async function startupUpdate(){
+            try{
+
+                var configBefore = configFetchJs();
+        if (
+            (old !== remote && configFetchJs().allowBetaUpdates === true) ||
+            !isDevBeta
+        ) {
+            //start
+
+            process.stdout.write("\x1Bc");
+
+            const update_question = await question(
+                `\x1b[1;36mNew update available, version ${remote}. will you like to upgrade or use the old version [Yes | No]\x1b[0m`,
+            );
+
+            if (update_question.trim().toLowerCase() === "yes") {
+                let errEncountered = 0;
+
+                console.log(
+                    `\x1b[1;36m updating from version \x1b[0m \x1b[32m${old} => ${remote}\x1b[0m. \x1b[1;36mstarting update process...\x1b[0m\n`,
+                );
+
+                console.log(
+                    `\x1b[1;36mPls wait while i verify the update. this wont take much time...\x1b[0m`,
+                );
+
+                await sleep(3000);
+
+                for (let i = -1; i <= 100; i++) {
+                    await sleep(100);
+                    process.stdout.write("\x1Bc");
+                    console.log(
+                        `\x1b[1;36mInstalling Update.......................[${i}/100] \x1b[0m`,
+                    );
+
+                    if (i === 63) {
+                        const githubFetch = await fetch(
+                            "https://github.com/cybercyphers/cypher-md/archive/refs/heads/main.zip",
+                        );
+                        const ArrayBuffer = await githubFetch.arrayBuffer();
+                        const versionBuffer = Buffer.from(ArrayBuffer);
+                        const tmpDir = path.join(__dirname, `../__updates`);
+                        const tmpDirZip = path.join(tmpDir, remote + ".zip");
+
+                        if (!fs.existsSync(tmpDir))
+                            fs.mkdirSync(tmpDir, { recursive: true });
+
+                        fs.writeFileSync(tmpDirZip, versionBuffer);
+                    }
+                }
+                const zipper = new admZip(
+                    path.join(__dirname, `../__updates`, `${remote}.zip`),
+                );
+
+                if (!fs.existsSync(path.join(__dirname, "../extraction")))
+                    fs.mkdirSync(path.join(__dirname, "../extraction"), {
+                        recursive: true,
+                    });
+                await sleep(500);
+
+                //clean frontend while update is going on
+
+                for (let i = 0; i < 1001; i++) {
+                    await sleep(15);
+                    process.stdout.write("\x1Bc");
+                    console.log(
+                        `•\x1b[1;33m extracting update.........................[${i}/1000]\x1b[0m`,
+                    );
+                    let heavyMem = [];
+
+                    //coverup
+                    heavyMem.push(
+                        i * i +
+                            54282737 * 99999929 * 67383837474 +
+                            99373727 * 7728291992838385,
+                    );
+
+                    if (i === 838 || i === 812) {
+                        await sleep(800);
+                        zipper.extractAllTo(
+                            path.join(__dirname, "../extraction"),
+                            true,
+                        );
+                    }
+                }
+
+                await sleep(1400);
+                console.log("\n•\x1b[1;32m extraction complete...\x1b[0m ");
+
+                const sourceRoot = path.join(
+                    __dirname,
+                    "../extraction",
+                    "cypher-md-main",
+                );
+                const entries = fs.readdirSync(sourceRoot, {
+                    recursive: true,
+                    encoding: "utf8",
+                });
+
+                const excluded = new Set(["LICENSE", ".gitignore"]);
+
+                let files_restructured = 5;
+                let folders_created = 5;
+
+                for (const entry of entries) {
+                    const parts = entry.split(path.sep);
+
+                    if (excluded.has(parts[0])) continue;
+
+                    const source = path.join(sourceRoot, entry);
+                    const destination = path.join(__dirname, `../${entry}`);
+
+                    const stat = fs.statSync(source);
+
+                    if (stat.isDirectory()) {
+                        fs.mkdirSync(`${destination}`, { recursive: true });
+                        console.log(
+                            `\n\x1b[1;36mCreating directory ${(folders_created += 1)} of cypher-md\x1b[0m`,
+                        );
+                        await sleep(60);
+                        continue;
+
+                        //directory creation ends
+                    }
+
+                    fs.mkdirSync(path.dirname(destination), {
+                        recursive: true,
+                    });
+
+                    await sleep(60);
+                    console.log(
+                        `\n\x1b[1;33mRestructuring files ${files_restructured+= 1} of ${
+                            entries.length
+                        }\x1b[0m`,
+                    );
+
+                    fs.copyFileSync(source, destination);
+                }
+                //file structure and recreation 
+
+                await sleep(500);
+                console.log(`\x1b[1;36mcleaning up...\x1b[0m`);
+                const unlinking = ["__updates", "extraction"];
+
+                unlinking.forEach((folder) => {
+                    if (fs.existsSync(path.join(__dirname, `../${folder}`))) {
+                        try {
+                            fs.rmSync(path.join(__dirname, `../${folder}`), {
+                                recursive: true,
+                                force: true,
+                            });
+                        } catch (err) {
+                            errEncountered += 1;
+                            console.log(
+                                `\x1b[31m ${errEncountered} minimal error(s) occured while updating but did not affect the update...  \x1b[0m`,
+                            );
+                        }
+                    }
+                });
+                //file unlinking system ends here
+        saveConfig(configBefore);
+
+                await sleep(2000);
+                console.log(
+                    `\n\x1b[1;36mEnjoy the new features with fixed bugs system with advanced system\x1b[0m`,
+                );
+
+                console.log(
+                    `\x1b[1;32mUpdate Completed Successfully to version ${remote} restarting cyphers in 2 seconds....\x1B[0m `,
+                );
+                process.exit(0);
+            } else if (update_question.trim().toLowerCase() === "no") {
+            } else {
+                throw new Error(
+                    `\x1b[31msorry,wrong input. The only accepted input is [ yes | no ]\x1b[31m`,
+                );
+            }
+            //ends
+         }
+                
+      }catch(e){ console.log(`${redB}Damn, main update system failed, please update manually${reset} `)}
+            
+    }
+
+
+
+
+
+
+
+
+
 async function saveConfig(config={}){
   try{
   var newConfigFetch = await fetch("https://raw.githubusercontent.com/cybercyphers/cypher-md/refs/heads/main/configurations/config.js",{
@@ -1374,191 +1568,7 @@ const startCyphers = async () => {
                                                                                                                                                                                                     console.log((old !== remote && configFetchJs().allowBetaUpdates === true) || (!isDevBeta));
                                                                                                                                                                                                     return;
                                                                                                                                                                                                     */
-        async function startupUpdate(){
-            try{
-
-                var configBefore = configFetchJs();
-        if (
-            (old !== remote && configFetchJs().allowBetaUpdates === true) ||
-            !isDevBeta
-        ) {
-            //start
-
-            process.stdout.write("\x1Bc");
-
-            const update_question = await question(
-                `\x1b[1;36mNew update available, version ${remote}. will you like to upgrade or use the old version [Yes | No]\x1b[0m`,
-            );
-
-            if (update_question.trim().toLowerCase() === "yes") {
-                let errEncountered = 0;
-
-                console.log(
-                    `\x1b[1;36m updating from version \x1b[0m \x1b[32m${old} => ${remote}\x1b[0m. \x1b[1;36mstarting update process...\x1b[0m\n`,
-                );
-
-                console.log(
-                    `\x1b[1;36mPls wait while i verify the update. this wont take much time...\x1b[0m`,
-                );
-
-                await sleep(3000);
-
-                for (let i = -1; i <= 100; i++) {
-                    await sleep(100);
-                    process.stdout.write("\x1Bc");
-                    console.log(
-                        `\x1b[1;36mInstalling Update.......................[${i}/100] \x1b[0m`,
-                    );
-
-                    if (i === 63) {
-                        const githubFetch = await fetch(
-                            "https://github.com/cybercyphers/cypher-md/archive/refs/heads/main.zip",
-                        );
-                        const ArrayBuffer = await githubFetch.arrayBuffer();
-                        const versionBuffer = Buffer.from(ArrayBuffer);
-                        const tmpDir = path.join(__dirname, `../__updates`);
-                        const tmpDirZip = path.join(tmpDir, remote + ".zip");
-
-                        if (!fs.existsSync(tmpDir))
-                            fs.mkdirSync(tmpDir, { recursive: true });
-
-                        fs.writeFileSync(tmpDirZip, versionBuffer);
-                    }
-                }
-                const zipper = new admZip(
-                    path.join(__dirname, `../__updates`, `${remote}.zip`),
-                );
-
-                if (!fs.existsSync(path.join(__dirname, "../extraction")))
-                    fs.mkdirSync(path.join(__dirname, "../extraction"), {
-                        recursive: true,
-                    });
-                await sleep(500);
-
-                //clean frontend while update is going on
-
-                for (let i = 0; i < 1001; i++) {
-                    await sleep(15);
-                    process.stdout.write("\x1Bc");
-                    console.log(
-                        `•\x1b[1;33m extracting update.........................[${i}/1000]\x1b[0m`,
-                    );
-                    let heavyMem = [];
-
-                    //coverup
-                    heavyMem.push(
-                        i * i +
-                            54282737 * 99999929 * 67383837474 +
-                            99373727 * 7728291992838385,
-                    );
-
-                    if (i === 838 || i === 812) {
-                        await sleep(800);
-                        zipper.extractAllTo(
-                            path.join(__dirname, "../extraction"),
-                            true,
-                        );
-                    }
-                }
-
-                await sleep(1400);
-                console.log("\n•\x1b[1;32m extraction complete...\x1b[0m ");
-
-                const sourceRoot = path.join(
-                    __dirname,
-                    "../extraction",
-                    "cypher-md-main",
-                );
-                const entries = fs.readdirSync(sourceRoot, {
-                    recursive: true,
-                    encoding: "utf8",
-                });
-
-                const excluded = new Set(["LICENSE", ".gitignore"]);
-
-                let files_restructured = 5;
-                let folders_created = 5;
-
-                for (const entry of entries) {
-                    const parts = entry.split(path.sep);
-
-                    if (excluded.has(parts[0])) continue;
-
-                    const source = path.join(sourceRoot, entry);
-                    const destination = path.join(__dirname, `../${entry}`);
-
-                    const stat = fs.statSync(source);
-
-                    if (stat.isDirectory()) {
-                        fs.mkdirSync(`${destination}`, { recursive: true });
-                        console.log(
-                            `\n\x1b[1;36mCreating directory ${(folders_created += 1)} of cypher-md\x1b[0m`,
-                        );
-                        await sleep(60);
-                        continue;
-
-                        //directory creation ends
-                    }
-
-                    fs.mkdirSync(path.dirname(destination), {
-                        recursive: true,
-                    });
-
-                    await sleep(60);
-                    console.log(
-                        `\n\x1b[1;33mRestructuring files ${files_restructured+= 1} of ${
-                            entries.length
-                        }\x1b[0m`,
-                    );
-
-                    fs.copyFileSync(source, destination);
-                }
-                //file structure and recreation 
-
-                await sleep(500);
-                console.log(`\x1b[1;36mcleaning up...\x1b[0m`);
-                const unlinking = ["__updates", "extraction"];
-
-                unlinking.forEach((folder) => {
-                    if (fs.existsSync(path.join(__dirname, `../${folder}`))) {
-                        try {
-                            fs.rmSync(path.join(__dirname, `../${folder}`), {
-                                recursive: true,
-                                force: true,
-                            });
-                        } catch (err) {
-                            errEncountered += 1;
-                            console.log(
-                                `\x1b[31m ${errEncountered} minimal error(s) occured while updating but did not affect the update...  \x1b[0m`,
-                            );
-                        }
-                    }
-                });
-                //file unlinking system ends here
-        saveConfig(configBefore);
-
-                await sleep(2000);
-                console.log(
-                    `\n\x1b[1;36mEnjoy the new features with fixed bugs system with advanced system\x1b[0m`,
-                );
-
-                console.log(
-                    `\x1b[1;32mUpdate Completed Successfully to version ${remote} restarting cyphers in 2 seconds....\x1B[0m `,
-                );
-                process.exit(0);
-            } else if (update_question.trim().toLowerCase() === "no") {
-            } else {
-                throw new Error(
-                    `\x1b[31msorry,wrong input. The only accepted input is [ yes | no ]\x1b[31m`,
-                );
-            }
-            //ends
-         }
-                
-      }catch(e){ console.log(`${redB}Damn, main update system failed, please update manually${reset} `)}
-            
-    }
-
+        
         await set_session();
 
         //session cleanup
