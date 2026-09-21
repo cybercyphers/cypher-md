@@ -1983,17 +1983,17 @@ const connectedText = `
                 var jidAlt = msg?.key?.remoteJidAlt;
 
                 
-                var isGroup = jid.endsWith("@g.us")
+                var isGroup = jid?.endsWith("@g.us")
                     || jidAlt?.endsWith("@g.us");
 
                 
-                var isChannel = jid.endsWith("@newsletter")
-                    || jidAlt.endsWith("@newsletter");
+                var isChannel = jid?.endsWith("@newsletter")
+                    || jidAlt?.endsWith("@newsletter");
 
                 
                 var isStatusUpdate = jid === 'status@broadcast'
-                    ||                   jid.endsWith('status@broadcast')
-                    || jidAlt.endsWith('status@broadcast'); 
+                    ||                   jid?.endsWith('status@broadcast')
+                    || jidAlt?.endsWith('status@broadcast'); 
 
 
 //group chrck before update;
