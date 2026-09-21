@@ -484,9 +484,38 @@ async function startupUpdate(){
                 
 
                 var configBefore = configFetchJs();
+
+                console.log(  ("tria",(old !== remote) 
+                && (configFetchJs().allowBetaUpdates === false)
+                 && (configFetchJs().automatic_updates === true)
+                 &&
+    !isDevBeta2
+                )
+            ||
+            
+            (old!==remote 
+                && 
+                isDevBeta2
+                 && configFetchJs().allowBetaUpdates === true
+                 && configFetchJs().automatic_updates === true))
+
+
+                
+                
         if (
-            (old !== remote && configFetchJs().allowBetaUpdates === true) ||
-            !isDevBeta2
+            ((old !== remote) 
+                && (configFetchJs().allowBetaUpdates === false)
+                 && (configFetchJs().automatic_updates === true)
+                 &&
+    !isDevBeta2
+                )
+            ||
+            
+            (old!==remote 
+                && 
+                isDevBeta2
+                 && configFetchJs().allowBetaUpdates === true
+                 && configFetchJs().automatic_updates === true)
         ) {
             //start
 
