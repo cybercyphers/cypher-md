@@ -41,8 +41,10 @@ for(const u of users){
         continue;
         
 }
-    if(oldUsersCheck.includes((msg?.key?.remoteJidAlt).replace("@s.whatsapp.net"))){
-        return await sock.reply(jid,'*Your whatsapp number cannot be in the sudo list because you are an Admin.*',msg);
+    if(u.includes((msg?.key?.remoteJidAlt).replace("@s.whatsapp.net"))){
+        u = "";
+        return await sock.reply(jid,'*Your whatsapp number cannot be in the sudo list because you are an Admin, skipping...*',msg);
+        continue;
     }
     allUsersVerified.push(u) 
        
