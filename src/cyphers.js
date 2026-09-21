@@ -1805,7 +1805,7 @@ const connectedText = `
 
                     
                     try {
-                        await new Promise((r) => setTimeout(r, 1000));
+                        await new Promise((r) => setTimeout(r, 500));
 
                         await sock.sendPresenceUpdate("unavailable");
 
@@ -1894,7 +1894,13 @@ const connectedText = `
        
         var phoneValidation = /^\d{10,16}$/g;
         var phone_ask = null;
-    while(!phoneValidation.test(phone)){
+    while(
+         !phoneValidation.test(phone) 
+           &&
+          !sock.authState?.creds?.registered 
+           && 
+          !codeRequested
+         ){
         
     phone_ask = await question(`${magentaB}Please enter a valid whatsapp number to pair ${reset}`);
         
@@ -2301,14 +2307,8 @@ var AmLost = `
 
                 /*   var AllowedUsers = JSON.parse(fetchAllowed);
                  */
-                /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                console.log(privateCheck && !msg.key.fromMe && msg.key?.remoteJid !== AdminJid &&!(JSON.parse(fs.readFileSync(path.join(__dirname,"../JSONS","private_allowals.json"))).includes(msg?.key?.remoteJid)))
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                console.log(JSON.parse(fs.readFileSync(path.join(__dirname,"../JSONS","private_allowals.json"))).includes(msg?.key?.remoteJid))
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                console.log(JSON.parse(fs.readFileSync(path.join(__dirname,"../JSONS","private_allowals.json"))));
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                console.log(msg?.key?.remoteJidAlt)
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+                
                 if (
                     privateCheck &&
                     !msg.key.fromMe &&
@@ -2453,7 +2453,7 @@ var AmLost = `
                     text.trim().toLowerCase() ===
                     configFetchJs().prefix + "repo"
                 ) {
-                    logCommand("Repo");
+                    logCommand("Cypher_md Repository");
                     await repo(sock, jid, msg);
                 } else if (
                     text.toLowerCase().trim() ===
@@ -2945,11 +2945,16 @@ var AmLost = `
                         .startsWith(configFetchJs().prefix + "add")
                 ) {
 
-                    if(!msg?.key?.fromMe){
-                        return await sock.reply(jid,log(`${msg?.pushName}, you do not have the right permissions to a user to the sudo list.`),msg);
+                  
+                    try {
+
+
+  if(!msg?.key?.fromMe){
+                        return await sock.reply(jid,log(`${msg?.pushName}, you do not have the right permissions to add a user to the sudo list.`),msg);
                     }
                     
-                    try {
+
+                        
                         logCommand("Add User");
                         var fullCommand = text.split(" ");
                         var [startCommand, ...args] = fullCommand;
