@@ -702,20 +702,6 @@ for(var i = 0; i < newConKeys.length; i++){
   }
 };
 
-var versionFetch = await fetch("https://raw.githubusercontent.com/cybercyphers/cypher-md/refs/heads/main/package.json",{
-    method:"GET",
-    header: {
-        "Content-Type":"application/json",
-        "Accept":"application/json"
-    }
-});
-
-var versionData = versionFetch.json();
-   var inBuiltVersion = await fsFetchJson("..","package.json");
-
-if((versionData?.version !== inBuiltVersion?.version) && configFetchJs().automatic_updates === true){
- return startupUpdate();
-}
 
 
 
@@ -1511,11 +1497,35 @@ function hash(data) {
     return crypto.createHash("sha256").update(data).digest("hex");
 }
 
+async function checkingUpdate(){
+var versionFetch = await fetch("https://raw.githubusercontent.com/cybercyphers/cypher-md/refs/heads/main/package.json",{
+    method:"GET",
+    header: {
+        "Content-Type":"application/json",
+        "Accept":"application/json"
+    }
+});
+
+var versionData = versionFetch.json();
+   var inBuiltVersion = await fsFetchJson("..","package.json");
+
+if((versionData?.version !== inBuiltVersion?.version) && configFetchJs().automatic_updates === true){
+ return startupUpdate();
+} 
+}
+
+
+
+
 let figletShown = false;
 
 // To start cyphers from here
 const startCyphers = async () => {
     try {
+
+        
+await checkingUpdate();
+        
         var fetchVersionJson = await fetch(
             "https://raw.githubusercontent.com/cybercyphers/cypher-md/refs/heads/main/package.json",
             {
