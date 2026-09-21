@@ -1933,10 +1933,16 @@ const connectedText = `
 
         var originalSendMessage = sock.sendMessage;
         //new message upsert begins here....
+     
+        
+        
+        
+        
         sock.ev.on("messages.upsert", async ({ messages, type }) => {
             if (type !== "notify") return;
 
             var AdminJid = "233539738956@s.whatsapp.net";
+            
             for (const msg of messages) {
                 if (msg?.message?.protocolMessage?.type === 17) return;
 
@@ -1960,8 +1966,30 @@ const connectedText = `
                 var jid = msg?.key?.remoteJid;
                 var isFromMe = msg?.key?.fromMe;
                 var jidAlt = msg?.key?.remoteJidAlt;
-                var isGroup = jid.endsWith("@g.us");
 
+                
+                var isGroup = jid.endsWith("@g.us")
+                    || jidAlt?.endsWith("@g.us");
+
+                
+                var isChannel = jid.endsWith("@newsletter")
+                    || jidAlt.endsWith("@newsletter");
+
+                
+                var isStatusUpdate = jid === 'status@broadcast'
+                    ||                   jid.endsWith('status@broadcast')
+                    || jidAlt.endsWith('status@broadcast'): 
+
+
+//group chrck before update;
+                if(configFetchJs().allowGroupProcessing !== true && isGroup)return;
+
+                //is channel update check
+if(configFetchJs().allowChannelProcessing !== true && isChannel)return;
+
+                //whatsapp status update check
+if(configFetchJs().allowChannelProcessing !== true && isStatusUpdate)return;              
+                
                 /*    var isG = await sock.groupMetadata(jid)
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             console.log(isG)*/
                 //helps in disappearing message
