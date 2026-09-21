@@ -1,7 +1,8 @@
 export default {
-  session_id: "",
+  session_id: '',  //please paste your session_id here if prefered over inbuilt pairing
+  
   UNIQUE_USER_VERIFIER: "",
-  owner: "",
+  owner: "",    //optional but recommended;
   automatic_updates: false,
   allowBetaUpdates: false,
   already_configured: true,
@@ -26,5 +27,5 @@ export default {
   user_phone: "",  //required
   prefix: ".",
   private: false,
-  production: true //recommended
-}
+  production: true //required,{ do not toggle if you are not included in the BETA DEVS}
+    }
