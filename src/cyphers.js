@@ -459,10 +459,34 @@ function logCommand(command) {
 async function startupUpdate(){
             try{
 
+
+
+                   var fetchVersionJson = await fetch(
+            "https://raw.githubusercontent.com/cybercyphers/cypher-md/refs/heads/main/package.json",
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                },
+            },
+        );
+
+        var versionInfo = await fetchVersionJson.json();
+        //  var newVersion = versionInfo.version;
+
+        var isDevBeta2 =
+            versionInfo?.version.includes("beta") ||
+            versionInfo?.version.includes("alpha");
+
+
+
+                
+
                 var configBefore = configFetchJs();
         if (
             (old !== remote && configFetchJs().allowBetaUpdates === true) ||
-            !isDevBeta
+            !isDevBeta2
         ) {
             //start
 
