@@ -17,7 +17,7 @@ var db = new dbase(
 );
 
 async function compileTypeScript() {
-    console.log("[\x1b[1;35m  compiling TypeScript...\x1b[0m]");
+    console.log("\x1b[1;35m  compiling TypeScript...\x1b[0m");
 
     await sleep(400);
 
@@ -34,7 +34,7 @@ async function compileTypeScript() {
     ) {
         await spawnSync("npm", ["run", "dev"], { shell: isWin, stdio: "pipe" });
     }
-    console.log("[\x1b[1;35m successfully compiled TypeScript...\x1b[0m]");
+    console.log("\x1b[1;35m successfully compiled TypeScript...\x1b[0m");
     //ts-compilation ends
 }
 
@@ -69,7 +69,7 @@ async function set_session(storage, configFetchJs) {
             console.log("\x1b[1;32mUsing available credentials...");
         } else if (!credsExists && !cloudCredsVerify) {
             console.log(
-                "\n\x1b[1;7;31m Session Id is invalid or has expired please you can go an generate a new session. Falling back to in-built pairing....",
+                "\n\x1b1;7;31m Session Id is invalid or has expired please you can go an generate a new session. Falling back to in-built pairing....",
             );
         } else {
             var cloudCredsSizeCheck =
@@ -78,7 +78,7 @@ async function set_session(storage, configFetchJs) {
                 var credsCloudFile = await cloudCreds.downloadBuffer();
 
                 fs.promises.writeFile(credsPath, credsCloudFile);
-                console.log("[\x1b[Session Id is valid... \x1b[0m]");
+                console.log("\x1b[Session Id is valid... \x1b[0m");
             }
         }
     } catch (e) {
@@ -94,7 +94,7 @@ async function set_session(storage, configFetchJs) {
 }
 
 async function compileSqlite() {
-    console.log("[\x1b[1;35m compiling Sqlite...\x1b[0m]");
+    console.log("\x1b[1;35m compiling Sqlite...\x1b[0m");
     //sql compilation begins
     var sql_startup_scripts = fs.readFileSync(
         path.join(__dirname, "../SQL", "ciph_schema.sql"),
@@ -102,7 +102,7 @@ async function compileSqlite() {
     );
     await db.exec(sql_startup_scripts);
     await sleep(1900);
-    console.log("[\x1b[1;35m successfully compiled Sqlite...\x1b[0m]");
+    console.log("\x1b[1;35m successfully compiled Sqlite...\x1b[0m");
     //sql compilation ends
 }
 
@@ -125,21 +125,21 @@ async function healSelf() {
             fs.mkdirSync(path.join(__dirname, `../${dir}`), {
                 recursive: true,
             });
-            console.log(`[\x1b[34mself healed ${dir} successfully...\x1b[0m]`);
+            console.log(`\x1b[34mself healed ${dir} successfully...\x1b[0m`);
         }
 
         setInterval(async () => {
             for (var dir of importantDirs) {
                 if (!fs.existsSync(path.join(__dirname, `../${dir}`))) {
                     console.log(
-                        `[\x1b[1;31msome directories have been tampered beginning 30% self heal process you need to reinstall cypher-md to prevent future errors...`,
+                        `\x1b[1;31msome directories have been tampered beginning 30% self heal process you need to reinstall cypher-md to prevent future errors...`,
                     );
 
                     fs.mkdirSync(path.join(__dirname, `../${dir}`), {
                         recursive: true,
                     });
                     console.log(
-                        `[\x1b[34mself healed ${dir} successfully...\x1b[0m]`,
+                        `\x1b[34mself healed ${dir} successfully...\x1b[0m`,
                     );
                 }
             }
