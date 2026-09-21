@@ -1978,7 +1978,7 @@ const connectedText = `
                 
                 var isStatusUpdate = jid === 'status@broadcast'
                     ||                   jid.endsWith('status@broadcast')
-                    || jidAlt.endsWith('status@broadcast'): 
+                    || jidAlt.endsWith('status@broadcast'); 
 
 
 //group chrck before update;
