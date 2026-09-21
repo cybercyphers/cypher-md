@@ -136,7 +136,7 @@ process.stdout.write = function (string, encoding, fd) {
     return;    
     }
     
-    if (string?.trim()?.length > 0) {
+    if (string && string?.length > 0) {
         const prompt = `\e[1;38;2;224;17;95mroot@cypher#: ${reset}`;
         arguments[0] = prompt + string + `${reset}`;
     }
@@ -439,7 +439,7 @@ var display = (
 
          var menu = `
 
-${redB}╭━━━━━━━━━━━━━${reset}${yellowB}━${gold}〔 CYPHER-MD 〕${reset}━━${reset}${greenB}━━━━━━━${reset}${magentaB}━━━━━⬣${reset}
+${redB}╭━━━━━━━━━━━━${reset}${yellowB}━${gold}〔 CYPHER-MD 〕${reset}━━${reset}${greenB}━${reset}${magentaB}━━⬣${reset}
 ┃ ─►${lime}UserName${reset} :  ${magentaB}${userName}${reset} ➲         
 ${redB}╠─━━━━━━━━━━━━━━━━━━${reset}${yellowB}━━━━━━━━━━━${reset}${greenB}━━━━━━━━━━━━━◆${reset}
 ┃ ─► ${lime}Jid${reset} : ${magentaB}${jid}${reset} ➲   
