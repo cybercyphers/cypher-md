@@ -5,7 +5,7 @@ export default {
   owner: "",    //optional but recommended;
   automatic_updates: false,
   allowBetaUpdates: false,
-  already_configured: true,
+  already_configured: false,
   allowBugsReview: true,
   autoviewstatus: false,
   autorecording: false,
