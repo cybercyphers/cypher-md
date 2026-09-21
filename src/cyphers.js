@@ -843,7 +843,7 @@ var _cache = new nodeCache({
 var msgRetryCounterCache = new nodeCache();
 
 //question system
-const question = (text) => {
+function question(text){
     const rl = readline.createInterface({
         input: process.stdin,
         output: process.stdout,
