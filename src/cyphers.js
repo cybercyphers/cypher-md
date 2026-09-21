@@ -439,7 +439,7 @@ var display = (
 
          var menu = `
 
-${redB}╭━━━━━━━━━━━━${reset}${yellowB}━${gold}〔 CYPHER-MD 〕${reset}━━${reset}${greenB}━${reset}${magentaB}━━⬣${reset}
+${redB}╭━━━━━━━━━━${reset}${yellowB}━${gold}〔 CYPHER-MD 〕${reset}━${reset}${greenB}━${reset}${magentaB}⬣${reset}
 ┃ ─►${lime}UserName${reset} :  ${magentaB}${userName}${reset} ➲         
 ${redB}╠─━━━━━━━━━━━━━━━━━━${reset}${yellowB}━━━━━━━━━━━${reset}${greenB}━━━━━━━━━━━━━◆${reset}
 ┃ ─► ${lime}Jid${reset} : ${magentaB}${jid}${reset} ➲   
