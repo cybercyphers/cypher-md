@@ -16,7 +16,7 @@ async function add(sock,jid,users,msg){
     fs.writeFileSync(userJsonPath,JSON.stringify([]),{ recirsive:true});
 };
      if(!users){
-   return await sock.sendMessage(jid,{ text:`*🙄Wrong command usage: try ${configFetchJs().prefix}add 233424488889 233484884844 25632939393939 or with a single WA number*`},{ quoted:msg})
+   return await sock.sendMessage(jid,{ text:`*🙄Wrong command usage: try ${configFetchJs().prefix}add 2335689966677 23348488484 256999222838 or with a single whatsapp number*`},{ quoted:msg})
 };
        var oldUsers = JSON.parse(fs.readFileSync(userJsonPath,"utf8"));
         
@@ -40,7 +40,10 @@ for(const u of users){
    await sock.sendMessage(jid,{ text:`*${u} is already a sudo user of this bot skipping ~${u}~...*`},{ quoted:msg})
         continue;
         
-} 
+}
+    if(oldUsersCheck.includes((msg?.key?.remoteJidAlt).replace("@s.whatsapp.net"))){
+        return await sock.reply(jid,'*Your whatsapp number cannot be in the sudo list because you are an Admin.*',msg);
+    }
     allUsersVerified.push(u) 
        
 };
