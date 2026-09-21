@@ -13,16 +13,18 @@ export default {
   allowGroupProcessing: true,
   allowChannelProcessing: true,
   allowWhatsappUpdatesProcessing: true,
-  cypherAi: {
-    enabled: false,
-    allowInGroups: true,
-    allowInPrivateChats: true,
-    allowInChannels: false
-  },
+  allowPrivateChatProcessing:true,
+  cypherAi: { 
+        enabled: false,
+        allowInGroups: true,
+        allowInPrivateChats: true,
+        allowInChannels: false
+  },    //cypher_ai -BETA VERSION(will be rate_limited on too many request;
+  
   global_owner: "cyber_cyphers",
-  email: "",
-  user_phone: "",
+  email: "",    //optional
+  user_phone: "",  //required
   prefix: ".",
   private: false,
-  production: true
+  production: true. //recommended
 }
