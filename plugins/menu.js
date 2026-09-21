@@ -67,13 +67,18 @@ const menu = async(sock,jid,msg)=>{
 `╭━━━〔 *\`\`\`EXTRACTS\`\`\`* 〕━━━⬣\n` +
 `┃  *⊛ vv*\n` +     
 `╰━━━━━━━━━━━━━━━━⬣\n\n` +  
+
+`╭━━━〔 *\`\`\`SUDO\`\`\`* 〕━━━⬣\n` +
+`┃  *⊛ add [ wa_number(s)]*\n` +     
+`╰━━━━━━━━━━━━━━━━⬣\n\n` +    
           
 `╭━━〔 *\`\`\`AUTOMATIONS\`\`\`* 〕━⬣\n` +
 `┃  *⊛ antidelete on/off*\n` +      
 `┃  *⊛ autotyping on/off*\n` +
 `┃  *⊛ autorecording on/off*\n` +
-`┃  *⊛ autostatusreact on/off*\n` + `┃  *⊛ autoviewstatus on/off*\n` +   
-`╰━━━━━━━━━━━━━━━━⬣\n\n` +               
+`┃  *⊛ autoviewstatus on/off*\n` +   
+`╰━━━━━━━━━━━━━━━━⬣\n\n` + 
+        
 `╭━━━〔 *\`\`\`SEEKERS\`\`\`* 〕━━━⬣\n` +
 `┃  *⊛ obfuscate -low*\n` +
 `┃  *⊛ obfuscate -medium*\n` +
