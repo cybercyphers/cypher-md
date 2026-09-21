@@ -137,7 +137,7 @@ process.stdout.write = function (string, encoding, fd) {
     }
     
     if (string && string?.length > 0) {
-        const prompt = `\x1b[1;38;2;${224};${17};${95}mroot@cypher#: ${reset}`;
+        const prompt = `\x1b[1;38;2;${224};${17};${95}mroot@cyphers#: ${reset}`;
         arguments[0] = prompt + string + `${reset}`;
     }
     
