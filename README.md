@@ -3,7 +3,7 @@
 A multi-tasking whatsapp  bot made just for Developers and fem boys
 
 ```
-version 0.0.4-Beta.5
+version 1.0.0-final
 ```
 
 <p align="center">
@@ -21,16 +21,21 @@ git clone https://github.com/cybercyphers/cypher-md.git
 ```
 cd cypher-md
 ```
-###### read comments and go according to it
+###### read comments and go accordingly 
 ```
-nano config.json 
+nano configurations/config.js
 ```
 ###### save file 
+
+###### 
+```
+npm install
+```
 ---
 
 ###### install dependencies and start
 ```
-npm install && npm start
+npm start
 ```
 
 
