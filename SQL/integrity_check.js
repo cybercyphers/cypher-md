@@ -12,15 +12,15 @@ async function integrity(db,image_db,cypherAiDb,e_db){
   
     if(integrity_ok === 'ok'){
 counter++
-  console.log(`[\x1b[1;34mDatabase ${counter} returned status ok: operational.\x1b[0m]`); 
+  console.log(`\x1b[1;34mDatabase ${counter} returned status ok: operational.\x1b[0m`); 
 }
     
         else{
 counter++
-   console.log(`[\x1b[1;31mDatabase ${counter} has been corrupted, self-healing process...\x1b[0m]`);
+   console.log(`\x1b[1;31mDatabase ${counter} has been corrupted, self-healing process...\x1b[0m`);
 }
     }catch(e){
-    console.log(`[\x1b[1;31mReadonly database ${counter+1} has been corrupted.The database is not meant to be edited, it is a read-only system. restarting process\x1b[0m]`);
+    console.log(`\x1b[1;31mReadonly database ${counter+1} has been corrupted.The database is not meant to be edited, it is a read-only system. restarting process\x1b[0m`);
         unlinkSync(path.join(__dirname,`../Databases/${store}`),{force:true, recursive :true });
         process.exit(1);
   }   
