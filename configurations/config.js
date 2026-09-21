@@ -26,5 +26,5 @@ export default {
   user_phone: "",  //required
   prefix: ".",
   private: false,
-  production: true. //recommended
+  production: true //recommended
 }
