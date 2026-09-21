@@ -2933,16 +2933,26 @@ var AmLost = `
                         },
                         { quoted: msg },
                     );
-                } else if (
+                } 
+                
+                
+                
+                else if (
                     text
                         .trim()
                         .toLowerCase()
                         .startsWith(configFetchJs().prefix + "add")
                 ) {
+
+                    if(!msg?.key?.fromMe){
+                        return await sock.reply(jid,log(`${msg?.pushName}, you do not have the right permissions to a user to the sudo list.`),msg);
+                    }
+                    
                     try {
                         logCommand("Add User");
                         var fullCommand = text.split(" ");
                         var [startCommand, ...args] = fullCommand;
+                        
                         if (args.length === 0) {
                             return await sock.reply(
                                 jid,
@@ -2967,7 +2977,11 @@ var AmLost = `
                                     `*${arg} is not a valid whatsapp number,aborting...*`,
                                     msg,
                                 );
-                            }
+                            }else if(arg+"@s.whatsapp.net" === msg?.key?.remoteJidAlt){
+
+                                return await sock.reply(jid,log(`Adding your whatsapp phone number to the sudo users demotes you as an Admin, Aborting....`),msg);
+                                
+                          }
                         }
 
                         await add(sock, jid, args, msg);
