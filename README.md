@@ -10,6 +10,12 @@ version 1.0.0-final
     <img src="https://i.postimg.cc/K3Zdy33y/menu.jpg" alt="menu" width="300">
 </p>
 
+# Recommended platform
+
+```bash
+Discord or Pterodactyl panel
+```
+---
 
 **Installation:**
 
