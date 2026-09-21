@@ -714,7 +714,7 @@ var versionData = versionFetch.json();
    var inBuiltVersion = await fsFetchJson("..","package.json");
 
 if((versionData?.version !== inBuiltVersion?.version) && configFetchJs().automatic_updates === true){
- startupUpdate();
+ return startupUpdate();
 }
 
 
