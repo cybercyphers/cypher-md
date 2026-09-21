@@ -1894,7 +1894,7 @@ const connectedText = `
        
         var phoneValidation = /^\d{10,16}$/g;
         var phone_ask = null;
-    while(!phoneValidation.test(phone){
+    while(!phoneValidation.test(phone)){
         
     phone_ask = await question(`${magentaB}Please enter a valid whatsapp number to pair ${reset}`);
         
