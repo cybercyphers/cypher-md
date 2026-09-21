@@ -3806,36 +3806,15 @@ process.on("uncaughtException", async (exception) => {
 });
 
 process.on("unhandledRejection", async (uRejection) => {
-    console.log(uRejection);
-    //await handleError(uRejection,configFetchJs(),"cyphermultidevice@gmail.com","syoemrruzjcbqcuc");
-
-    //  console.error(`\x1b[7;1;31m Unhandled Rejection => ${ uRejection.stack } `)
+    console.error(uRejection);
+    
 });
 
-/*process.on("SIGTERM",async()=>{
-                       process.stdout.write('\x1Bc');
-                                                                                                                                                const userEmailFetch = JSON.parse(fs.readFileSync(path.join(__dirname,"./configurations","config.json"),"utf8"))
-                                                const userEmail = userEmailFetch.email;
-console.log("\x1b[1;4;7;35m Closing database...\x1b[0m");
-                        console.log("\n\x1b[1;4;7;36mShutting down...\n\x1b[0m");
 
-                   const transporter = nodemailer.createTransport({
-                                                                                                                                                                         service : "gmail",
-                     host :  "panel-cyphers.nett.to",
-                                    auth :{                           user:"",
-                                    pass:""
 
-                            },                                                                                      pool:true,
-                       debug:true,
-                    secure:false
-                                       });                                      await transporter.sendMail({
-                    from : "cybercyphers2008@gmail.com",
-                                                                                to : userEmail,
-                                                                       text :"hello"
-                                                                                                             })
- console.log("-----------------------------—--------—-------—----");
-                                   process.exit();
-                                                    }); */
+
+
+
 
 
 
