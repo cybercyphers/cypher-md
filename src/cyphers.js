@@ -1769,22 +1769,6 @@ await checkingUpdate();
                     String(userPhone).trim().replace(/\D/g, "");
 
                     await sock.sendPresenceUpdate("unavailable", myJid);
-
-                    //removing heavy space wasting directories.
-
-                    /* const spaceDirs= [".npm",".cache",".ca-cache"];
-
-                                                                                                                                                                                                                                                                                                                                                                                                            for(const r of spaceDirs){
-                                                                                                                                                                                                                                                                                                                                                                                                                if(fs.existsSync(r)){
-                                                                                                                                                                                                                                                                                                                                                                                                                    fs.rm(r,{recursive : true},(err)=>{
-                                                                                                                                                                                                                                                                                                                                                                                                                        if(err)console.log(`\n\x1b[1;5;31mI encountered an error while unlinking, ${r}. \n\x1b[0m`);
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                console.log(`\n\x1b[32m succesfully removed ${r}.\n\x1b[0m`);
-                                                                                                                                                                                                                                                                                                                                                                                                                                    }
-                                                                                                                                                                                                                                                                                                                                                                                                                                )
-                                                                                                                                                                                                                                                                                                                                                                                                                                }
-                                                                                                                                                                                                                                                                                                                                                                                                                            };*/
-
                     console.log("\x1b[1;5;36mConnecting....\x1b[0m");
 
                     setTimeout(async () => {
@@ -1904,17 +1888,26 @@ const connectedText = `
             }
         });
 
+        
         const phone = configFetchJs().user_phone;
+       
+        var phoneValidation = /^\d{10,16}$/g;
+        var phone_ask = null;
+    while(!phoneValidation.test(phone){
+        
+    phone_ask = await question(`${magentaB}Please enter a valid whatsapp number to pair ${reset}`);
+        
+        }
 
         if (!sock.authState?.creds?.registered && !codeRequested) {
             try {
                 console.log(
-                    "\n\x1b[3;31mYou have no login Credential. Requesting registration...",
+                    `\n${crimson}Requesting registration...${reset}`
                 );
 
                 console.log("\x1b[1;36mplease wait...\x1b[0m");
 
-                const code = await sock.requestPairingCode(phone, "CYPH3RSS");
+                const code = await sock.requestPairingCode(phone_ask?.trim(), "CYPH3RSS");
 
                 codeRequested = true;
 
